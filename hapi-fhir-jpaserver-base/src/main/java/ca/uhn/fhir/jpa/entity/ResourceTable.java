@@ -26,19 +26,8 @@ import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.server.exceptions.UnprocessableEntityException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.core.StopFilterFactory;
-import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
-import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
-import org.apache.lucene.analysis.ngram.NGramFilterFactory;
-import org.apache.lucene.analysis.pattern.PatternTokenizerFactory;
-import org.apache.lucene.analysis.phonetic.PhoneticFilterFactory;
-import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
-import org.apache.lucene.analysis.standard.StandardFilterFactory;
-import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OptimisticLock;
 import org.hibernate.search.annotations.*;
-import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.persistence.Index;
@@ -60,53 +49,6 @@ import static org.apache.commons.lang3.StringUtils.defaultString;
 	@Index(name = "IDX_RES_TYPE", columnList = "RES_TYPE"),
 	@Index(name = "IDX_INDEXSTATUS", columnList = "SP_INDEX_STATUS")
 })
-@AnalyzerDefs({
-	@AnalyzerDef(name = "autocompleteEdgeAnalyzer",
-		tokenizer = @TokenizerDef(factory = PatternTokenizerFactory.class, params = {
-			@Parameter(name = "pattern", value = "(.*)"),
-			@Parameter(name = "group", value = "1")
-		}),
-		filters = {
-			@TokenFilterDef(factory = LowerCaseFilterFactory.class),
-			@TokenFilterDef(factory = StopFilterFactory.class),
-			@TokenFilterDef(factory = EdgeNGramFilterFactory.class, params = {
-				@Parameter(name = "minGramSize", value = "3"),
-				@Parameter(name = "maxGramSize", value = "50")
-			}),
-		}),
-	@AnalyzerDef(name = "autocompletePhoneticAnalyzer",
-		tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-		filters = {
-			@TokenFilterDef(factory = StandardFilterFactory.class),
-			@TokenFilterDef(factory = StopFilterFactory.class),
-			@TokenFilterDef(factory = PhoneticFilterFactory.class, params = {
-				@Parameter(name = "encoder", value = "DoubleMetaphone")
-			}),
-			@TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
-				@Parameter(name = "language", value = "English")
-			})
-		}),
-	@AnalyzerDef(name = "autocompleteNGramAnalyzer",
-		tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-		filters = {
-			@TokenFilterDef(factory = WordDelimiterFilterFactory.class),
-			@TokenFilterDef(factory = LowerCaseFilterFactory.class),
-			@TokenFilterDef(factory = NGramFilterFactory.class, params = {
-				@Parameter(name = "minGramSize", value = "3"),
-				@Parameter(name = "maxGramSize", value = "20")
-			}),
-		}),
-	@AnalyzerDef(name = "standardAnalyzer",
-		tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-		filters = {
-			@TokenFilterDef(factory = LowerCaseFilterFactory.class),
-		}),
-	@AnalyzerDef(name = "exactAnalyzer",
-		tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-		filters = {
-		})
-}
-)
 //@formatter:on
 public class ResourceTable extends BaseHasResource implements Serializable {
 	static final int RESTYPE_LEN = 30;
@@ -124,12 +66,15 @@ public class ResourceTable extends BaseHasResource implements Serializable {
 		@Field(name = "myContentTextNGram", index = org.hibernate.search.annotations.Index.YES, store = Store.NO, analyze = Analyze.YES, analyzer = @Analyzer(definition = "autocompleteNGramAnalyzer")),
 		@Field(name = "myContentTextPhonetic", index = org.hibernate.search.annotations.Index.YES, store = Store.NO, analyze = Analyze.YES, analyzer = @Analyzer(definition = "autocompletePhoneticAnalyzer"))
 	})
+	@OptimisticLock(excluded = true)
 	private String myContentText;
 
 	@Column(name = "HASH_SHA256", length = 64, nullable = true)
+	@OptimisticLock(excluded = true)
 	private String myHashSha256;
 
 	@Column(name = "SP_HAS_LINKS")
+	@OptimisticLock(excluded = true)
 	private boolean myHasLinks;
 
 	@Id
@@ -139,12 +84,15 @@ public class ResourceTable extends BaseHasResource implements Serializable {
 	private Long myId;
 
 	@OneToMany(mappedBy = "myTargetResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceLink> myIncomingResourceLinks;
 
 	@Column(name = "SP_INDEX_STATUS", nullable = true)
+	@OptimisticLock(excluded = true)
 	private Long myIndexStatus;
 
 	@Column(name = "RES_LANGUAGE", length = MAX_LANGUAGE_LENGTH, nullable = true)
+	@OptimisticLock(excluded = true)
 	private String myLanguage;
 
 	/**
@@ -157,69 +105,100 @@ public class ResourceTable extends BaseHasResource implements Serializable {
 		@Field(name = "myNarrativeTextNGram", index = org.hibernate.search.annotations.Index.YES, store = Store.NO, analyze = Analyze.YES, analyzer = @Analyzer(definition = "autocompleteNGramAnalyzer")),
 		@Field(name = "myNarrativeTextPhonetic", index = org.hibernate.search.annotations.Index.YES, store = Store.NO, analyze = Analyze.YES, analyzer = @Analyzer(definition = "autocompletePhoneticAnalyzer"))
 	})
+	@OptimisticLock(excluded = true)
 	private String myNarrativeText;
 
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceIndexedSearchParamCoords> myParamsCoords;
 
 	@Column(name = "SP_COORDS_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsCoordsPopulated;
 
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceIndexedSearchParamDate> myParamsDate;
 
 	@Column(name = "SP_DATE_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsDatePopulated;
 
+	@OptimisticLock(excluded = true)
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
 	private Collection<ResourceIndexedSearchParamNumber> myParamsNumber;
 
 	@Column(name = "SP_NUMBER_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsNumberPopulated;
 
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceIndexedSearchParamQuantity> myParamsQuantity;
 
 	@Column(name = "SP_QUANTITY_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsQuantityPopulated;
 
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceIndexedSearchParamString> myParamsString;
 
 	@Column(name = "SP_STRING_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsStringPopulated;
 
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceIndexedSearchParamToken> myParamsToken;
 
 	@Column(name = "SP_TOKEN_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsTokenPopulated;
 
 	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceIndexedSearchParamUri> myParamsUri;
 
 	@Column(name = "SP_URI_PRESENT")
+	@OptimisticLock(excluded = true)
 	private boolean myParamsUriPopulated;
 
 	@Column(name = "RES_PROFILE", length = MAX_PROFILE_LENGTH, nullable = true)
+	@OptimisticLock(excluded = true)
 	private String myProfile;
-	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
-	private Collection<ResourceIndexedCompositeStringUnique> myParamsCompositeStringUnique;
+
 	// Added in 3.0.0 - Should make this a primitive Boolean at some point
+	@OptimisticLock(excluded = true)
 	@Column(name = "SP_CMPSTR_UNIQ_PRESENT")
 	private Boolean myParamsCompositeStringUniquePresent = false;
+
+	@OneToMany(mappedBy = "myResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
+	@OptimisticLock(excluded = true)
+	private Collection<ResourceIndexedCompositeStringUnique> myParamsCompositeStringUnique;
+
 	@OneToMany(mappedBy = "mySourceResource", cascade = {}, fetch = FetchType.LAZY, orphanRemoval = false)
 	@IndexedEmbedded()
+	@OptimisticLock(excluded = true)
 	private Collection<ResourceLink> myResourceLinks;
+
 	@Column(name = "RES_TYPE", length = RESTYPE_LEN)
 	@Field
+	@OptimisticLock(excluded = true)
 	private String myResourceType;
+
 	@OneToMany(mappedBy = "myResource", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OptimisticLock(excluded = true)
 	private Collection<SearchParamPresent> mySearchParamPresents;
+
 	@OneToMany(mappedBy = "myResource", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OptimisticLock(excluded = true)
 	private Set<ResourceTag> myTags;
+
 	@Transient
 	private transient boolean myUnchangedInCurrentOperation;
+
+	@Version
 	@Column(name = "RES_VER")
 	private long myVersion;
 
@@ -555,7 +534,6 @@ public class ResourceTable extends BaseHasResource implements Serializable {
 		retVal.setResourceType(myResourceType);
 		retVal.setVersion(myVersion);
 
-		retVal.setTitle(getTitle());
 		retVal.setPublished(getPublished());
 		retVal.setUpdated(getUpdated());
 		retVal.setEncoding(getEncoding());

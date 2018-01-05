@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>ca.uhn.hapi.fhir</groupId>
 		<artifactId>hapi-deployable-pom</artifactId>
-		<version>3.1.0-SNAPSHOT</version>
+		<version>3.2.0-SNAPSHOT</version>
 		<relativePath>../hapi-deployable-pom/pom.xml</relativePath>
 	</parent>
 
@@ -100,6 +100,11 @@
 		</dependency>
 		
 		<!-- Test Deps -->
+      <dependency>
+         <groupId>org.codehaus.woodstox</groupId>
+         <artifactId>woodstox-core-asl</artifactId>
+         <scope>test</scope>
+      </dependency>
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-converter</artifactId>

@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 
 import javax.persistence.TypedQuery;
 
+import ca.uhn.fhir.rest.param.ParameterUtil;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 import org.hl7.fhir.r4.model.*;
@@ -435,7 +436,11 @@ public class FhirSystemDaoR4 extends BaseHapiFhirSystemDao<Bundle, Meta> {
 				DaoMethodOutcome outcome;
 				UrlParts parts = UrlUtil.parseUrl(url);
 				if (isNotBlank(parts.getResourceId())) {
-					res.setId(new IdType(parts.getResourceType(), parts.getResourceId()));
+					String version = null;
+					if (isNotBlank(nextReqEntry.getRequest().getIfMatch())) {
+						version = ParameterUtil.parseETagValue(nextReqEntry.getRequest().getIfMatch());
+					}
+					res.setId(new IdType(parts.getResourceType(), parts.getResourceId(), version));
 					outcome = resourceDao.update(res, null, false, theRequestDetails);
 				} else {
 					res.setId((String) null);
@@ -662,7 +667,7 @@ public class FhirSystemDaoR4 extends BaseHapiFhirSystemDao<Bundle, Meta> {
 				String nextReplacementIdPart = nextReplacementId.getValueAsString();
 				if (nextTemporaryId.isUrn() && nextTemporaryIdPart.length() > IdType.URN_PREFIX.length()) {
 					matchUrl = matchUrl.replace(nextTemporaryIdPart, nextReplacementIdPart);
-					matchUrl = matchUrl.replace(UrlUtil.escape(nextTemporaryIdPart), nextReplacementIdPart);
+					matchUrl = matchUrl.replace(UrlUtil.escapeUrlParam(nextTemporaryIdPart), nextReplacementIdPart);
 				}
 			}
 		}

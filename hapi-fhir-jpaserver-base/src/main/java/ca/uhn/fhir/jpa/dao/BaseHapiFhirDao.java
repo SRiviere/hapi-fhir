@@ -29,14 +29,12 @@ import ca.uhn.fhir.jpa.search.PersistedJpaBundleProvider;
 import ca.uhn.fhir.jpa.sp.ISearchParamPresenceSvc;
 import ca.uhn.fhir.jpa.term.IHapiTerminologySvc;
 import ca.uhn.fhir.jpa.util.DeleteConflict;
-import ca.uhn.fhir.jpa.util.StopWatch;
 import ca.uhn.fhir.model.api.*;
 import ca.uhn.fhir.model.base.composite.BaseCodingDt;
 import ca.uhn.fhir.model.base.composite.BaseResourceReferenceDt;
 import ca.uhn.fhir.model.primitive.IdDt;
 import ca.uhn.fhir.model.primitive.InstantDt;
 import ca.uhn.fhir.model.primitive.StringDt;
-import ca.uhn.fhir.model.primitive.XhtmlDt;
 import ca.uhn.fhir.model.valueset.BundleEntryTransactionMethodEnum;
 import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.parser.IParser;
@@ -51,10 +49,7 @@ import ca.uhn.fhir.rest.server.exceptions.*;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor.ActionRequestDetails;
 import ca.uhn.fhir.rest.server.servlet.ServletRequestDetails;
-import ca.uhn.fhir.util.CoverageIgnore;
-import ca.uhn.fhir.util.FhirTerser;
-import ca.uhn.fhir.util.OperationOutcomeUtil;
-import ca.uhn.fhir.util.UrlUtil;
+import ca.uhn.fhir.util.*;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Sets;
@@ -233,14 +228,14 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 				ArrayList<String> nextChoicesList = new ArrayList<>();
 				partsChoices.add(nextChoicesList);
 
-				String key = UrlUtil.escape(nextCompositeOf.getName());
+				String key = UrlUtil.escapeUrlParam(nextCompositeOf.getName());
 				if (paramsListForCompositePart != null) {
 					for (BaseResourceIndexedSearchParam nextParam : paramsListForCompositePart) {
 						if (nextParam.getParamName().equals(nextCompositeOf.getName())) {
 							IQueryParameterType nextParamAsClientParam = nextParam.toQueryParameterType();
 							String value = nextParamAsClientParam.getValueAsQueryToken(getContext());
 							if (isNotBlank(value)) {
-								value = UrlUtil.escape(value);
+								value = UrlUtil.escapeUrlParam(value);
 								nextChoicesList.add(key + "=" + value);
 							}
 						}
@@ -250,7 +245,7 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 					for (ResourceLink nextLink : linksForCompositePart) {
 						String value = nextLink.getTargetResource().getIdDt().toUnqualifiedVersionless().getValue();
 						if (isNotBlank(value)) {
-							value = UrlUtil.escape(value);
+							value = UrlUtil.escapeUrlParam(value);
 							nextChoicesList.add(key + "=" + value);
 						}
 					}
@@ -1011,14 +1006,6 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 			changed = true;
 		}
 
-		if (theResource instanceof IResource) {
-			String title = ResourceMetadataKeyEnum.TITLE.get((IResource) theResource);
-			if (title != null && title.length() > BaseHasResource.MAX_TITLE_LENGTH) {
-				title = title.substring(0, BaseHasResource.MAX_TITLE_LENGTH);
-			}
-			theEntity.setTitle(title);
-		}
-
 		return changed;
 	}
 
@@ -1051,10 +1038,6 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 		ResourceMetadataKeyEnum.PUBLISHED.put(res, theEntity.getPublished());
 		ResourceMetadataKeyEnum.UPDATED.put(res, theEntity.getUpdated());
 		IDao.RESOURCE_PID.put(res, theEntity.getId());
-
-		if (theEntity.getTitle() != null) {
-			ResourceMetadataKeyEnum.TITLE.put(res, theEntity.getTitle());
-		}
 
 		Collection<? extends BaseTag> tags = theEntity.getTags();
 		if (theEntity.isHasTags()) {
@@ -2031,7 +2014,7 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 
 		/*
 		 * The following block of code is used to strip out diacritical marks from latin script
-		 * and also convert to upper case. E.g. "jåmes" becomes "JAMES".
+		 * and also convert to upper case. E.g. "j?mes" becomes "JAMES".
 		 * 
 		 * See http://www.unicode.org/charts/PDF/U0300.pdf for the logic
 		 * behind stripping 0300-036F
@@ -2056,7 +2039,7 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 		StringBuilder b = new StringBuilder();
 		if (theResource instanceof IResource) {
 			IResource resource = (IResource) theResource;
-			List<XMLEvent> xmlEvents = resource.getText().getDiv().getValue();
+			List<XMLEvent> xmlEvents = XmlUtil.parse(resource.getText().getDiv().getValue());
 			if (xmlEvents != null) {
 				for (XMLEvent next : xmlEvents) {
 					if (next.isCharacters()) {
@@ -2069,8 +2052,7 @@ public abstract class BaseHapiFhirDao<T extends IBaseResource> implements IDao {
 			IDomainResource resource = (IDomainResource) theResource;
 			try {
 				String divAsString = resource.getText().getDivAsString();
-				XhtmlDt xhtml = new XhtmlDt(divAsString);
-				List<XMLEvent> xmlEvents = xhtml.getValue();
+				List<XMLEvent> xmlEvents = XmlUtil.parse(divAsString);
 				if (xmlEvents != null) {
 					for (XMLEvent next : xmlEvents) {
 						if (next.isCharacters()) {

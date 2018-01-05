@@ -60,7 +60,6 @@ import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.query.Query;
 import org.hl7.fhir.dstu3.model.BaseResource;
-import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.instance.model.api.IAnyResource;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -175,7 +174,7 @@ public class SearchBuilder implements ISearchBuilder {
 				if (valueBuilder.length() > 0) {
 					valueBuilder.append(',');
 				}
-				valueBuilder.append(UrlUtil.escape(next.getValueAsQueryToken(myContext)));
+				valueBuilder.append(UrlUtil.escapeUrlParam(next.getValueAsQueryToken(myContext)));
 				targetResourceType = next.getTargetResourceType();
 				owningParameter = next.getOwningFieldName();
 				parameterName = next.getParameterName();
@@ -185,7 +184,7 @@ public class SearchBuilder implements ISearchBuilder {
 				continue;
 			}
 
-			String matchUrl = targetResourceType + '?' + UrlUtil.escape(parameterName) + '=' + valueBuilder.toString();
+			String matchUrl = targetResourceType + '?' + UrlUtil.escapeUrlParam(parameterName) + '=' + valueBuilder.toString();
 			RuntimeResourceDefinition targetResourceDefinition;
 			try {
 				targetResourceDefinition = myContext.getResourceDefinition(targetResourceType);
@@ -1259,7 +1258,7 @@ public class SearchBuilder implements ISearchBuilder {
 		 * Check if there is a unique key associated with the set
 		 * of parameters passed in
 		 */
-		ourLog.info("Checking for unique index for query: {}", theParams.toNormalizedQueryString(myContext));
+		ourLog.debug("Checking for unique index for query: {}", theParams.toNormalizedQueryString(myContext));
 		if (myCallingDao.getConfig().isUniqueIndexesEnabled()) {
 			if (myParams.getIncludes().isEmpty()) {
 				if (myParams.getRevIncludes().isEmpty()) {
@@ -1272,13 +1271,13 @@ public class SearchBuilder implements ISearchBuilder {
 									List<List<String>> params = new ArrayList<>();
 									for (Entry<String, List<List<? extends IQueryParameterType>>> nextParamNameToValues : theParams.entrySet()) {
 										String nextParamName = nextParamNameToValues.getKey();
-										nextParamName = UrlUtil.escape(nextParamName);
+										nextParamName = UrlUtil.escapeUrlParam(nextParamName);
 										for (List<? extends IQueryParameterType> nextAnd : nextParamNameToValues.getValue()) {
 											ArrayList<String> nextValueList = new ArrayList<>();
 											params.add(nextValueList);
 											for (IQueryParameterType nextOr : nextAnd) {
 												String nextOrValue = nextOr.getValueAsQueryToken(myContext);
-												nextOrValue = UrlUtil.escape(nextOrValue);
+												nextOrValue = UrlUtil.escapeUrlParam(nextOrValue);
 												nextValueList.add(nextParamName + "=" + nextOrValue);
 											}
 										}
@@ -1379,7 +1378,13 @@ public class SearchBuilder implements ISearchBuilder {
 					throw new InvalidRequestException("Fulltext search is not enabled on this service, can not process parameter: " + Constants.PARAM_CONTENT);
 				}
 			}
-			List<Long> pids = myFulltextSearchSvc.everything(myResourceName, myParams);
+
+			List<Long> pids;
+			if (myParams.getEverythingMode() != null) {
+				pids = myFulltextSearchSvc.everything(myResourceName, myParams);
+			} else {
+				pids = myFulltextSearchSvc.search(myResourceName, myParams);
+			}
 			if (pids.isEmpty()) {
 				// Will never match
 				pids = Collections.singletonList(-1L);
@@ -1523,7 +1528,7 @@ public class SearchBuilder implements ISearchBuilder {
 				thePredicates.add(joinParam1);
 			}
 		} else {
-			ourLog.info("Reusing join for {}", theSort.getParamName());
+			ourLog.debug("Reusing join for {}", theSort.getParamName());
 		}
 
 		for (String next : sortAttrName) {
@@ -1577,7 +1582,9 @@ public class SearchBuilder implements ISearchBuilder {
 		cq.where(from.get("myId").in(pids));
 		TypedQuery<ResourceTable> q = entityManager.createQuery(cq);
 
-		for (ResourceTable next : q.getResultList()) {
+		List<ResourceTable> resultList = q.getResultList();
+
+		for (ResourceTable next : resultList) {
 			Class<? extends IBaseResource> resourceType = context.getResourceDefinition(next.getResourceType()).getImplementingClass();
 			IBaseResource resource = theDao.toResource(resourceType, next, theForHistoryOperation);
 			Integer index = position.get(next.getId());
@@ -1616,7 +1623,7 @@ public class SearchBuilder implements ISearchBuilder {
 		// when running asserts
 		assert new HashSet<>(theIncludePids).size() == theIncludePids.size() : "PID list contains duplicates: " + theIncludePids;
 
-		Map<Long, Integer> position = new HashMap<Long, Integer>();
+		Map<Long, Integer> position = new HashMap<>();
 		for (Long next : theIncludePids) {
 			position.put(next, theResourceListToPopulate.size());
 			theResourceListToPopulate.add(null);
@@ -1755,7 +1762,7 @@ public class SearchBuilder implements ISearchBuilder {
 			}
 
 			if (theLastUpdated != null && (theLastUpdated.getLowerBoundAsInstant() != null || theLastUpdated.getUpperBoundAsInstant() != null)) {
-				pidsToInclude = new HashSet<Long>(filterResourceIdsByLastUpdated(theEntityManager, theLastUpdated, pidsToInclude));
+				pidsToInclude = new HashSet<>(filterResourceIdsByLastUpdated(theEntityManager, theLastUpdated, pidsToInclude));
 			}
 			for (Long next : pidsToInclude) {
 				if (original.contains(next) == false && allAdded.contains(next) == false) {
@@ -1974,7 +1981,7 @@ public class SearchBuilder implements ISearchBuilder {
 		List<Predicate> lastUpdatedPredicates = new ArrayList<Predicate>();
 		if (theLastUpdated != null) {
 			if (theLastUpdated.getLowerBoundAsInstant() != null) {
-				ourLog.info("LastUpdated lower bound: {}", new InstantDt(theLastUpdated.getLowerBoundAsInstant()));
+				ourLog.debug("LastUpdated lower bound: {}", new InstantDt(theLastUpdated.getLowerBoundAsInstant()));
 				Predicate predicateLower = builder.greaterThanOrEqualTo(from.<Date>get("myUpdated"), theLastUpdated.getLowerBoundAsInstant());
 				lastUpdatedPredicates.add(predicateLower);
 			}
@@ -2000,6 +2007,9 @@ public class SearchBuilder implements ISearchBuilder {
 	}
 
 	private static List<Long> filterResourceIdsByLastUpdated(EntityManager theEntityManager, final DateRangeParam theLastUpdated, Collection<Long> thePids) {
+		if (thePids.isEmpty()) {
+			return Collections.emptyList();
+		}
 		CriteriaBuilder builder = theEntityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = builder.createQuery(Long.class);
 		Root<ResourceTable> from = cq.from(ResourceTable.class);
@@ -2193,12 +2203,12 @@ public class SearchBuilder implements ISearchBuilder {
 			} // if we need to fetch the next result
 
 			if (myFirst) {
-				ourLog.info("Initial query result returned in {}ms for query {}", myStopwatch.getMillis(), mySearchUuid);
+				ourLog.debug("Initial query result returned in {}ms for query {}", myStopwatch.getMillis(), mySearchUuid);
 				myFirst = false;
 			}
 
 			if (myNext == NO_MORE) {
-				ourLog.info("Query found {} matches in {}ms for query {}", myPidSet.size(), myStopwatch.getMillis(), mySearchUuid);
+				ourLog.debug("Query found {} matches in {}ms for query {}", myPidSet.size(), myStopwatch.getMillis(), mySearchUuid);
 			}
 
 		}
@@ -2270,10 +2280,10 @@ public class SearchBuilder implements ISearchBuilder {
 
 		private void ensureHaveQuery() {
 			if (myWrap == null) {
-				ourLog.info("Searching for unique index matches over {} candidate query strings", myUniqueQueryStrings.size());
+				ourLog.debug("Searching for unique index matches over {} candidate query strings", myUniqueQueryStrings.size());
 				StopWatch sw = new StopWatch();
 				Collection<Long> resourcePids = myCallingDao.getResourceIndexedCompositeStringUniqueDao().findResourcePidsByQueryStrings(myUniqueQueryStrings);
-				ourLog.info("Found {} unique index matches in {}ms", resourcePids.size(), sw.getMillis());
+				ourLog.debug("Found {} unique index matches in {}ms", resourcePids.size(), sw.getMillis());
 				myWrap = resourcePids.iterator();
 			}
 		}

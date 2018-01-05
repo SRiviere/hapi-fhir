@@ -48,6 +48,125 @@ public class GraphQLDstu3ProviderTest {
 	private static int ourPort;
 	private static Server ourServer;
 
+	@Before
+	public void before() {
+		//nothing
+	}
+
+	@Test
+	@Ignore
+	public void testGraphInstance() throws Exception {
+		String query = "{name{family,given}}";
+		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/123/$graphql?query=" + UrlUtil.escapeUrlParam(query));
+		CloseableHttpResponse status = ourClient.execute(httpGet);
+		try {
+			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
+			ourLog.info(responseContent);
+			assertEquals(200, status.getStatusLine().getStatusCode());
+
+			assertEquals(TestUtil.stripReturns("{\n" +
+				"  \"name\":[{\n" +
+				"    \"family\":[\"FAMILY\"],\n" +
+				"    \"given\":[\"GIVEN1\",\"GIVEN2\"]\n" +
+				"  },{\n" +
+				"    \"given\":[\"GivenOnly1\",\"GivenOnly2\"]\n" +
+				"  }]\n" +
+				"}"), TestUtil.stripReturns(responseContent));
+			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
+
+		} finally {
+			IOUtils.closeQuietly(status.getEntity().getContent());
+		}
+
+	}
+
+	@Test
+	@Ignore
+	public void testGraphInstanceWithFhirpath() throws Exception {
+		String query = "{name(fhirpath:\"family.exists()\"){text,given,family}}";
+		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/123/$graphql?query=" + UrlUtil.escapeUrlParam(query));
+		CloseableHttpResponse status = ourClient.execute(httpGet);
+		try {
+			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
+			ourLog.info(responseContent);
+			assertEquals(200, status.getStatusLine().getStatusCode());
+
+			assertEquals(TestUtil.stripReturns("{\n" +
+				"  \"name\":[{\n" +
+				"    \"given\":[\"GIVEN1\",\"GIVEN2\"],\n" +
+				"    \"family\":[\"FAMILY\"]\n" +
+				"  }]\n" +
+				"}"), TestUtil.stripReturns(responseContent));
+			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
+
+		} finally {
+			IOUtils.closeQuietly(status.getEntity().getContent());
+		}
+
+	}
+
+	@Test
+	@org.junit.Ignore
+	public void testGraphSystemInstance() throws Exception {
+		String query = "{Patient(id:123){id,name{given,family}}}";
+		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/$graphql?query=" + UrlUtil.escapeUrlParam(query));
+		CloseableHttpResponse status = ourClient.execute(httpGet);
+		try {
+			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
+			ourLog.info(responseContent);
+			assertEquals(200, status.getStatusLine().getStatusCode());
+
+			assertEquals(TestUtil.stripReturns("{\n" +
+				"  \"Patient\":{\n" +
+				"    \"name\":[{\n" +
+				"      \"given\":[\"GIVEN1\",\"GIVEN2\"],\n" +
+				"      \"family\":[\"FAMILY\"]\n" +
+				"    },{\n" +
+				"      \"given\":[\"GivenOnly1\",\"GivenOnly2\"]\n" +
+				"    }]\n" +
+				"  }\n" +
+				"}"), TestUtil.stripReturns(responseContent));
+			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
+
+		} finally {
+			IOUtils.closeQuietly(status.getEntity().getContent());
+		}
+
+	}
+
+	@Test
+	@Ignore
+	public void testGraphSystemList() throws Exception {
+		String query = "{PatientList(name:\"pet\"){name{family,given}}}";
+		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/$graphql?query=" + UrlUtil.escapeUrlParam(query));
+		CloseableHttpResponse status = ourClient.execute(httpGet);
+		try {
+			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
+			ourLog.info(responseContent);
+			assertEquals(200, status.getStatusLine().getStatusCode());
+
+			assertEquals(TestUtil.stripReturns("{\n" +
+				"  \"PatientList\":[{\n" +
+				"    \"name\":[{\n" +
+				"      \"family\":[\"pet\"],\n" +
+				"      \"given\":[\"GIVEN1\",\"GIVEN2\"]\n" +
+				"    },{\n" +
+				"      \"given\":[\"GivenOnly1\",\"GivenOnly2\"]\n" +
+				"    }]\n" +
+				"  },{\n" +
+				"    \"name\":[{\n" +
+				"      \"given\":[\"GivenOnlyB1\",\"GivenOnlyB2\"]\n" +
+				"    }]\n" +
+				"  }]\n" +
+				"}"), TestUtil.stripReturns(responseContent));
+			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
+
+		} finally {
+			IOUtils.closeQuietly(status.getEntity().getContent());
+		}
+
+	}
+
 	@AfterClass
 	public static void afterClassClearContext() throws Exception {
 		ourServer.stop();
@@ -58,7 +177,6 @@ public class GraphQLDstu3ProviderTest {
 	public static void beforeClass() throws Exception {
 		ourPort = PortUtil.findFreePort();
 		ourServer = new Server(ourPort);
-
 
 
 		ServletHandler proxyHandler = new ServletHandler();
@@ -78,125 +196,6 @@ public class GraphQLDstu3ProviderTest {
 		HttpClientBuilder builder = HttpClientBuilder.create();
 		builder.setConnectionManager(connectionManager);
 		ourClient = builder.build();
-
-	}
-
-	@Before
-	public void before() {
-		//nothing
-	}
-
-	@Test
-	@Ignore
-	public void testGraphInstance() throws Exception {
-		String query = "{name{family,given}}";
-		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/123/$graphql?query=" + UrlUtil.escape(query));
-		CloseableHttpResponse status = ourClient.execute(httpGet);
-		try {
-			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
-			ourLog.info(responseContent);
-			assertEquals(200, status.getStatusLine().getStatusCode());
-
-			assertEquals("{\n" +
-				"  \"name\":[{\n" +
-				"    \"family\":[\"FAMILY\"],\n" +
-				"    \"given\":[\"GIVEN1\",\"GIVEN2\"]\n" +
-				"  },{\n" +
-				"    \"given\":[\"GivenOnly1\",\"GivenOnly2\"]\n" +
-				"  }]\n" +
-				"}", responseContent);
-			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
-
-		} finally {
-			IOUtils.closeQuietly(status.getEntity().getContent());
-		}
-
-	}
-
-	@Test
-	@org.junit.Ignore
-	public void testGraphSystemInstance() throws Exception {
-		String query = "{Patient(id:123){id,name{given,family}}}";
-		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/$graphql?query=" + UrlUtil.escape(query));
-		CloseableHttpResponse status = ourClient.execute(httpGet);
-		try {
-			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
-			ourLog.info(responseContent);
-			assertEquals(200, status.getStatusLine().getStatusCode());
-
-			assertEquals("{\n" +
-				"  \"Patient\":{\n" +
-				"    \"name\":[{\n" +
-				"      \"given\":[\"GIVEN1\",\"GIVEN2\"],\n" +
-				"      \"family\":[\"FAMILY\"]\n" +
-				"    },{\n" +
-				"      \"given\":[\"GivenOnly1\",\"GivenOnly2\"]\n" +
-				"    }]\n" +
-				"  }\n" +
-				"}", responseContent);
-			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
-
-		} finally {
-			IOUtils.closeQuietly(status.getEntity().getContent());
-		}
-
-	}
-
-	@Test
-	@Ignore
-	public void testGraphSystemList() throws Exception {
-		String query = "{PatientList(name:\"pet\"){name{family,given}}}";
-		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/$graphql?query=" + UrlUtil.escape(query));
-		CloseableHttpResponse status = ourClient.execute(httpGet);
-		try {
-			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
-			ourLog.info(responseContent);
-			assertEquals(200, status.getStatusLine().getStatusCode());
-
-			assertEquals("{\n" +
-				"  \"PatientList\":[{\n" +
-				"    \"name\":[{\n" +
-				"      \"family\":[\"pet\"],\n" +
-				"      \"given\":[\"GIVEN1\",\"GIVEN2\"]\n" +
-				"    },{\n" +
-				"      \"given\":[\"GivenOnly1\",\"GivenOnly2\"]\n" +
-				"    }]\n" +
-				"  },{\n" +
-				"    \"name\":[{\n" +
-				"      \"given\":[\"GivenOnlyB1\",\"GivenOnlyB2\"]\n" +
-				"    }]\n" +
-				"  }]\n" +
-				"}", responseContent);
-			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
-
-		} finally {
-			IOUtils.closeQuietly(status.getEntity().getContent());
-		}
-
-	}
-
-	@Test
-	@Ignore
-	public void testGraphInstanceWithFhirpath() throws Exception {
-		String query = "{name(fhirpath:\"family.exists()\"){text,given,family}}";
-		HttpGet httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/123/$graphql?query=" + UrlUtil.escape(query));
-		CloseableHttpResponse status = ourClient.execute(httpGet);
-		try {
-			String responseContent = IOUtils.toString(status.getEntity().getContent(), StandardCharsets.UTF_8);
-			ourLog.info(responseContent);
-			assertEquals(200, status.getStatusLine().getStatusCode());
-
-			assertEquals("{\n" +
-				"  \"name\":[{\n" +
-				"    \"given\":[\"GIVEN1\",\"GIVEN2\"],\n" +
-				"    \"family\":[\"FAMILY\"]\n" +
-				"  }]\n" +
-				"}", responseContent);
-			assertThat(status.getFirstHeader(Constants.HEADER_CONTENT_TYPE).getValue(), Matchers.startsWith("application/json"));
-
-		} finally {
-			IOUtils.closeQuietly(status.getEntity().getContent());
-		}
 
 	}
 
@@ -226,31 +225,6 @@ public class GraphQLDstu3ProviderTest {
 
 	private static class MyStorageServices implements IGraphQLStorageServices<Resource, Reference, Bundle> {
 		@Override
-		public ReferenceResolution<Resource> lookup(Object theAppInfo, Resource theContext, Reference theReference) throws FHIRException {
-			ourLog.info("lookup from {} to {}", theContext.getIdElement().getValue(), theReference.getReference());
-			return null;
-		}
-
-		@Override
-		public Resource lookup(Object theAppInfo, String theType, String theId) throws FHIRException {
-			ourLog.info("lookup {}/{}", theType, theId);
-
-			if (theType.equals("Patient") && theId.equals("123")) {
-				Patient p = new Patient();
-				p.addName()
-					.setFamily("FAMILY")
-					.addGiven("GIVEN1")
-					.addGiven("GIVEN2");
-				p.addName()
-					.addGiven("GivenOnly1")
-					.addGiven("GivenOnly2");
-				return p;
-			}
-
-			return null;
-		}
-
-		@Override
 		public void listResources(Object theAppInfo, String theType, List<Argument> theSearchParams, List<Resource> theMatches) throws FHIRException {
 			ourLog.info("listResources of {} - {}", theType, theSearchParams);
 
@@ -275,6 +249,31 @@ public class GraphQLDstu3ProviderTest {
 
 				}
 			}
+		}
+
+		@Override
+		public Resource lookup(Object theAppInfo, String theType, String theId) throws FHIRException {
+			ourLog.info("lookup {}/{}", theType, theId);
+
+			if (theType.equals("Patient") && theId.equals("123")) {
+				Patient p = new Patient();
+				p.addName()
+					.setFamily("FAMILY")
+					.addGiven("GIVEN1")
+					.addGiven("GIVEN2");
+				p.addName()
+					.addGiven("GivenOnly1")
+					.addGiven("GivenOnly2");
+				return p;
+			}
+
+			return null;
+		}
+
+		@Override
+		public ReferenceResolution<Resource> lookup(Object theAppInfo, Resource theContext, Reference theReference) throws FHIRException {
+			ourLog.info("lookup from {} to {}", theContext.getIdElement().getValue(), theReference.getReference());
+			return null;
 		}
 
 		@Override

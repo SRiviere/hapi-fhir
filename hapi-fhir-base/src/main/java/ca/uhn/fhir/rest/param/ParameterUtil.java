@@ -142,24 +142,18 @@ public class ParameterUtil {
 	 * Escapes a string according to the rules for parameter escaping specified in the <a href="http://www.hl7.org/implement/standards/fhir/search.html#escaping">FHIR Specification Escaping
 	 * Section</a>
 	 */
-	public static String escapeAndUrlEncode(String theValue) {
-		if (theValue == null) {
-			return null;
-		}
-
-		String escaped = escape(theValue);
-		return UrlUtil.escape(escaped);
-	}
-
-	/**
-	 * Escapes a string according to the rules for parameter escaping specified in the <a href="http://www.hl7.org/implement/standards/fhir/search.html#escaping">FHIR Specification Escaping
-	 * Section</a>
-	 */
 	public static String escapeWithDefault(Object theValue) {
 		if (theValue == null) {
 			return "";
 		}
 		return escape(theValue.toString());
+	}
+
+	/**
+	 * Applies {@link #escapeWithDefault(Object)} followed by {@link UrlUtil#escapeUrlParam(String)}
+	 */
+	public static String escapeAndUrlEncode(String theInput) {
+		return UrlUtil.escapeUrlParam(escapeWithDefault(theInput));
 	}
 
 	public static Integer findIdParameterIndex(Method theMethod, FhirContext theContext) {

@@ -2,6 +2,7 @@ package ca.uhn.fhirtest.config;
 
 import ca.uhn.fhir.jpa.config.BaseJavaConfigDstu2;
 import ca.uhn.fhir.jpa.dao.DaoConfig;
+import ca.uhn.fhir.jpa.search.LuceneSearchMappingFactory;
 import ca.uhn.fhir.jpa.util.SubscriptionsRequireManualActivationInterceptorDstu2;
 import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor;
@@ -67,6 +68,7 @@ public class TdlDstu2Config extends BaseJavaConfigDstu2 {
 		retVal.getTreatBaseUrlsAsLocal().add("http://fhirtest.uhn.ca/testDataLibraryDstu2");
 		retVal.getTreatBaseUrlsAsLocal().add("https://fhirtest.uhn.ca/testDataLibraryDstu2");
 		retVal.setIndexMissingFields(DaoConfig.IndexEnabledEnum.ENABLED);
+		retVal.setCountSearchResultsUpTo(TestR4Config.COUNT_SEARCH_RESULTS_UP_TO);
 		return retVal;
 	}
 
@@ -110,6 +112,7 @@ public class TdlDstu2Config extends BaseJavaConfigDstu2 {
 		extraProperties.put("hibernate.cache.use_second_level_cache", "false");
 		extraProperties.put("hibernate.cache.use_structured_entries", "false");
 		extraProperties.put("hibernate.cache.use_minimal_puts", "false");
+		extraProperties.put("hibernate.search.model_mapping", LuceneSearchMappingFactory.class.getName());
 		extraProperties.put("hibernate.search.default.directory_provider" ,"filesystem");
 		extraProperties.put("hibernate.search.default.indexBase", myFhirLuceneLocation);
 		extraProperties.put("hibernate.search.lucene_version","LUCENE_CURRENT");

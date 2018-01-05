@@ -11,7 +11,7 @@
 	<groupId>ca.uhn.hapi.fhir</groupId>
 	<artifactId>hapi-fhir</artifactId>
 	<packaging>pom</packaging>
-	<version>3.1.0-SNAPSHOT</version>
+	<version>3.2.0-SNAPSHOT</version>
 	<name>HAPI-FHIR</name>
 	<url>https://hapifhir.io</url>
 
@@ -219,7 +219,7 @@
 		</developer>
 		<developer>
 			<id>SRiviere</id>
-			<name>Sébastien Rivière</name>
+			<name>Sebastien Riviere</name>
 		</developer>
 		<developer>
 			<id>karlmdavis</id>
@@ -362,6 +362,31 @@
 			<id>rhausam</id>
 			<name>Rob Hausam</name>
 		</developer>
+		<developer>
+			<id>patrick-werner</id>
+			<name>Patrick Werner</name>
+		</developer>
+		<developer>
+			<id>malcolmm83</id>
+			<name>Malcolm McRoberts</name>
+		</developer>
+		<developer>
+			<id>mouellet</id>
+			<name>Mathieu Ouellet</name>
+		</developer>
+		<developer>
+			<id>JiajingLiang</id>
+			<name>Jiajing Liang</name>
+		</developer>
+		<developer>
+			<id>jamesdaily</id>
+			<name>James Daily</name>
+		</developer>
+		<developer>
+			<id>darktyko</id>
+			<name>Kyle Meadows</name>
+		</developer>
+		
 	</developers>
 
 	<licenses>
@@ -382,7 +407,7 @@
 		<scmPubCheckoutDirectory>${user.home}/sites/scm/hapi-fhir</scmPubCheckoutDirectory>
 
 		<!-- Dependency Versions -->
-		<derby_version>10.13.1.1</derby_version>
+		<derby_version>10.14.1.0</derby_version>
 		<jersey_version>2.25.1</jersey_version>
 		<jetty_version>9.4.6.v20170531</jetty_version>
 		<hibernate_version>5.2.10.Final</hibernate_version>
@@ -392,10 +417,10 @@
 		<lucene_version>5.5.4</lucene_version>
 		<maven_assembly_plugin_version>2.5.3</maven_assembly_plugin_version>
 		<maven_license_plugin_version>1.8</maven_license_plugin_version>
-		<maven_source_plugin_version>2.4</maven_source_plugin_version>
 		<phloc_schematron_version>2.7.1</phloc_schematron_version>
 		<phloc_commons_version>4.4.11</phloc_commons_version>
-		<spring_version>4.3.10.RELEASE</spring_version>
+		<spring_version>5.0.0.RELEASE</spring_version>
+		<spring-boot.version>1.5.6.RELEASE</spring-boot.version>
 		<thymeleaf-version>3.0.7.RELEASE</thymeleaf-version>
 
 		<!-- We are aiming to still work on a very old version of SLF4j even though we depend on the newest, just to be nice to users of the API. This version is tested in the hapi-fhir-cobertura. -->
@@ -425,32 +450,32 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
-				<version>2.8.1</version>
+				<version>2.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
-				<version>2.8.1</version>
+				<version>2.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>2.8.1</version>
+				<version>2.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.datatype</groupId>
 				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>2.8.1</version>
+				<version>2.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.dataformat</groupId>
 				<artifactId>jackson-dataformat-yaml</artifactId>
-				<version>2.8.1</version>
+				<version>2.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.module</groupId>
 				<artifactId>jackson-module-jaxb-annotations</artifactId>
-				<version>2.8.1</version>
+				<version>2.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.icegreen</groupId>
@@ -964,6 +989,13 @@
 				<version>${spring_version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.thymeleaf</groupId>
 				<artifactId>thymeleaf</artifactId>
 				<version>${thymeleaf-version}</version>
@@ -995,6 +1027,11 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.basepom.maven</groupId>
+					<artifactId>duplicate-finder-maven-plugin</artifactId>
+					<version>1.2.1</version>
+				</plugin>
+				<plugin>
 					<groupId>de.juplo</groupId>
 					<artifactId>hibernate-maven-plugin</artifactId>
 					<version>2.0.0</version>
@@ -1020,7 +1057,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.6.2</version>
+					<version>3.7.0</version>
 					<configuration>
 						<source>1.7</source>
 						<target>1.7</target>
@@ -1033,6 +1070,10 @@
 						<testTarget>1.8</testTarget>
 						<forceJavacCompilerUse>true</forceJavacCompilerUse>
 						<encoding>UTF-8</encoding>
+
+						<fork>true</fork>
+						<meminitial>128m</meminitial>
+						<maxmem>1600m</maxmem>
 					</configuration>
 					<dependencies>
 						<dependency>
@@ -1105,7 +1146,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.0.1</version>
 					<dependencies>
 						<dependency>
 							<groupId>org.codehaus.plexus</groupId>
@@ -1117,7 +1158,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.19.1</version>
+					<version>2.20.1</version>
 					<configuration>
 						<redirectTestOutputToFile>true</redirectTestOutputToFile>
 						<runOrder>random</runOrder>
@@ -1128,7 +1169,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.2.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -1138,7 +1179,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>animal-sniffer-maven-plugin</artifactId>
-					<version>1.15</version>
+					<version>1.16</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -1151,10 +1192,11 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
-					<version>1.12</version>
+					<version>1.14</version>
 					<configuration>
 						<verbose>true</verbose>
 						<addSvnKeyWords>false</addSvnKeyWords>
+						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -1641,7 +1683,6 @@
 						<artifactId>maven-scm-api</artifactId>
 						<version>1.9.5</version>
 					</dependency>
-					<!-- <dependency> <groupId>org.apache.maven.doxia</groupId> <artifactId>doxia-core</artifactId> <version>1.7</version> </dependency> -->
 					<dependency>
 						<groupId>org.apache.maven.doxia</groupId>
 						<artifactId>doxia-module-markdown</artifactId>
@@ -1681,17 +1722,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>com.github.github</groupId> <artifactId>site-maven-plugin</artifactId> <version>0.12</version> <configuration> <message>Building site for ${project.version}</message> <server>github</server> 
-				</configuration> <executions> <execution> <goals> <goal>site</goal> </goals> <phase>site-deploy</phase> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 
 	<reporting>
 		<plugins>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> <reportSets> <reportSet> <reports><report>checkstyle-aggregate</report></reports> </reportSet> 
-				</reportSets> <configuration> <configLocation>config/sun_checks.xml</configLocation> <includes> hapi-fhir-base/src/main/java/**/*.java </includes> </configuration> </plugin> -->
-			<!-- <plugin> <groupId>org.jacoco</groupId> <artifactId>jacoco-maven-plugin</artifactId> <version>0.7.7.201606060606</version> <reportSets> <reportSet> <reports> <report>report</report> </reports> <configuration> 
-				<dataFileIncludes>${baseDir}/hapi-fhir-base/target/jacoco.exec</dataFileIncludes> </configuration> </reportSet> </reportSets> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changes-plugin</artifactId>
@@ -1875,6 +1910,7 @@
 				<module>example-projects/hapi-fhir-standalone-overlay-example</module>
 				<module>hapi-fhir-jacoco</module>
 				<module>hapi-fhir-igpacks</module>
+				<module>hapi-fhir-spring-boot</module>
 				<!--<module>hapi-fhir-osgi-core</module>-->
 			</modules>
 		</profile>
@@ -1908,6 +1944,9 @@
 		</profile>
 		<profile>
 			<id>ERRORPRONE</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>

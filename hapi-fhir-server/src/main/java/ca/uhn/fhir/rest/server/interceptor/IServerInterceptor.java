@@ -41,6 +41,8 @@ import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 import ca.uhn.fhir.rest.server.servlet.ServletRequestDetails;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
  * Provides methods to intercept requests and responses. Note that implementations of this interface may wish to use
  * {@link InterceptorAdapter} in order to not need to implement every method.
@@ -90,10 +92,7 @@ public interface IServerInterceptor {
 
 	/**
 	 * This method is called just before the actual implementing server method is invoked.
-	 * <p>
-	 * Note about exceptions:
-	 * </p>
-	 * 
+	 *
 	 * @param theRequestDetails
 	 *           A bean containing details about the request that is about to be processed, including details such as the
 	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
@@ -155,77 +154,40 @@ public interface IServerInterceptor {
 	boolean incomingRequestPreProcessed(HttpServletRequest theRequest, HttpServletResponse theResponse);
 
 	/**
-	 * This method is called after the server implementation method has been called, but before any attempt to stream the
-	 * response back to the client
-	 * 
-	 * @param theRequestDetails
-	 *           A bean containing details about the request that is about to be processed, including details such as the
-	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
-	 *           pulled out of the {@link HttpServletRequest servlet request}.
-	 * @return Return <code>true</code> if processing should continue normally. This is generally the right thing to do.
-	 *         If your interceptor is providing a response rather than letting HAPI handle the response normally, you
-	 *         must return <code>false</code>. In this case, no further processing will occur and no further interceptors
-	 *         will be called.
-	 * @throws AuthenticationException
-	 *            This exception may be thrown to indicate that the interceptor has detected an unauthorized access
-	 *            attempt. If thrown, processing will stop and an HTTP 401 will be returned to the client.
+	 * Use {@link #outgoingResponse(RequestDetails, IBaseResource, HttpServletRequest, HttpServletResponse)} instead
+	 *
+	 * @deprecated As of HAPI FHIR 3.2.0, this method is deprecated and will be removed in a future version of HAPI FHIR.
 	 */
+	@Deprecated
 	boolean outgoingResponse(RequestDetails theRequestDetails);
 
 	/**
-	 * This method is called after the server implementation method has been called, but before any attempt to stream the
-	 * response back to the client
-	 * 
-	 * @param theRequestDetails
-	 *           A bean containing details about the request that is about to be processed, including details such as the
-	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
-	 *           pulled out of the {@link HttpServletRequest servlet request}.
-	 * @param theServletRequest
-	 *           The incoming request
-	 * @param theServletResponse
-	 *           The response. Note that interceptors may choose to provide a response (i.e. by calling
-	 *           {@link HttpServletResponse#getWriter()}) but in that case it is important to return <code>false</code>
-	 *           to indicate that the server itself should not also provide a response.
-	 * @return Return <code>true</code> if processing should continue normally. This is generally the right thing to do.
-	 *         If your interceptor is providing a response rather than letting HAPI handle the response normally, you
-	 *         must return <code>false</code>. In this case, no further processing will occur and no further interceptors
-	 *         will be called.
-	 * @throws AuthenticationException
-	 *            This exception may be thrown to indicate that the interceptor has detected an unauthorized access
-	 *            attempt. If thrown, processing will stop and an HTTP 401 will be returned to the client.
+	 * Use {@link #outgoingResponse(RequestDetails, IBaseResource, HttpServletRequest, HttpServletResponse)} instead
+	 *
+	 * @deprecated As of HAPI FHIR 3.2.0, this method is deprecated and will be removed in a future version of HAPI FHIR.
 	 */
+	@Deprecated
 	boolean outgoingResponse(RequestDetails theRequestDetails, HttpServletRequest theServletRequest, HttpServletResponse theServletResponse) throws AuthenticationException;
 
 	/**
-	 * This method is called after the server implementation method has been called, but before any attempt to stream the
-	 * response back to the client
-	 * 
-	 * @param theRequestDetails
-	 *           A bean containing details about the request that is about to be processed, including details such as the
-	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
-	 *           pulled out of the {@link HttpServletRequest servlet request}.
-	 * @param theResponseObject
-	 *           The actual object which is being streamed to the client as a response
-	 * @return Return <code>true</code> if processing should continue normally. This is generally the right thing to do.
-	 *         If your interceptor is providing a response rather than letting HAPI handle the response normally, you
-	 *         must return <code>false</code>. In this case, no further processing will occur and no further interceptors
-	 *         will be called.
-	 * @throws AuthenticationException
-	 *            This exception may be thrown to indicate that the interceptor has detected an unauthorized access
-	 *            attempt. If thrown, processing will stop and an HTTP 401 will be returned to the client.
+	 * Use {@link #outgoingResponse(RequestDetails, IBaseResource, HttpServletRequest, HttpServletResponse)} instead
+	 *
+	 * @deprecated As of HAPI FHIR 3.2.0, this method is deprecated and will be removed in a future version of HAPI FHIR.
 	 */
+	@Deprecated
 	boolean outgoingResponse(RequestDetails theRequestDetails, IBaseResource theResponseObject);
 
 	/**
 	 * This method is called after the server implementation method has been called, but before any attempt to stream the
-	 * response back to the client
+	 * response back to the client.
 	 * 
 	 * @param theRequestDetails
 	 *           A bean containing details about the request that is about to be processed, including details such as the
 	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
 	 *           pulled out of the {@link HttpServletRequest servlet request}.
 	 * @param theResponseObject
-	 *           The actual object which is being streamed to the client as a response
+	 *           The actual object which is being streamed to the client as a response. This may be
+	 *           <code>null</code> if the response does not include a resource.
 	 * @param theServletRequest
 	 *           The incoming request
 	 * @param theServletResponse
@@ -244,49 +206,19 @@ public interface IServerInterceptor {
 			throws AuthenticationException;
 
 	/**
-	 * This method is called after the server implementation method has been called, but before any attempt to stream the
-	 * response back to the client
-	 * 
-	 * @param theRequestDetails
-	 *           A bean containing details about the request that is about to be processed, including details such as the
-	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
-	 *           pulled out of the {@link HttpServletRequest servlet request}.
-	 * @param theResponseObject
-	 *           The actual object which is being streamed to the client as a response
-	 * @return Return <code>true</code> if processing should continue normally. This is generally the right thing to do.
-	 *         If your interceptor is providing a response rather than letting HAPI handle the response normally, you
-	 *         must return <code>false</code>. In this case, no further processing will occur and no further interceptors
-	 *         will be called.
-	 * @throws AuthenticationException
-	 *            This exception may be thrown to indicate that the interceptor has detected an unauthorized access
-	 *            attempt. If thrown, processing will stop and an HTTP 401 will be returned to the client.
+	 * Use {@link #outgoingResponse(RequestDetails, IBaseResource, HttpServletRequest, HttpServletResponse)} instead
+	 *
+	 * @deprecated As of HAPI FHIR 3.2.0, this method is deprecated and will be removed in a future version of HAPI FHIR.
 	 */
+	@Deprecated
 	boolean outgoingResponse(RequestDetails theRequestDetails, TagList theResponseObject);
 
 	/**
-	 * This method is called after the server implementation method has been called, but before any attempt to stream the
-	 * response back to the client
-	 * 
-	 * @param theRequestDetails
-	 *           A bean containing details about the request that is about to be processed, including details such as the
-	 *           resource type and logical ID (if any) and other FHIR-specific aspects of the request which have been
-	 *           pulled out of the {@link HttpServletRequest servlet request}.
-	 * @param theResponseObject
-	 *           The actual object which is being streamed to the client as a response
-	 * @param theServletRequest
-	 *           The incoming request
-	 * @param theServletResponse
-	 *           The response. Note that interceptors may choose to provide a response (i.e. by calling
-	 *           {@link HttpServletResponse#getWriter()}) but in that case it is important to return <code>false</code>
-	 *           to indicate that the server itself should not also provide a response.
-	 * @return Return <code>true</code> if processing should continue normally. This is generally the right thing to do.
-	 *         If your interceptor is providing a response rather than letting HAPI handle the response normally, you
-	 *         must return <code>false</code>. In this case, no further processing will occur and no further interceptors
-	 *         will be called.
-	 * @throws AuthenticationException
-	 *            This exception may be thrown to indicate that the interceptor has detected an unauthorized access
-	 *            attempt. If thrown, processing will stop and an HTTP 401 will be returned to the client.
+	 * Use {@link #outgoingResponse(RequestDetails, IBaseResource, HttpServletRequest, HttpServletResponse)} instead
+	 *
+	 * @deprecated As of HAPI FHIR 3.2.0, this method is deprecated and will be removed in a future version of HAPI FHIR.
 	 */
+	@Deprecated
 	boolean outgoingResponse(RequestDetails theRequestDetails, TagList theResponseObject, HttpServletRequest theServletRequest, HttpServletResponse theServletResponse) throws AuthenticationException;
 
 	/**
@@ -326,12 +258,12 @@ public interface IServerInterceptor {
 	 */
 	void processingCompletedNormally(ServletRequestDetails theRequestDetails);
 
-	public static class ActionRequestDetails {
+	class ActionRequestDetails {
 		private final FhirContext myContext;
 		private final IIdType myId;
+		private final String myResourceType;
 		private RequestDetails myRequestDetails;
 		private IBaseResource myResource;
-		private final String myResourceType;
 
 		public ActionRequestDetails(RequestDetails theRequestDetails) {
 			myId = theRequestDetails.getId();
@@ -346,7 +278,11 @@ public interface IServerInterceptor {
 		}
 
 		public ActionRequestDetails(RequestDetails theRequestDetails, FhirContext theContext, String theResourceType, IIdType theId) {
-			myId = theId;
+			if (theId != null && isBlank(theId.getValue())) {
+				myId = null;
+			} else {
+				myId = theId;
+			}
 			myResourceType = theResourceType;
 			myContext = theContext;
 			myRequestDetails = theRequestDetails;
@@ -410,6 +346,13 @@ public interface IServerInterceptor {
 		}
 
 		/**
+		 * This method should not be called by client code
+		 */
+		public void setResource(IBaseResource theObject) {
+			myResource = theObject;
+		}
+
+		/**
 		 * Returns the resource type this request pertains to, or <code>null</code> if this request is not type specific
 		 * (e.g. server-history)
 		 */
@@ -448,13 +391,6 @@ public interface IServerInterceptor {
 			for (IServerInterceptor next : interceptors) {
 				next.incomingRequestPreHandled(theOperationType, this);
 			}
-		}
-
-		/**
-		 * This method should not be called by client code
-		 */
-		public void setResource(IBaseResource theObject) {
-			myResource = theObject;
 		}
 
 	}

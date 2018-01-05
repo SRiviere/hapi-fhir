@@ -46,10 +46,15 @@ import static org.mockito.Mockito.mock;
 @ContextConfiguration(classes = {TestDstu2Config.class})
 public abstract class BaseJpaDstu2Test extends BaseJpaTest {
 	@Autowired
+	protected ISearchParamRegistry mySearchParamRegsitry;
+	@Autowired
 	protected ApplicationContext myAppCtx;
 	@Autowired
 	@Qualifier("myAppointmentDaoDstu2")
 	protected IFhirResourceDao<Appointment> myAppointmentDao;
+	@Autowired
+	@Qualifier("mySearchParameterDaoDstu2")
+	protected IFhirResourceDao<SearchParameter> mySearchParameterDao;
 	@Autowired
 	@Qualifier("myBundleDaoDstu2")
 	protected IFhirResourceDao<Bundle> myBundleDao;
@@ -120,7 +125,7 @@ public abstract class BaseJpaDstu2Test extends BaseJpaTest {
 	protected Object myResourceProviders;
 	@Autowired
 	protected ISearchCoordinatorSvc mySearchCoordinatorSvc;
-	@Autowired
+	@Autowired(required = false)
 	protected IFulltextSearchSvc mySearchDao;
 	@Autowired
 	protected ISearchParamPresenceSvc mySearchParamPresenceSvc;

@@ -5,11 +5,11 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import ca.uhn.fhir.jpa.search.LuceneSearchMappingFactory;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.dialect.DerbyTenSevenDialect;
 import org.hibernate.dialect.PostgreSQL94Dialect;
-import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +34,7 @@ public class TestR4Config extends BaseJavaConfigR4 {
 	public static final String FHIR_DB_USERNAME = "${fhir.db.username}";
 	public  static final String FHIR_DB_PASSWORD = "${fhir.db.password}";
 	public static final String FHIR_LUCENE_LOCATION_R4 = "${fhir.lucene.location.r4}";
+	public static final Integer COUNT_SEARCH_RESULTS_UP_TO = 50000;
 
 	@Value(TestR4Config.FHIR_DB_USERNAME)
 	private String myDbUsername;
@@ -56,6 +57,7 @@ public class TestR4Config extends BaseJavaConfigR4 {
 		retVal.getTreatBaseUrlsAsLocal().add("http://fhirtest.uhn.ca/baseR4");
 		retVal.getTreatBaseUrlsAsLocal().add("https://fhirtest.uhn.ca/baseR4");
 		retVal.setIndexMissingFields(DaoConfig.IndexEnabledEnum.ENABLED);
+		retVal.setCountSearchResultsUpTo(TestR4Config.COUNT_SEARCH_RESULTS_UP_TO);
 		return retVal;
 	}
 
@@ -108,6 +110,7 @@ public class TestR4Config extends BaseJavaConfigR4 {
 		extraProperties.put("hibernate.cache.use_second_level_cache", "false");
 		extraProperties.put("hibernate.cache.use_structured_entries", "false");
 		extraProperties.put("hibernate.cache.use_minimal_puts", "false");
+		extraProperties.put("hibernate.search.model_mapping", LuceneSearchMappingFactory.class.getName());
 		extraProperties.put("hibernate.search.default.directory_provider", "filesystem");
 		extraProperties.put("hibernate.search.default.indexBase", myFhirLuceneLocation);
 		extraProperties.put("hibernate.search.lucene_version", "LUCENE_CURRENT");

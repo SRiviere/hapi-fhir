@@ -56,6 +56,30 @@ public class FhirResourceDaoDstu2Test extends BaseJpaDstu2Test {
 		myDaoConfig.setTreatReferencesAsLogical(new DaoConfig().getTreatReferencesAsLogical());
 	}
 
+	/**
+	 * See #773
+	 */
+	@Test
+	public void testDeleteResourceWithOutboundDeletedResources() {
+		myDaoConfig.setEnforceReferentialIntegrityOnDelete(false);
+
+		Organization org = new Organization();
+		org.setId("ORG");
+		org.setName("ORG");
+		myOrganizationDao.update(org);
+
+		Patient pat = new Patient();
+		pat.setId("PAT");
+		pat.setActive(true);
+		pat.setManagingOrganization(new ResourceReferenceDt("Organization/ORG"));
+		myPatientDao.update(pat);
+
+		myOrganizationDao.delete(new IdDt("Organization/ORG"));
+
+		myPatientDao.delete(new IdDt("Patient/PAT"));
+	}
+
+
 	private void assertGone(IIdType theId) {
 		try {
 			assertNotGone(theId);
@@ -437,7 +461,7 @@ public class FhirResourceDaoDstu2Test extends BaseJpaDstu2Test {
 		ArgumentCaptor<ActionRequestDetails> detailsCapt = ArgumentCaptor.forClass(ActionRequestDetails.class);
 		verify(myInterceptor).incomingRequestPreHandled(eq(RestOperationTypeEnum.CREATE), detailsCapt.capture());
 		ActionRequestDetails details = detailsCapt.getValue();
-		assertNotNull(details.getId());
+		assertNull(details.getId());
 		assertEquals("Patient", details.getResourceType());
 		assertEquals(Patient.class, details.getResource().getClass());
 
@@ -2322,7 +2346,7 @@ public class FhirResourceDaoDstu2Test extends BaseJpaDstu2Test {
 	}
 
 	@Test
-	public void testSortByLastUpdated() {
+	public void testSortByLastUpdated() throws InterruptedException {
 		String methodName = "testSortByLastUpdated";
 
 		Patient p = new Patient();
@@ -2330,20 +2354,28 @@ public class FhirResourceDaoDstu2Test extends BaseJpaDstu2Test {
 		p.addName().addFamily(methodName);
 		IIdType id1 = myPatientDao.create(p, mySrd).getId().toUnqualifiedVersionless();
 
+		sleepUntilTimeChanges();
+
 		p = new Patient();
 		p.addIdentifier().setSystem("urn:system2").setValue(methodName);
 		p.addName().addFamily(methodName);
 		IIdType id2 = myPatientDao.create(p, mySrd).getId().toUnqualifiedVersionless();
+
+		sleepUntilTimeChanges();
 
 		p = new Patient();
 		p.addIdentifier().setSystem("urn:system3").setValue(methodName);
 		p.addName().addFamily(methodName);
 		IIdType id3 = myPatientDao.create(p, mySrd).getId().toUnqualifiedVersionless();
 
+		sleepUntilTimeChanges();
+
 		p = new Patient();
 		p.addIdentifier().setSystem("urn:system4").setValue(methodName);
 		p.addName().addFamily(methodName);
 		IIdType id4 = myPatientDao.create(p, mySrd).getId().toUnqualifiedVersionless();
+
+		sleepUntilTimeChanges();
 
 		SearchParameterMap pm;
 		List<IIdType> actual;

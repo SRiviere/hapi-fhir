@@ -107,6 +107,9 @@ public class DaoConfig {
 	private Set<String> myTreatBaseUrlsAsLocal = new HashSet<String>();
 	private Set<String> myTreatReferencesAsLogical = new HashSet<String>(DEFAULT_LOGICAL_BASE_URLS);
 	private boolean myAutoCreatePlaceholderReferenceTargets;
+	private Integer myCacheControlNoStoreMaxResultsUpperLimit = 1000;
+	private Integer myCountSearchResultsUpTo = null;
+	private IdStrategyEnum myResourceServerIdStrategy = IdStrategyEnum.SEQUENTIAL_NUMERIC;
 
 	/**
 	 * Constructor
@@ -129,6 +132,76 @@ public class DaoConfig {
 			myTreatReferencesAsLogical = new HashSet<String>();
 		}
 		myTreatReferencesAsLogical.add(theTreatReferencesAsLogical);
+	}
+
+	/**
+	 * Specifies the highest number that a client is permitted to use in a
+	 * <code>Cache-Control: nostore, max-results=NNN</code>
+	 * directive. If the client tries to exceed this limit, the
+	 * request will be denied. Defaults to 1000.
+	 */
+	public Integer getCacheControlNoStoreMaxResultsUpperLimit() {
+		return myCacheControlNoStoreMaxResultsUpperLimit;
+	}
+
+	/**
+	 * Specifies the highest number that a client is permitted to use in a
+	 * <code>Cache-Control: nostore, max-results=NNN</code>
+	 * directive. If the client tries to exceed this limit, the
+	 * request will be denied. Defaults to 1000.
+	 */
+	public void setCacheControlNoStoreMaxResultsUpperLimit(Integer theCacheControlNoStoreMaxResults) {
+		myCacheControlNoStoreMaxResultsUpperLimit = theCacheControlNoStoreMaxResults;
+	}
+
+	/**
+	 * When searching, if set to a non-null value (default is <code>null</code>) the
+	 * search coordinator will attempt to find at least this many results
+	 * before returning a response to the client. This parameter mainly affects
+	 * whether a "total count" is included in the response bundle for searches that
+	 * return large amounts of data.
+	 * <p>
+	 * For a search that returns 10000 results, if this value is set to
+	 * 10000 the search coordinator will find all 10000 results
+	 * prior to returning, so the initial response bundle will have the
+	 * total set to 10000. If this value is null (or less than 10000)
+	 * the response bundle will likely return slightly faster, but will
+	 * not include the total. Subsequent page requests will likely
+	 * include the total however, if they are performed after the
+	 * search coordinator has found all results.
+	 * </p>
+	 * <p>
+	 * Set this value to <code>0</code> to always load all
+	 * results before returning.
+	 * </p>
+	 */
+	public Integer getCountSearchResultsUpTo() {
+		return myCountSearchResultsUpTo;
+	}
+
+	/**
+	 * When searching, if set to a non-null value (default is <code>null</code>) the
+	 * search coordinator will attempt to find at least this many results
+	 * before returning a response to the client. This parameter mainly affects
+	 * whether a "total count" is included in the response bundle for searches that
+	 * return large amounts of data.
+	 * <p>
+	 * For a search that returns 10000 results, if this value is set to
+	 * 10000 the search coordinator will find all 10000 results
+	 * prior to returning, so the initial response bundle will have the
+	 * total set to 10000. If this value is null (or less than 10000)
+	 * the response bundle will likely return slightly faster, but will
+	 * not include the total. Subsequent page requests will likely
+	 * include the total however, if they are performed after the
+	 * search coordinator has found all results.
+	 * </p>
+	 * <p>
+	 * Set this value to <code>0</code> to always load all
+	 * results before returning.
+	 * </p>
+	 */
+	public void setCountSearchResultsUpTo(Integer theCountSearchResultsUpTo) {
+		myCountSearchResultsUpTo = theCountSearchResultsUpTo;
 	}
 
 	/**
@@ -336,8 +409,11 @@ public class DaoConfig {
 	/**
 	 * This may be used to optionally register server interceptors directly against the DAOs.
 	 */
-	public void setInterceptors(List<IServerInterceptor> theInterceptors) {
-		myInterceptors = theInterceptors;
+	public void setInterceptors(IServerInterceptor... theInterceptor) {
+		setInterceptors(new ArrayList<IServerInterceptor>());
+		if (theInterceptor != null && theInterceptor.length != 0) {
+			getInterceptors().addAll(Arrays.asList(theInterceptor));
+		}
 	}
 
 	/**
@@ -395,6 +471,25 @@ public class DaoConfig {
 	}
 
 	/**
+	 * This setting configures the strategy to use in generating IDs for newly
+	 * created resources on the server. The default is {@link IdStrategyEnum#SEQUENTIAL_NUMERIC}.
+	 */
+	public IdStrategyEnum getResourceServerIdStrategy() {
+		return myResourceServerIdStrategy;
+	}
+
+	/**
+	 * This setting configures the strategy to use in generating IDs for newly
+	 * created resources on the server. The default is {@link IdStrategyEnum#SEQUENTIAL_NUMERIC}.
+	 *
+	 * @param theResourceIdStrategy The strategy. Must not be null.
+	 */
+	public void setResourceServerIdStrategy(IdStrategyEnum theResourceIdStrategy) {
+		Validate.notNull(theResourceIdStrategy, "theResourceIdStrategy must not be null");
+		myResourceServerIdStrategy = theResourceIdStrategy;
+	}
+
+	/**
 	 * If set, an individual resource will not be allowed to have more than the
 	 * given number of tags, profiles, and security labels (the limit is for the combined
 	 * total for all of these things on an individual resource).
@@ -434,6 +529,11 @@ public class DaoConfig {
 	 * This approach can improve performance, especially under heavy load, but can also mean that
 	 * searches may potentially return slightly out-of-date results.
 	 * </p>
+	 * <p>
+	 * Note that if this is set to a non-null value, clients may override this setting by using
+	 * the <code>Cache-Control</code> header. If this is set to <code>null</code>, the Cache-Control
+	 * header will be ignored.
+	 * </p>
 	 */
 	public Long getReuseCachedSearchResultsForMillis() {
 		return myReuseCachedSearchResultsForMillis;
@@ -448,6 +548,11 @@ public class DaoConfig {
 	 * <p>
 	 * This approach can improve performance, especially under heavy load, but can also mean that
 	 * searches may potentially return slightly out-of-date results.
+	 * </p>
+	 * <p>
+	 * Note that if this is set to a non-null value, clients may override this setting by using
+	 * the <code>Cache-Control</code> header. If this is set to <code>null</code>, the Cache-Control
+	 * header will be ignored.
 	 * </p>
 	 */
 	public void setReuseCachedSearchResultsForMillis(Long theReuseCachedSearchResultsForMillis) {
@@ -925,11 +1030,8 @@ public class DaoConfig {
 	/**
 	 * This may be used to optionally register server interceptors directly against the DAOs.
 	 */
-	public void setInterceptors(IServerInterceptor... theInterceptor) {
-		setInterceptors(new ArrayList<IServerInterceptor>());
-		if (theInterceptor != null && theInterceptor.length != 0) {
-			getInterceptors().addAll(Arrays.asList(theInterceptor));
-		}
+	public void setInterceptors(List<IServerInterceptor> theInterceptors) {
+		myInterceptors = theInterceptors;
 	}
 
 	/**
@@ -978,6 +1080,18 @@ public class DaoConfig {
 	public enum IndexEnabledEnum {
 		ENABLED,
 		DISABLED
+	}
+
+	public enum IdStrategyEnum {
+		/**
+		 * This strategy is the default strategy, and it simply uses a sequential
+		 * numeric ID for each newly created resource.
+		 */
+		SEQUENTIAL_NUMERIC,
+		/**
+		 * Each resource will receive a randomly generated UUID
+		 */
+		UUID
 	}
 
 }
