@@ -12,10 +12,8 @@ import ca.uhn.fhir.rest.server.FifoMemoryPagingProvider;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor.ActionRequestDetails;
-import ca.uhn.fhir.rest.server.interceptor.auth.AuthorizationInterceptor;
-import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRule;
-import ca.uhn.fhir.rest.server.interceptor.auth.PolicyEnum;
-import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
+import ca.uhn.fhir.rest.server.interceptor.auth.*;
+import ca.uhn.fhir.rest.server.tenant.UrlBaseTenantIdentificationStrategy;
 import ca.uhn.fhir.util.PortUtil;
 import ca.uhn.fhir.util.TestUtil;
 import org.apache.commons.io.IOUtils;
@@ -31,6 +29,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -65,9 +64,10 @@ public class AuthorizationInterceptorR4Test {
 	@Before
 	public void before() {
 		ourCtx.setAddProfileTagWhenEncoding(AddProfileTagEnum.NEVER);
-		for (IServerInterceptor next : new ArrayList<IServerInterceptor>(ourServlet.getInterceptors())) {
+		for (IServerInterceptor next : new ArrayList<>(ourServlet.getInterceptors())) {
 			ourServlet.unregisterInterceptor(next);
 		}
+		ourServlet.setTenantIdentificationStrategy(null);
 		ourReturn = null;
 		ourHitMethod = false;
 		ourConditionalCreateId = "1123";
@@ -236,6 +236,50 @@ public class AuthorizationInterceptorR4Test {
 
 	}
 
+	@Test
+	public void testAllowAllForTenant() throws Exception {
+		ourServlet.setTenantIdentificationStrategy(new UrlBaseTenantIdentificationStrategy());
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.deny("Rule 1").read().resourcesOfType(Patient.class).withAnyId().forTenantIds("TENANTA").andThen()
+					.allowAll("Default Rule")
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Observation/10");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient/1");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by rule: Rule 1"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient/1/$validate");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+	}
+
 	/**
 	 * #528
 	 */
@@ -244,7 +288,10 @@ public class AuthorizationInterceptorR4Test {
 		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
 			@Override
 			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
-				return new RuleBuilder().allow("Rule 1").read().allResources().inCompartment("Patient", new IdType("Patient/845bd9f1-3635-4866-a6c8-1ca085df5c1a")).andThen().denyAll().build();
+				return new RuleBuilder()
+					.allow("Rule 1").read().allResources().inCompartment("Patient", new IdType("Patient/845bd9f1-3635-4866-a6c8-1ca085df5c1a"))
+					.andThen().denyAll()
+					.build();
 			}
 		});
 
@@ -262,6 +309,40 @@ public class AuthorizationInterceptorR4Test {
 		ourHitMethod = false;
 		ourReturn = Collections.singletonList(createCarePlan(10, "FOO"));
 		httpGet = new HttpGet("http://localhost:" + ourPort + "/CarePlan/135154");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+	}
+
+	@Test
+	public void testAllowByCompartmentWithAnyTypeWithTenantId() throws Exception {
+		ourServlet.setTenantIdentificationStrategy(new UrlBaseTenantIdentificationStrategy());
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("Rule 1").read().allResources().inCompartment("Patient", new IdType("Patient/845bd9f1-3635-4866-a6c8-1ca085df5c1a")).forTenantIds("TENANTA")
+					.andThen().denyAll()
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createCarePlan(10, "845bd9f1-3635-4866-a6c8-1ca085df5c1a"));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/CarePlan/135154");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createCarePlan(10, "FOO"));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/CarePlan/135154");
 		status = ourClient.execute(httpGet);
 		extractResponseAndClose(status);
 		assertEquals(403, status.getStatusLine().getStatusCode());
@@ -435,6 +516,43 @@ public class AuthorizationInterceptorR4Test {
 		assertTrue(ourHitMethod);
 	}
 
+	/**
+	 * #528
+	 */
+	@Test
+	public void testDenyActionsNotOnTenant() throws Exception {
+		ourServlet.setTenantIdentificationStrategy(new UrlBaseTenantIdentificationStrategy());
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.ALLOW) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder().denyAll().notForTenantIds("TENANTA", "TENANTB").build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		ourReturn = Collections.singletonList(createPatient(2));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient/1");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTC/Patient/1");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by rule: (unnamed rule)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+	}
+
 	@Test
 	public void testDenyAll() throws Exception {
 		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
@@ -592,75 +710,8 @@ public class AuthorizationInterceptorR4Test {
 		assertTrue(ourHitMethod);
 	}
 
-	/**
-	 * See #762
-	 */
 	@Test
-	public void testTransactionWithPlaceholderIdsResponseUnauthorized() throws IOException {
-
-		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
-			@Override
-			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
-				return new RuleBuilder()
-					.allow("transactions").transaction().withAnyOperation().andApplyNormalRules().andThen()
-					.allow("write patient").write().resourcesOfType(Patient.class).withAnyId().andThen()
-					.allow("write encounter").write().resourcesOfType(Encounter.class).withAnyId().andThen()
-					.allow("write condition").write().resourcesOfType(Condition.class).withAnyId().andThen()
-					.denyAll("deny all")
-					.build();
-			}
-		});
-
-		Bundle input = createTransactionWithPlaceholdersRequestBundle();
-		Bundle output = createTransactionWithPlaceholdersResponseBundle();
-
-		ourReturn = Collections.singletonList((Resource) output);
-		HttpPost httpPost = new HttpPost("http://localhost:" + ourPort + "/");
-		httpPost.setEntity(createFhirResourceEntity(input));
-		CloseableHttpResponse status = ourClient.execute(httpPost);
-		String resp = extractResponseAndClose(status);
-		assertEquals(403, status.getStatusLine().getStatusCode());
-
-		ourLog.info(resp);
-
-	}
-
-	/**
-	 * See #762
-	 */
-	@Test
-	public void testTransactionWithPlaceholderIdsResponseAuthorized() throws IOException {
-
-		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
-			@Override
-			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
-				return new RuleBuilder()
-					.allow("transactions").transaction().withAnyOperation().andApplyNormalRules().andThen()
-					.allow("read patient").read().resourcesOfType(Patient.class).withAnyId().andThen()
-					.allow("write patient").write().resourcesOfType(Patient.class).withAnyId().andThen()
-					.allow("write encounter").write().resourcesOfType(Encounter.class).withAnyId().andThen()
-					.allow("write condition").write().resourcesOfType(Condition.class).withAnyId().andThen()
-					.denyAll("deny all")
-					.build();
-			}
-		});
-
-		Bundle input = createTransactionWithPlaceholdersRequestBundle();
-		Bundle output = createTransactionWithPlaceholdersResponseBundle();
-
-		ourReturn = Collections.singletonList((Resource) output);
-		HttpPost httpPost = new HttpPost("http://localhost:" + ourPort + "/");
-		httpPost.setEntity(createFhirResourceEntity(input));
-		CloseableHttpResponse status = ourClient.execute(httpPost);
-		String resp = extractResponseAndClose(status);
-		assertEquals(200, status.getStatusLine().getStatusCode());
-
-		ourLog.info(resp);
-
-	}
-
-	@Test
-	public void testInvalidInstanceIds() throws Exception {
+	public void testInvalidInstanceIds() {
 		try {
 			new RuleBuilder().allow("Rule 1").write().instance((String) null);
 			fail();
@@ -1107,6 +1158,119 @@ public class AuthorizationInterceptorR4Test {
 		assertFalse(ourHitMethod);
 	}
 
+
+	@Test
+	public void testOperationAppliesAtAnyLevel() throws Exception {
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("RULE 1").operation().named("opName").atAnyLevel().andThen()
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		// Server
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		// Type
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		// Instance
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		// Instance Version
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1/_history/2/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+	}
+
+	@Test
+	public void testOperationAppliesAtAnyLevelWrongOpName() throws Exception {
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("RULE 1").operation().named("opNameBadOp").atAnyLevel().andThen()
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		// Server
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+		// Type
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+		// Instance
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+		// Instance Version
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1/_history/2/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+	}
+
 	@Test
 	public void testOperationTypeLevel() throws Exception {
 		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
@@ -1245,6 +1409,82 @@ public class AuthorizationInterceptorR4Test {
 	}
 
 	@Test
+	public void testOperationTypeLevelWithTenant() throws Exception {
+		ourServlet.setTenantIdentificationStrategy(new UrlBaseTenantIdentificationStrategy());
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("RULE 1").operation().named("opName").onType(Patient.class).forTenantIds("TENANTA").andThen()
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		// Right Tenant
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createPatient(2));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		// Wrong Tenant
+		ourHitMethod = false;
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTC/Patient/$opName");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		assertThat(response, containsString("Access denied by default policy"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+	}
+
+	@Test
+	public void testOperationWithTester() throws Exception {
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("Rule 1").operation().named("everything").onInstancesOfType(Patient.class).withTester(new IAuthRuleTester() {
+						@Override
+						public boolean matches(RestOperationTypeEnum theOperation, RequestDetails theRequestDetails, IIdType theInputResourceId, IBaseResource theInputResource) {
+							return theInputResourceId.getIdPart().equals("1");
+						}
+					})
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		ourReturn = new ArrayList<>();
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1/$everything");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		assertThat(response, containsString("Bundle"));
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertEquals(true, ourHitMethod);
+
+		ourReturn = new ArrayList<>();
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/2/$everything");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		assertThat(response, containsString("OperationOutcome"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertEquals(false, ourHitMethod);
+	}
+
+	@Test
 	public void testReadByAnyId() throws Exception {
 		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
 			@Override
@@ -1304,6 +1544,137 @@ public class AuthorizationInterceptorR4Test {
 		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
 		assertEquals(403, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
+
+	}
+
+	@Test
+	public void testReadByAnyIdWithTenantId() throws Exception {
+		ourServlet.setTenantIdentificationStrategy(new UrlBaseTenantIdentificationStrategy());
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("Rule 1").read().resourcesOfType(Patient.class).withAnyId().forTenantIds("TENANTA")
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		ourReturn = Collections.singletonList(createPatient(2));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient/1");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourReturn = Collections.singletonList(createPatient(2));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTB/Patient/1");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+		ourReturn = Collections.singletonList(createPatient(2));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient/1/_history/222");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Observation/10");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+		ourReturn = Arrays.asList(createPatient(1), createObservation(10, "Patient/2"));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourReturn = Arrays.asList(createPatient(2), createObservation(10, "Patient/1"));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/TENANTA/Patient");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+	}
+
+	@Test
+	public void testReadByAnyIdWithTester() throws Exception {
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("Rule 1").read().resourcesOfType(Patient.class).withAnyId().withTester(new IAuthRuleTester() {
+						@Override
+						public boolean matches(RestOperationTypeEnum theOperation, RequestDetails theRequestDetails, IIdType theInputResourceId, IBaseResource theInputResource) {
+							return theInputResourceId != null && theInputResourceId.getIdPart().equals("1");
+						}
+					})
+					.build();
+			}
+		});
+
+		HttpGet httpGet;
+		HttpResponse status;
+		String response;
+
+		ourReturn = Collections.singletonList(createPatient(2));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourReturn = Collections.singletonList(createPatient(2));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/1/_history/222");
+		status = ourClient.execute(httpGet);
+		extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+		assertTrue(ourHitMethod);
+
+		ourReturn = Collections.singletonList(createObservation(10, "Patient/2"));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/10");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
+
+		ourReturn = Arrays.asList(createPatient(1), createObservation(10, "Patient/2"));
+		ourHitMethod = false;
+		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient");
+		status = ourClient.execute(httpGet);
+		response = extractResponseAndClose(status);
+		ourLog.info(response);
+		assertThat(response, containsString("Access denied by default policy (no applicable rules)"));
+		assertEquals(403, status.getStatusLine().getStatusCode());
+		assertFalse(ourHitMethod);
 
 	}
 
@@ -1438,7 +1809,7 @@ public class AuthorizationInterceptorR4Test {
 		ourHitMethod = false;
 		httpGet = new HttpGet("http://localhost:" + ourPort + "/Observation/900");
 		status = ourClient.execute(httpGet);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(200, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -1446,7 +1817,7 @@ public class AuthorizationInterceptorR4Test {
 		ourHitMethod = false;
 		httpGet = new HttpGet("http://localhost:" + ourPort + "/Patient/901");
 		status = ourClient.execute(httpGet);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(200, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -1551,9 +1922,76 @@ public class AuthorizationInterceptorR4Test {
 		ourHitMethod = false;
 		httpGet = new HttpGet(respBundle.getLink("next").getUrl());
 		status = ourClient.execute(httpGet);
-		respString = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(403, status.getStatusLine().getStatusCode());
 		assertFalse(ourHitMethod);
+
+	}
+
+	/**
+	 * See #762
+	 */
+	@Test
+	public void testTransactionWithPlaceholderIdsResponseAuthorized() throws IOException {
+
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("transactions").transaction().withAnyOperation().andApplyNormalRules().andThen()
+					.allow("read patient").read().resourcesOfType(Patient.class).withAnyId().andThen()
+					.allow("write patient").write().resourcesOfType(Patient.class).withAnyId().andThen()
+					.allow("write encounter").write().resourcesOfType(Encounter.class).withAnyId().andThen()
+					.allow("write condition").write().resourcesOfType(Condition.class).withAnyId().andThen()
+					.denyAll("deny all")
+					.build();
+			}
+		});
+
+		Bundle input = createTransactionWithPlaceholdersRequestBundle();
+		Bundle output = createTransactionWithPlaceholdersResponseBundle();
+
+		ourReturn = Collections.singletonList((Resource) output);
+		HttpPost httpPost = new HttpPost("http://localhost:" + ourPort + "/");
+		httpPost.setEntity(createFhirResourceEntity(input));
+		CloseableHttpResponse status = ourClient.execute(httpPost);
+		String resp = extractResponseAndClose(status);
+		assertEquals(200, status.getStatusLine().getStatusCode());
+
+		ourLog.info(resp);
+
+	}
+
+	/**
+	 * See #762
+	 */
+	@Test
+	public void testTransactionWithPlaceholderIdsResponseUnauthorized() throws IOException {
+
+		ourServlet.registerInterceptor(new AuthorizationInterceptor(PolicyEnum.DENY) {
+			@Override
+			public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+				return new RuleBuilder()
+					.allow("transactions").transaction().withAnyOperation().andApplyNormalRules().andThen()
+					.allow("write patient").write().resourcesOfType(Patient.class).withAnyId().andThen()
+					.allow("write encounter").write().resourcesOfType(Encounter.class).withAnyId().andThen()
+					.allow("write condition").write().resourcesOfType(Condition.class).withAnyId().andThen()
+					.denyAll("deny all")
+					.build();
+			}
+		});
+
+		Bundle input = createTransactionWithPlaceholdersRequestBundle();
+		Bundle output = createTransactionWithPlaceholdersResponseBundle();
+
+		ourReturn = Collections.singletonList((Resource) output);
+		HttpPost httpPost = new HttpPost("http://localhost:" + ourPort + "/");
+		httpPost.setEntity(createFhirResourceEntity(input));
+		CloseableHttpResponse status = ourClient.execute(httpPost);
+		String resp = extractResponseAndClose(status);
+		assertEquals(403, status.getStatusLine().getStatusCode());
+
+		ourLog.info(resp);
 
 	}
 
@@ -1640,7 +2078,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPost("http://localhost:" + ourPort + "/Observation");
 		httpPost.setEntity(createFhirResourceEntity(createObservation(null, "Patient/1")));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(201, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 	}
@@ -1886,7 +2324,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPut("http://localhost:" + ourPort + "/Patient?foo=bar");
 		httpPost.setEntity(createFhirResourceEntity(createPatient(null)));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(200, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -1924,7 +2362,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPut("http://localhost:" + ourPort + "/Patient?foo=bar");
 		httpPost.setEntity(createFhirResourceEntity(createPatient(null)));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(200, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -1961,7 +2399,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPut("http://localhost:" + ourPort + "/Observation/900");
 		httpPost.setEntity(createFhirResourceEntity(createObservation(900, "Patient/12")));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(200, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -1969,7 +2407,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPut("http://localhost:" + ourPort + "/Observation/901");
 		httpPost.setEntity(createFhirResourceEntity(createObservation(901, "Patient/12")));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(200, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -2008,7 +2446,6 @@ public class AuthorizationInterceptorR4Test {
 
 		HttpEntityEnclosingRequestBase httpPost;
 		HttpResponse status;
-		String response;
 
 		String input = "[ { \"op\": \"replace\", \"path\": \"/gender\", \"value\": \"male\" }  ]";
 
@@ -2016,7 +2453,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPatch("http://localhost:" + ourPort + "/Patient/900");
 		httpPost.setEntity(new StringEntity(input, ContentType.parse("application/json-patch+json")));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(204, status.getStatusLine().getStatusCode());
 		assertTrue(ourHitMethod);
 
@@ -2024,7 +2461,7 @@ public class AuthorizationInterceptorR4Test {
 		httpPost = new HttpPatch("http://localhost:" + ourPort + "/Patient/999");
 		httpPost.setEntity(new StringEntity(input, ContentType.parse("application/json-patch+json")));
 		status = ourClient.execute(httpPost);
-		response = extractResponseAndClose(status);
+		extractResponseAndClose(status);
 		assertEquals(403, status.getStatusLine().getStatusCode());
 		assertFalse(ourHitMethod);
 	}
@@ -2085,6 +2522,7 @@ public class AuthorizationInterceptorR4Test {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public static class DummyEncounterResourceProvider implements IResourceProvider {
 
 		@Operation(name = "everything", idempotent = true)
@@ -2103,6 +2541,7 @@ public class AuthorizationInterceptorR4Test {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public static class DummyObservationResourceProvider implements IResourceProvider {
 
 		@Create()
@@ -2118,8 +2557,7 @@ public class AuthorizationInterceptorR4Test {
 		@Delete()
 		public MethodOutcome delete(@IdParam IdType theId) {
 			ourHitMethod = true;
-			MethodOutcome retVal = new MethodOutcome();
-			return retVal;
+			return new MethodOutcome();
 		}
 
 		@Override
@@ -2201,8 +2639,7 @@ public class AuthorizationInterceptorR4Test {
 			for (IBaseResource next : ourReturn) {
 				theRequestOperationCallback.resourceDeleted(next);
 			}
-			MethodOutcome retVal = new MethodOutcome();
-			return retVal;
+			return new MethodOutcome();
 		}
 
 		@Operation(name = "everything", idempotent = true)

@@ -6,6 +6,7 @@ import ca.uhn.fhir.jpa.subscription.email.IEmailSender;
 import ca.uhn.fhir.jpa.subscription.email.JavaMailEmailSender;
 import ca.uhn.fhir.rest.server.interceptor.RequestValidatingInterceptor;
 import ca.uhn.fhir.validation.ResultSeverityEnum;
+import net.ttddyy.dsproxy.listener.logging.SLF4JLogLevel;
 import net.ttddyy.dsproxy.support.ProxyDataSourceBuilder;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -46,14 +47,14 @@ public class TestDstu3Config extends BaseJavaConfigDstu3 {
 
 
 			@Override
-			public Connection getConnection() throws SQLException {
+			public Connection getConnection() {
 				ConnectionWrapper retVal;
 				try {
 					retVal = new ConnectionWrapper(super.getConnection());
 				} catch (Exception e) {
 					ourLog.error("Exceeded maximum wait for connection", e);
 					logGetConnectionStackTrace();
-//					if ("true".equals(System.getProperty("ci"))) {
+//					if ("true".equals(System.getStringProperty("ci"))) {
 					fail("Exceeded maximum wait for connection: " + e.toString());
 //					}
 //					System.exit(1);
@@ -116,7 +117,7 @@ public class TestDstu3Config extends BaseJavaConfigDstu3 {
 
 		DataSource dataSource = ProxyDataSourceBuilder
 			.create(basicDataSource())
-//				.logQueryBySlf4j(SLF4JLogLevel.INFO, "SQL")
+//			.logQueryBySlf4j(SLF4JLogLevel.INFO, "SQL")
 			.logSlowQueryBySlf4j(1000, TimeUnit.MILLISECONDS)
 			.countQuery()
 			.build();

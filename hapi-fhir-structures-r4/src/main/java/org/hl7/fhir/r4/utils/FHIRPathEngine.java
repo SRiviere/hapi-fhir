@@ -1,56 +1,30 @@
 package org.hl7.fhir.r4.utils;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
-import org.hl7.fhir.r4.conformance.ProfileUtilities;
-import org.hl7.fhir.r4.context.IWorkerContext;
-import org.hl7.fhir.r4.elementmodel.Element;
-import org.hl7.fhir.r4.elementmodel.ObjectConverter;
-import org.hl7.fhir.r4.model.Base;
-import org.hl7.fhir.r4.model.BooleanType;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.DateTimeType;
-import org.hl7.fhir.r4.model.DateType;
-import org.hl7.fhir.r4.model.DecimalType;
-import org.hl7.fhir.r4.model.ElementDefinition;
-import org.hl7.fhir.r4.model.ElementDefinition.TypeRefComponent;
-import org.hl7.fhir.r4.model.ExpressionNode;
-import org.hl7.fhir.r4.model.ExpressionNode.CollectionStatus;
-import org.hl7.fhir.r4.model.ExpressionNode.Function;
-import org.hl7.fhir.r4.model.ExpressionNode.Kind;
-import org.hl7.fhir.r4.model.ExpressionNode.Operation;
-import org.hl7.fhir.r4.model.ExpressionNode.SourceLocation;
-import org.hl7.fhir.r4.model.IntegerType;
-import org.hl7.fhir.r4.model.Property;
-import org.hl7.fhir.r4.model.Resource;
-import org.hl7.fhir.r4.model.StringType;
-import org.hl7.fhir.r4.model.StructureDefinition;
-import org.hl7.fhir.r4.model.StructureDefinition.StructureDefinitionKind;
-import org.hl7.fhir.r4.model.StructureDefinition.TypeDerivationRule;
-import org.hl7.fhir.r4.model.TimeType;
-import org.hl7.fhir.r4.model.TypeDetails;
-import org.hl7.fhir.r4.model.ValueSet;
-import org.hl7.fhir.r4.model.TypeDetails.ProfiledType;
-import org.hl7.fhir.r4.utils.FHIRLexer.FHIRLexerException;
-import org.hl7.fhir.r4.utils.FHIRPathEngine.IEvaluationContext.FunctionDetails;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
+import ca.uhn.fhir.util.ElementUtil;
+import org.apache.http.protocol.ExecutionContext;
+import org.fhir.ucum.Decimal;
+import org.fhir.ucum.UcumException;
 import org.hl7.fhir.exceptions.DefinitionException;
 import org.hl7.fhir.exceptions.FHIRException;
 import org.hl7.fhir.exceptions.PathEngineException;
+import org.hl7.fhir.r4.conformance.ProfileUtilities;
+import org.hl7.fhir.r4.context.IWorkerContext;
+import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.ElementDefinition.TypeRefComponent;
+import org.hl7.fhir.r4.model.ExpressionNode.*;
+import org.hl7.fhir.r4.model.StructureDefinition.StructureDefinitionKind;
+import org.hl7.fhir.r4.model.StructureDefinition.TypeDerivationRule;
+import org.hl7.fhir.r4.model.TypeDetails.ProfiledType;
+import org.hl7.fhir.r4.utils.FHIRLexer.FHIRLexerException;
+import org.hl7.fhir.r4.utils.FHIRPathEngine.IEvaluationContext.FunctionDetails;
 import org.hl7.fhir.utilities.Utilities;
-import org.fhir.ucum.Decimal;
-import org.fhir.ucum.UcumException;
 
-import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
-import ca.uhn.fhir.util.ElementUtil;
+import java.math.BigDecimal;
+import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.length;
 
 /**
  * 
@@ -137,7 +111,6 @@ public class FHIRPathEngine {
     
     /**
      * Implementation of resolve() function. Passed a string, return matching resource, if one is known - else null
-     * @param appInfo
      * @param url
      * @return
      */
@@ -221,7 +194,6 @@ public class FHIRPathEngine {
   /**
    * Parse a path that is part of some other syntax
    *  
-   * @param path
    * @return
    * @throws PathEngineException 
    * @throws Exception
@@ -240,8 +212,7 @@ public class FHIRPathEngine {
    * returns a list of the possible types that might be returned by executing the ExpressionNode against a particular context
    * 
    * @param context - the logical type against which this path is applied
-   * @param path - the FHIR Path statement to check
-   * @throws DefinitionException 
+   * @throws DefinitionException
    * @throws PathEngineException 
    * @if the path is not valid
    */
@@ -311,6 +282,31 @@ public class FHIRPathEngine {
     return check(appContext, resourceType, context, parse(expr));
   }
 
+  private int compareDateTimeElements(Base theL, Base theR, boolean theEquivalenceTest) {
+    String dateLeftString = theL.primitiveValue();
+    DateTimeType dateLeft = new DateTimeType(dateLeftString);
+
+    String dateRightString = theR.primitiveValue();
+    DateTimeType dateRight = new DateTimeType(dateRightString);
+
+    if (theEquivalenceTest) {
+      TemporalPrecisionEnum lowestPrecision = dateLeft.getPrecision().ordinal() < dateRight.getPrecision().ordinal() ? dateLeft.getPrecision() : dateRight.getPrecision();
+      dateLeft.setPrecision(lowestPrecision);
+      dateRight.setPrecision(lowestPrecision);
+    }
+
+    if (dateLeft.getPrecision().ordinal() > TemporalPrecisionEnum.DAY.ordinal()) {
+      dateLeft.setTimeZoneZulu(true);
+    }
+    if (dateRight.getPrecision().ordinal() > TemporalPrecisionEnum.DAY.ordinal()) {
+      dateRight.setTimeZoneZulu(true);
+    }
+
+    dateLeftString = dateLeft.getValueAsString();
+    dateRightString = dateRight.getValueAsString();
+
+    return dateLeftString.compareTo(dateRightString);
+  }
 
   /**
    * evaluate a path and return the matching elements
@@ -416,7 +412,6 @@ public class FHIRPathEngine {
    * evaluate a path and return true or false (e.g. for an invariant)
    * 
    * @param base - the object against which the path is being evaluated
-   * @param path - the FHIR Path statement to use
    * @return
    * @throws FHIRException 
    * @
@@ -428,9 +423,8 @@ public class FHIRPathEngine {
   /**
    * evaluate a path and return true or false (e.g. for an invariant)
    * 
-   * @param appinfo - application context
+   * @param appInfo - application context
    * @param base - the object against which the path is being evaluated
-   * @param path - the FHIR Path statement to use
    * @return
    * @throws FHIRException 
    * @
@@ -443,7 +437,6 @@ public class FHIRPathEngine {
    * evaluate a path and return true or false (e.g. for an invariant)
    * 
    * @param base - the object against which the path is being evaluated
-   * @param path - the FHIR Path statement to use
    * @return
    * @throws FHIRException 
    * @
@@ -507,6 +500,8 @@ public class FHIRPathEngine {
       return false;
     else if (items.size() == 1 && items.get(0) instanceof BooleanType)
       return ((BooleanType) items.get(0)).getValue();
+    else if (items.size() == 1 && items.get(0).isBooleanPrimitive()) // element model
+      return Boolean.valueOf(items.get(0).primitiveValue());
     else 
       return items.size() > 0;
   }
@@ -845,6 +840,7 @@ public class FHIRPathEngine {
     case Repeat: return checkParamCount(lexer, location, exp, 1);
     case Item: return checkParamCount(lexer, location, exp, 1);
     case As: return checkParamCount(lexer, location, exp, 1);
+    case OfType: return checkParamCount(lexer, location, exp, 1);
     case Is: return checkParamCount(lexer, location, exp, 1);
     case Single: return checkParamCount(lexer, location, exp, 0);
     case First: return checkParamCount(lexer, location, exp, 0);
@@ -875,6 +871,7 @@ public class FHIRPathEngine {
     case HasValue: return checkParamCount(lexer, location, exp, 0);
     case Alias: return checkParamCount(lexer, location, exp, 1);
     case AliasAs: return checkParamCount(lexer, location, exp, 1);
+    case HtmlChecks: return checkParamCount(lexer, location, exp, 0);
     case Custom: return checkParamCount(lexer, location, exp, details.getMinParameters(), details.getMaxParameters());
     }
     return false;
@@ -1220,9 +1217,8 @@ public class FHIRPathEngine {
         result.addType("decimal");
       return result;
     case Concatenate:
-      result = new TypeDetails(CollectionStatus.SINGLETON, "");
-//		return result;
-		// fall through
+      result = new TypeDetails(CollectionStatus.SINGLETON, "string");
+      return result;
     case Plus:
       result = new TypeDetails(CollectionStatus.SINGLETON);
       if (left.hasType(worker, "integer") && right.hasType(worker, "integer"))
@@ -1299,7 +1295,7 @@ public class FHIRPathEngine {
     if (left.hasType("integer", "decimal", "unsignedInt", "positiveInt") && right.hasType("integer", "decimal", "unsignedInt", "positiveInt"))
       return Utilities.equivalentNumber(left.primitiveValue(), right.primitiveValue());
     if (left.hasType("date", "dateTime", "time", "instant") && right.hasType("date", "dateTime", "time", "instant"))
-      return Utilities.equivalentNumber(left.primitiveValue(), right.primitiveValue());
+      return compareDateTimeElements(left, right, true) == 0;
     if (left.hasType("string", "id", "code", "uri") && right.hasType("string", "id", "code", "uri"))
       return Utilities.equivalent(convertToString(left), convertToString(right));
 
@@ -1356,8 +1352,8 @@ public class FHIRPathEngine {
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) < 0);
       else if ((l.hasType("integer") || l.hasType("decimal")) && (r.hasType("integer") || r.hasType("decimal"))) 
         return makeBoolean(new Double(l.primitiveValue()) < new Double(r.primitiveValue()));
-      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant"))) 
-        return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) < 0);
+      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant")))
+        return makeBoolean(compareDateTimeElements(l, r, false) < 0);
       else if ((l.hasType("time")) && (r.hasType("time"))) 
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) < 0);
     } else if (left.size() == 1 && right.size() == 1 && left.get(0).fhirType().equals("Quantity") && right.get(0).fhirType().equals("Quantity") ) {
@@ -1380,8 +1376,8 @@ public class FHIRPathEngine {
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) > 0);
       else if ((l.hasType("integer", "decimal", "unsignedInt", "positiveInt")) && (r.hasType("integer", "decimal", "unsignedInt", "positiveInt"))) 
         return makeBoolean(new Double(l.primitiveValue()) > new Double(r.primitiveValue()));
-      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant"))) 
-        return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) > 0);
+      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant")))
+        return makeBoolean(compareDateTimeElements(l, r, false) > 0);
       else if ((l.hasType("time")) && (r.hasType("time"))) 
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) > 0);
     } else if (left.size() == 1 && right.size() == 1 && left.get(0).fhirType().equals("Quantity") && right.get(0).fhirType().equals("Quantity") ) {
@@ -1404,8 +1400,8 @@ public class FHIRPathEngine {
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) <= 0);
       else if ((l.hasType("integer", "decimal", "unsignedInt", "positiveInt")) && (r.hasType("integer", "decimal", "unsignedInt", "positiveInt"))) 
         return makeBoolean(new Double(l.primitiveValue()) <= new Double(r.primitiveValue()));
-      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant"))) 
-        return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) <= 0);
+      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant")))
+        return makeBoolean(compareDateTimeElements(l, r, false) <= 0);
       else if ((l.hasType("time")) && (r.hasType("time"))) 
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) <= 0);
     } else if (left.size() == 1 && right.size() == 1 && left.get(0).fhirType().equals("Quantity") && right.get(0).fhirType().equals("Quantity") ) {
@@ -1430,8 +1426,8 @@ public class FHIRPathEngine {
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) >= 0);
       else if ((l.hasType("integer", "decimal", "unsignedInt", "positiveInt")) && (r.hasType("integer", "decimal", "unsignedInt", "positiveInt"))) 
         return makeBoolean(new Double(l.primitiveValue()) >= new Double(r.primitiveValue()));
-      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant"))) 
-        return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) >= 0);
+      else if ((l.hasType("date", "dateTime", "instant")) && (r.hasType("date", "dateTime", "instant")))
+        return makeBoolean(compareDateTimeElements(l, r, false) >= 0);
       else if ((l.hasType("time")) && (r.hasType("time"))) 
         return makeBoolean(l.primitiveValue().compareTo(r.primitiveValue()) >= 0);
     } else if (left.size() == 1 && right.size() == 1 && left.get(0).fhirType().equals("Quantity") && right.get(0).fhirType().equals("Quantity") ) {
@@ -1888,6 +1884,10 @@ public class FHIRPathEngine {
       checkParamTypes(exp.getFunction().toCode(), paramTypes, new TypeDetails(CollectionStatus.SINGLETON, "string")); 
       return new TypeDetails(CollectionStatus.SINGLETON, exp.getParameters().get(0).getName());
     }
+    case OfType : { 
+      checkParamTypes(exp.getFunction().toCode(), paramTypes, new TypeDetails(CollectionStatus.SINGLETON, "string")); 
+      return new TypeDetails(CollectionStatus.SINGLETON, exp.getParameters().get(0).getName());
+    }
     case Is : {
       checkParamTypes(exp.getFunction().toCode(), paramTypes, new TypeDetails(CollectionStatus.SINGLETON, "string")); 
       return new TypeDetails(CollectionStatus.SINGLETON, "boolean"); 
@@ -2001,6 +2001,8 @@ public class FHIRPathEngine {
     }
     case HasValue : 
       return new TypeDetails(CollectionStatus.SINGLETON, "boolean");
+    case HtmlChecks : 
+      return new TypeDetails(CollectionStatus.SINGLETON, "boolean");
     case Alias : 
       checkParamTypes(exp.getFunction().toCode(), paramTypes, new TypeDetails(CollectionStatus.SINGLETON, "string")); 
       return anything(CollectionStatus.SINGLETON); 
@@ -2037,8 +2039,8 @@ public class FHIRPathEngine {
   }
 
   private void checkContextReference(TypeDetails focus, String name) throws PathEngineException {
-    if (!focus.hasType(worker, "string") && !focus.hasType(worker, "uri") && !focus.hasType(worker, "Reference"))
-      throw new PathEngineException("The function '"+name+"'() can only be used on string, uri, Reference"); 
+    if (!focus.hasType(worker, "string") && !focus.hasType(worker, "uri") && !focus.hasType(worker, "Reference") && !focus.hasType(worker, "canonical"))
+      throw new PathEngineException("The function '"+name+"'() can only be used on string, uri, canonical, Reference"); 
   }
 
 
@@ -2091,6 +2093,7 @@ public class FHIRPathEngine {
     case Repeat : return funcRepeat(context, focus, exp);
     case Item : return funcItem(context, focus, exp);
     case As : return funcAs(context, focus, exp);
+    case OfType : return funcAs(context, focus, exp);
     case Is : return funcIs(context, focus, exp);
     case Single : return funcSingle(context, focus, exp);
     case First : return funcFirst(context, focus, exp);
@@ -2121,6 +2124,7 @@ public class FHIRPathEngine {
     case HasValue : return funcHasValue(context, focus, exp);
     case AliasAs : return funcAliasAs(context, focus, exp);
     case Alias : return funcAlias(context, focus, exp);
+    case HtmlChecks : return funcHtmlChecks(context, focus, exp);
     case Custom: { 
       List<List<Base>> params = new ArrayList<List<Base>>();
       for (ExpressionNode p : exp.getParameters()) 
@@ -2146,9 +2150,14 @@ public class FHIRPathEngine {
     Base b = context.getAlias(name);
     if (b != null)
       res.add(b);
-    return res;
-    
+    return res;    
   }
+
+  private List<Base> funcHtmlChecks(ExecutionContext context, List<Base> focus, ExpressionNode exp) throws FHIRException {
+    // todo: actually check the HTML
+    return makeBoolean(true);    
+  }
+
 
   private List<Base> funcAll(ExecutionContext context, List<Base> focus, ExpressionNode exp) throws FHIRException {
     if (exp.getParameters().size() == 1) {
@@ -2241,8 +2250,34 @@ public class FHIRPathEngine {
   }
 
 
-  private List<Base> funcReplace(ExecutionContext context, List<Base> focus, ExpressionNode exp) {
-    throw new Error("not Implemented yet");
+  private List<Base> funcReplace(ExecutionContext context, List<Base> focus, ExpressionNode exp) throws FHIRException, PathEngineException {
+    List<Base> result = new ArrayList<Base>();
+
+    if (focus.size() == 1) {
+      String f = convertToString(focus.get(0));
+
+      if (!Utilities.noString(f)) {
+
+        if (exp.getParameters().size() != 2) {
+
+          String t = convertToString(execute(context, focus, exp.getParameters().get(0), true));
+          String r = convertToString(execute(context, focus, exp.getParameters().get(1), true));
+
+          String n = f.replace(t, r);
+          result.add(new StringType(n));
+        }
+        else {
+          throw new PathEngineException(String.format("funcReplace() : checking for 2 arguments (pattern, substitution) but found %d items", exp.getParameters().size()));
+        }
+      }
+      else {
+        throw new PathEngineException(String.format("funcReplace() : checking for 1 string item but found empty item"));
+      }
+    }
+    else {
+      throw new PathEngineException(String.format("funcReplace() : checking for 1 string item but found %d items", focus.size()));
+    }
+    return result;
   }
 
 
@@ -2444,6 +2479,9 @@ public class FHIRPathEngine {
             s = convertToString(p.getValues().get(0));
           else
             s = null; // a reference without any valid actual reference (just identifier or display, but we can't resolve it)
+        }
+        if (item.fhirType().equals("canonical")) {
+          s = item.primitiveValue();
         }
         if (s != null) {
           Base res = null;
@@ -2801,7 +2839,7 @@ public class FHIRPathEngine {
                 pt = new ProfiledType(t.getCode());
               if (pt != null) {
                 if (t.hasProfile())
-                  pt.addProfile(t.getProfile());
+                  pt.addProfiles(t.getProfile());
                 if (ed.getDefinition().hasBinding())
                   pt.addBinding(ed.getDefinition().getBinding());
                 result.addType(pt);
@@ -2921,9 +2959,11 @@ public class FHIRPathEngine {
           throw new DefinitionException("illegal use of resolve() in discriminator - no type on element "+element.getId());
         if (element.getType().size() > 1)
           throw new DefinitionException("illegal use of resolve() in discriminator - Multiple possible types on "+element.getId());
-        if (!"Reference".equals(element.getType().get(0).getCode()))
+        if (element.getType().get(0).getTargetProfile().size() > 1)
+          throw new DefinitionException("illegal use of resolve() in discriminator - Multiple possible target type profiles on "+element.getId());
+        if (!element.getType().get(0).hasTarget())
           throw new DefinitionException("illegal use of resolve() in discriminator - type on "+element.getId()+" is not Reference ("+element.getType().get(0).getCode()+")");
-        sd = worker.fetchResource(StructureDefinition.class, element.getType().get(0).getTargetProfile());
+        sd = worker.fetchResource(StructureDefinition.class, element.getType().get(0).getTargetProfile().get(0).getValue());
         if (sd == null)
           throw new DefinitionException("Problem with use of resolve() - profile '"+element.getType().get(0).getTargetProfile()+"' on "+element.getId()+" could not be resolved");
         focus = sd.getSnapshot().getElementFirstRep();
@@ -2933,7 +2973,7 @@ public class FHIRPathEngine {
         List<ElementDefinition> childDefinitions = ProfileUtilities.getChildMap(sd, element);
         for (ElementDefinition t : childDefinitions) {
           if (t.getPath().endsWith(".extension") && t.hasSliceName()) {
-           sd = worker.fetchResource(StructureDefinition.class, t.getType().get(0).getProfile());
+           sd = worker.fetchResource(StructureDefinition.class, t.getType().get(0).getProfile().get(0).getValue());
            while (sd!=null && !sd.getBaseDefinition().equals("http://hl7.org/fhir/StructureDefinition/Extension"))
              sd = worker.fetchResource(StructureDefinition.class, sd.getBaseDefinition());
            if (sd.getUrl().equals(targetUrl)) {
@@ -2963,10 +3003,12 @@ public class FHIRPathEngine {
       throw new DefinitionException("Error in discriminator at "+ed.getId()+": no children, no type");
     if (ed.getType().size() > 1)
       throw new DefinitionException("Error in discriminator at "+ed.getId()+": no children, multiple types");
+    if (ed.getType().get(0).getProfile().size() > 1)
+      throw new DefinitionException("Error in discriminator at "+ed.getId()+": no children, multiple type profiles");
     if (ed.hasSlicing()) 
       throw new DefinitionException("Error in discriminator at "+ed.getId()+": slicing found");
     if (ed.getType().get(0).hasProfile()) 
-      return worker.fetchResource(StructureDefinition.class, ed.getType().get(0).getProfile());
+      return worker.fetchResource(StructureDefinition.class, ed.getType().get(0).getProfile().get(0).getValue());
     else
       return worker.fetchResource(StructureDefinition.class, "http://hl7.org/fhir/StructureDefinition/" + ed.getType().get(0).getCode());
   }

@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -236,176 +236,20 @@ public class Observation extends DomainResource {
       }
     }
 
-    public enum ObservationRelationshipType {
-        /**
-         * This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.
-         */
-        HASMEMBER, 
-        /**
-         * The target resource (Observation or QuestionnaireResponse) is part of the information from which this observation value is derived. (e.g. calculated anion gap, Apgar score)  NOTE:  "derived-from" is the only logical choice when referencing QuestionnaireResponse.
-         */
-        DERIVEDFROM, 
-        /**
-         * This observation follows the target observation (e.g. timed tests such as Glucose Tolerance Test).
-         */
-        SEQUELTO, 
-        /**
-         * This observation replaces a previous observation (i.e. a revised value). The target observation is now obsolete.
-         */
-        REPLACES, 
-        /**
-         * The value of the target observation qualifies (refines) the semantics of the source observation (e.g. a lipemia measure target from a plasma measure).
-         */
-        QUALIFIEDBY, 
-        /**
-         * The value of the target observation interferes (degrades quality, or prevents valid observation) with the semantics of the source observation (e.g. a hemolysis measure target from a plasma potassium measure, which has no value).
-         */
-        INTERFEREDBY, 
-        /**
-         * added to help the parsers with the generic types
-         */
-        NULL;
-        public static ObservationRelationshipType fromCode(String codeString) throws FHIRException {
-            if (codeString == null || "".equals(codeString))
-                return null;
-        if ("has-member".equals(codeString))
-          return HASMEMBER;
-        if ("derived-from".equals(codeString))
-          return DERIVEDFROM;
-        if ("sequel-to".equals(codeString))
-          return SEQUELTO;
-        if ("replaces".equals(codeString))
-          return REPLACES;
-        if ("qualified-by".equals(codeString))
-          return QUALIFIEDBY;
-        if ("interfered-by".equals(codeString))
-          return INTERFEREDBY;
-        if (Configuration.isAcceptInvalidEnums())
-          return null;
-        else
-          throw new FHIRException("Unknown ObservationRelationshipType code '"+codeString+"'");
-        }
-        public String toCode() {
-          switch (this) {
-            case HASMEMBER: return "has-member";
-            case DERIVEDFROM: return "derived-from";
-            case SEQUELTO: return "sequel-to";
-            case REPLACES: return "replaces";
-            case QUALIFIEDBY: return "qualified-by";
-            case INTERFEREDBY: return "interfered-by";
-            default: return "?";
-          }
-        }
-        public String getSystem() {
-          switch (this) {
-            case HASMEMBER: return "http://hl7.org/fhir/observation-relationshiptypes";
-            case DERIVEDFROM: return "http://hl7.org/fhir/observation-relationshiptypes";
-            case SEQUELTO: return "http://hl7.org/fhir/observation-relationshiptypes";
-            case REPLACES: return "http://hl7.org/fhir/observation-relationshiptypes";
-            case QUALIFIEDBY: return "http://hl7.org/fhir/observation-relationshiptypes";
-            case INTERFEREDBY: return "http://hl7.org/fhir/observation-relationshiptypes";
-            default: return "?";
-          }
-        }
-        public String getDefinition() {
-          switch (this) {
-            case HASMEMBER: return "This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.";
-            case DERIVEDFROM: return "The target resource (Observation or QuestionnaireResponse) is part of the information from which this observation value is derived. (e.g. calculated anion gap, Apgar score)  NOTE:  \"derived-from\" is the only logical choice when referencing QuestionnaireResponse.";
-            case SEQUELTO: return "This observation follows the target observation (e.g. timed tests such as Glucose Tolerance Test).";
-            case REPLACES: return "This observation replaces a previous observation (i.e. a revised value). The target observation is now obsolete.";
-            case QUALIFIEDBY: return "The value of the target observation qualifies (refines) the semantics of the source observation (e.g. a lipemia measure target from a plasma measure).";
-            case INTERFEREDBY: return "The value of the target observation interferes (degrades quality, or prevents valid observation) with the semantics of the source observation (e.g. a hemolysis measure target from a plasma potassium measure, which has no value).";
-            default: return "?";
-          }
-        }
-        public String getDisplay() {
-          switch (this) {
-            case HASMEMBER: return "Has Member";
-            case DERIVEDFROM: return "Derived From";
-            case SEQUELTO: return "Sequel To";
-            case REPLACES: return "Replaces";
-            case QUALIFIEDBY: return "Qualified By";
-            case INTERFEREDBY: return "Interfered By";
-            default: return "?";
-          }
-        }
-    }
-
-  public static class ObservationRelationshipTypeEnumFactory implements EnumFactory<ObservationRelationshipType> {
-    public ObservationRelationshipType fromCode(String codeString) throws IllegalArgumentException {
-      if (codeString == null || "".equals(codeString))
-            if (codeString == null || "".equals(codeString))
-                return null;
-        if ("has-member".equals(codeString))
-          return ObservationRelationshipType.HASMEMBER;
-        if ("derived-from".equals(codeString))
-          return ObservationRelationshipType.DERIVEDFROM;
-        if ("sequel-to".equals(codeString))
-          return ObservationRelationshipType.SEQUELTO;
-        if ("replaces".equals(codeString))
-          return ObservationRelationshipType.REPLACES;
-        if ("qualified-by".equals(codeString))
-          return ObservationRelationshipType.QUALIFIEDBY;
-        if ("interfered-by".equals(codeString))
-          return ObservationRelationshipType.INTERFEREDBY;
-        throw new IllegalArgumentException("Unknown ObservationRelationshipType code '"+codeString+"'");
-        }
-        public Enumeration<ObservationRelationshipType> fromType(Base code) throws FHIRException {
-          if (code == null)
-            return null;
-          if (code.isEmpty())
-            return new Enumeration<ObservationRelationshipType>(this);
-          String codeString = ((PrimitiveType) code).asStringValue();
-          if (codeString == null || "".equals(codeString))
-            return null;
-        if ("has-member".equals(codeString))
-          return new Enumeration<ObservationRelationshipType>(this, ObservationRelationshipType.HASMEMBER);
-        if ("derived-from".equals(codeString))
-          return new Enumeration<ObservationRelationshipType>(this, ObservationRelationshipType.DERIVEDFROM);
-        if ("sequel-to".equals(codeString))
-          return new Enumeration<ObservationRelationshipType>(this, ObservationRelationshipType.SEQUELTO);
-        if ("replaces".equals(codeString))
-          return new Enumeration<ObservationRelationshipType>(this, ObservationRelationshipType.REPLACES);
-        if ("qualified-by".equals(codeString))
-          return new Enumeration<ObservationRelationshipType>(this, ObservationRelationshipType.QUALIFIEDBY);
-        if ("interfered-by".equals(codeString))
-          return new Enumeration<ObservationRelationshipType>(this, ObservationRelationshipType.INTERFEREDBY);
-        throw new FHIRException("Unknown ObservationRelationshipType code '"+codeString+"'");
-        }
-    public String toCode(ObservationRelationshipType code) {
-      if (code == ObservationRelationshipType.HASMEMBER)
-        return "has-member";
-      if (code == ObservationRelationshipType.DERIVEDFROM)
-        return "derived-from";
-      if (code == ObservationRelationshipType.SEQUELTO)
-        return "sequel-to";
-      if (code == ObservationRelationshipType.REPLACES)
-        return "replaces";
-      if (code == ObservationRelationshipType.QUALIFIEDBY)
-        return "qualified-by";
-      if (code == ObservationRelationshipType.INTERFEREDBY)
-        return "interfered-by";
-      return "?";
-      }
-    public String toSystem(ObservationRelationshipType code) {
-      return code.getSystem();
-      }
-    }
-
     @Block()
     public static class ObservationReferenceRangeComponent extends BackboneElement implements IBaseBackboneElement {
         /**
-         * The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).
+         * The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).
          */
         @Child(name = "low", type = {SimpleQuantity.class}, order=1, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Low Range, if relevant", formalDefinition="The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3)." )
+        @Description(shortDefinition="Low Range, if relevant", formalDefinition="The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3)." )
         protected SimpleQuantity low;
 
         /**
-         * The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).
+         * The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).
          */
         @Child(name = "high", type = {SimpleQuantity.class}, order=2, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="High Range, if relevant", formalDefinition="The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3)." )
+        @Description(shortDefinition="High Range, if relevant", formalDefinition="The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3)." )
         protected SimpleQuantity high;
 
         /**
@@ -448,7 +292,7 @@ public class Observation extends DomainResource {
       }
 
         /**
-         * @return {@link #low} (The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).)
+         * @return {@link #low} (The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).)
          */
         public SimpleQuantity getLow() { 
           if (this.low == null)
@@ -464,7 +308,7 @@ public class Observation extends DomainResource {
         }
 
         /**
-         * @param value {@link #low} (The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).)
+         * @param value {@link #low} (The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).)
          */
         public ObservationReferenceRangeComponent setLow(SimpleQuantity value) { 
           this.low = value;
@@ -472,7 +316,7 @@ public class Observation extends DomainResource {
         }
 
         /**
-         * @return {@link #high} (The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).)
+         * @return {@link #high} (The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).)
          */
         public SimpleQuantity getHigh() { 
           if (this.high == null)
@@ -488,7 +332,7 @@ public class Observation extends DomainResource {
         }
 
         /**
-         * @param value {@link #high} (The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).)
+         * @param value {@link #high} (The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).)
          */
         public ObservationReferenceRangeComponent setHigh(SimpleQuantity value) { 
           this.high = value;
@@ -647,8 +491,8 @@ public class Observation extends DomainResource {
 
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
-          children.add(new Property("low", "SimpleQuantity", "The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).", 0, 1, low));
-          children.add(new Property("high", "SimpleQuantity", "The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).", 0, 1, high));
+          children.add(new Property("low", "SimpleQuantity", "The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).", 0, 1, low));
+          children.add(new Property("high", "SimpleQuantity", "The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).", 0, 1, high));
           children.add(new Property("type", "CodeableConcept", "Codes to indicate the what part of the targeted reference population it applies to. For example, the normal or therapeutic range.", 0, 1, type));
           children.add(new Property("appliesTo", "CodeableConcept", "Codes to indicate the target population this reference range applies to.  For example, a reference range may be based on the normal population or a particular sex or race.", 0, java.lang.Integer.MAX_VALUE, appliesTo));
           children.add(new Property("age", "Range", "The age at which this reference range is applicable. This is a neonatal age (e.g. number of weeks at term) if the meaning says so.", 0, 1, age));
@@ -658,8 +502,8 @@ public class Observation extends DomainResource {
         @Override
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
-          case 107348: /*low*/  return new Property("low", "SimpleQuantity", "The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).", 0, 1, low);
-          case 3202466: /*high*/  return new Property("high", "SimpleQuantity", "The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9).   If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).", 0, 1, high);
+          case 107348: /*low*/  return new Property("low", "SimpleQuantity", "The value of the low bound of the reference range.  The low bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the low bound is omitted,  it is assumed to be meaningless (e.g. reference range is <=2.3).", 0, 1, low);
+          case 3202466: /*high*/  return new Property("high", "SimpleQuantity", "The value of the high bound of the reference range.  The high bound of the reference range endpoint is inclusive of the value (e.g.  reference range is >=5 - <=9). If the high bound is omitted,  it is assumed to be meaningless (e.g. reference range is >= 2.3).", 0, 1, high);
           case 3575610: /*type*/  return new Property("type", "CodeableConcept", "Codes to indicate the what part of the targeted reference population it applies to. For example, the normal or therapeutic range.", 0, 1, type);
           case -2089924569: /*appliesTo*/  return new Property("appliesTo", "CodeableConcept", "Codes to indicate the target population this reference range applies to.  For example, a reference range may be based on the normal population or a particular sex or race.", 0, java.lang.Integer.MAX_VALUE, appliesTo);
           case 96511: /*age*/  return new Property("age", "Range", "The age at which this reference range is applicable. This is a neonatal age (e.g. number of weeks at term) if the meaning says so.", 0, 1, age);
@@ -801,24 +645,24 @@ public class Observation extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof ObservationReferenceRangeComponent))
+        if (!(other_ instanceof ObservationReferenceRangeComponent))
           return false;
-        ObservationReferenceRangeComponent o = (ObservationReferenceRangeComponent) other;
+        ObservationReferenceRangeComponent o = (ObservationReferenceRangeComponent) other_;
         return compareDeep(low, o.low, true) && compareDeep(high, o.high, true) && compareDeep(type, o.type, true)
            && compareDeep(appliesTo, o.appliesTo, true) && compareDeep(age, o.age, true) && compareDeep(text, o.text, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof ObservationReferenceRangeComponent))
+        if (!(other_ instanceof ObservationReferenceRangeComponent))
           return false;
-        ObservationReferenceRangeComponent o = (ObservationReferenceRangeComponent) other;
+        ObservationReferenceRangeComponent o = (ObservationReferenceRangeComponent) other_;
         return compareValues(text, o.text, true);
       }
 
@@ -829,258 +673,6 @@ public class Observation extends DomainResource {
 
   public String fhirType() {
     return "Observation.referenceRange";
-
-  }
-
-  }
-
-    @Block()
-    public static class ObservationRelatedComponent extends BackboneElement implements IBaseBackboneElement {
-        /**
-         * A code specifying the kind of relationship that exists with the target resource.
-         */
-        @Child(name = "type", type = {CodeType.class}, order=1, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="has-member | derived-from | sequel-to | replaces | qualified-by | interfered-by", formalDefinition="A code specifying the kind of relationship that exists with the target resource." )
-        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-relationshiptypes")
-        protected Enumeration<ObservationRelationshipType> type;
-
-        /**
-         * A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.
-         */
-        @Child(name = "target", type = {Observation.class, QuestionnaireResponse.class, Sequence.class}, order=2, min=1, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Resource that is related to this one", formalDefinition="A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation." )
-        protected Reference target;
-
-        /**
-         * The actual object that is the target of the reference (A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.)
-         */
-        protected Resource targetTarget;
-
-        private static final long serialVersionUID = 1541802577L;
-
-    /**
-     * Constructor
-     */
-      public ObservationRelatedComponent() {
-        super();
-      }
-
-    /**
-     * Constructor
-     */
-      public ObservationRelatedComponent(Reference target) {
-        super();
-        this.target = target;
-      }
-
-        /**
-         * @return {@link #type} (A code specifying the kind of relationship that exists with the target resource.). This is the underlying object with id, value and extensions. The accessor "getType" gives direct access to the value
-         */
-        public Enumeration<ObservationRelationshipType> getTypeElement() { 
-          if (this.type == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create ObservationRelatedComponent.type");
-            else if (Configuration.doAutoCreate())
-              this.type = new Enumeration<ObservationRelationshipType>(new ObservationRelationshipTypeEnumFactory()); // bb
-          return this.type;
-        }
-
-        public boolean hasTypeElement() { 
-          return this.type != null && !this.type.isEmpty();
-        }
-
-        public boolean hasType() { 
-          return this.type != null && !this.type.isEmpty();
-        }
-
-        /**
-         * @param value {@link #type} (A code specifying the kind of relationship that exists with the target resource.). This is the underlying object with id, value and extensions. The accessor "getType" gives direct access to the value
-         */
-        public ObservationRelatedComponent setTypeElement(Enumeration<ObservationRelationshipType> value) { 
-          this.type = value;
-          return this;
-        }
-
-        /**
-         * @return A code specifying the kind of relationship that exists with the target resource.
-         */
-        public ObservationRelationshipType getType() { 
-          return this.type == null ? null : this.type.getValue();
-        }
-
-        /**
-         * @param value A code specifying the kind of relationship that exists with the target resource.
-         */
-        public ObservationRelatedComponent setType(ObservationRelationshipType value) { 
-          if (value == null)
-            this.type = null;
-          else {
-            if (this.type == null)
-              this.type = new Enumeration<ObservationRelationshipType>(new ObservationRelationshipTypeEnumFactory());
-            this.type.setValue(value);
-          }
-          return this;
-        }
-
-        /**
-         * @return {@link #target} (A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.)
-         */
-        public Reference getTarget() { 
-          if (this.target == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create ObservationRelatedComponent.target");
-            else if (Configuration.doAutoCreate())
-              this.target = new Reference(); // cc
-          return this.target;
-        }
-
-        public boolean hasTarget() { 
-          return this.target != null && !this.target.isEmpty();
-        }
-
-        /**
-         * @param value {@link #target} (A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.)
-         */
-        public ObservationRelatedComponent setTarget(Reference value) { 
-          this.target = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #target} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.)
-         */
-        public Resource getTargetTarget() { 
-          return this.targetTarget;
-        }
-
-        /**
-         * @param value {@link #target} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.)
-         */
-        public ObservationRelatedComponent setTargetTarget(Resource value) { 
-          this.targetTarget = value;
-          return this;
-        }
-
-        protected void listChildren(List<Property> children) {
-          super.listChildren(children);
-          children.add(new Property("type", "code", "A code specifying the kind of relationship that exists with the target resource.", 0, 1, type));
-          children.add(new Property("target", "Reference(Observation|QuestionnaireResponse|Sequence)", "A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.", 0, 1, target));
-        }
-
-        @Override
-        public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
-          switch (_hash) {
-          case 3575610: /*type*/  return new Property("type", "code", "A code specifying the kind of relationship that exists with the target resource.", 0, 1, type);
-          case -880905839: /*target*/  return new Property("target", "Reference(Observation|QuestionnaireResponse|Sequence)", "A reference to the observation or [[[QuestionnaireResponse]]] resource that is related to this observation.", 0, 1, target);
-          default: return super.getNamedProperty(_hash, _name, _checkValid);
-          }
-
-        }
-
-      @Override
-      public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
-        switch (hash) {
-        case 3575610: /*type*/ return this.type == null ? new Base[0] : new Base[] {this.type}; // Enumeration<ObservationRelationshipType>
-        case -880905839: /*target*/ return this.target == null ? new Base[0] : new Base[] {this.target}; // Reference
-        default: return super.getProperty(hash, name, checkValid);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(int hash, String name, Base value) throws FHIRException {
-        switch (hash) {
-        case 3575610: // type
-          value = new ObservationRelationshipTypeEnumFactory().fromType(castToCode(value));
-          this.type = (Enumeration) value; // Enumeration<ObservationRelationshipType>
-          return value;
-        case -880905839: // target
-          this.target = castToReference(value); // Reference
-          return value;
-        default: return super.setProperty(hash, name, value);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(String name, Base value) throws FHIRException {
-        if (name.equals("type")) {
-          value = new ObservationRelationshipTypeEnumFactory().fromType(castToCode(value));
-          this.type = (Enumeration) value; // Enumeration<ObservationRelationshipType>
-        } else if (name.equals("target")) {
-          this.target = castToReference(value); // Reference
-        } else
-          return super.setProperty(name, value);
-        return value;
-      }
-
-      @Override
-      public Base makeProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3575610:  return getTypeElement();
-        case -880905839:  return getTarget(); 
-        default: return super.makeProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public String[] getTypesForProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3575610: /*type*/ return new String[] {"code"};
-        case -880905839: /*target*/ return new String[] {"Reference"};
-        default: return super.getTypesForProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public Base addChild(String name) throws FHIRException {
-        if (name.equals("type")) {
-          throw new FHIRException("Cannot call addChild on a primitive type Observation.type");
-        }
-        else if (name.equals("target")) {
-          this.target = new Reference();
-          return this.target;
-        }
-        else
-          return super.addChild(name);
-      }
-
-      public ObservationRelatedComponent copy() {
-        ObservationRelatedComponent dst = new ObservationRelatedComponent();
-        copyValues(dst);
-        dst.type = type == null ? null : type.copy();
-        dst.target = target == null ? null : target.copy();
-        return dst;
-      }
-
-      @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
-          return false;
-        if (!(other instanceof ObservationRelatedComponent))
-          return false;
-        ObservationRelatedComponent o = (ObservationRelatedComponent) other;
-        return compareDeep(type, o.type, true) && compareDeep(target, o.target, true);
-      }
-
-      @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
-          return false;
-        if (!(other instanceof ObservationRelatedComponent))
-          return false;
-        ObservationRelatedComponent o = (ObservationRelatedComponent) other;
-        return compareValues(type, o.type, true);
-      }
-
-      public boolean isEmpty() {
-        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(type, target);
-      }
-
-  public String fhirType() {
-    return "Observation.related";
 
   }
 
@@ -1099,7 +691,7 @@ public class Observation extends DomainResource {
         /**
          * The information determined as a result of making the observation, if the information has a simple value.
          */
-        @Child(name = "value", type = {Quantity.class, CodeableConcept.class, StringType.class, BooleanType.class, IntegerType.class, Range.class, Ratio.class, SampledData.class, Attachment.class, TimeType.class, DateTimeType.class, Period.class}, order=2, min=0, max=1, modifier=false, summary=true)
+        @Child(name = "value", type = {Quantity.class, CodeableConcept.class, StringType.class, BooleanType.class, IntegerType.class, Range.class, Ratio.class, SampledData.class, TimeType.class, DateTimeType.class, Period.class}, order=2, min=0, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Actual component result", formalDefinition="The information determined as a result of making the observation, if the information has a simple value." )
         protected Type value;
 
@@ -1108,7 +700,7 @@ public class Observation extends DomainResource {
          */
         @Child(name = "dataAbsentReason", type = {CodeableConcept.class}, order=3, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="Why the component result is missing", formalDefinition="Provides a reason why the expected value in the element Observation.component.value[x] is missing." )
-        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-valueabsentreason")
+        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/data-absent-reason")
         protected CodeableConcept dataAbsentReason;
 
         /**
@@ -1281,19 +873,6 @@ public class Observation extends DomainResource {
         /**
          * @return {@link #value} (The information determined as a result of making the observation, if the information has a simple value.)
          */
-        public Attachment getValueAttachment() throws FHIRException { 
-          if (!(this.value instanceof Attachment))
-            throw new FHIRException("Type mismatch: the type Attachment was expected, but "+this.value.getClass().getName()+" was encountered");
-          return (Attachment) this.value;
-        }
-
-        public boolean hasValueAttachment() { 
-          return this.value instanceof Attachment;
-        }
-
-        /**
-         * @return {@link #value} (The information determined as a result of making the observation, if the information has a simple value.)
-         */
         public TimeType getValueTimeType() throws FHIRException { 
           if (!(this.value instanceof TimeType))
             throw new FHIRException("Type mismatch: the type TimeType was expected, but "+this.value.getClass().getName()+" was encountered");
@@ -1446,7 +1025,7 @@ public class Observation extends DomainResource {
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("code", "CodeableConcept", "Describes what was observed. Sometimes this is called the observation \"code\".", 0, 1, code));
-          children.add(new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value));
+          children.add(new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value));
           children.add(new Property("dataAbsentReason", "CodeableConcept", "Provides a reason why the expected value in the element Observation.component.value[x] is missing.", 0, 1, dataAbsentReason));
           children.add(new Property("interpretation", "CodeableConcept", "The assessment made based on the result of the observation.  Intended as a simple compact code often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result. Otherwise known as abnormal flag.", 0, 1, interpretation));
           children.add(new Property("referenceRange", "@Observation.referenceRange", "Guidance on how to interpret the value by comparison to a normal or recommended range.", 0, java.lang.Integer.MAX_VALUE, referenceRange));
@@ -1456,20 +1035,19 @@ public class Observation extends DomainResource {
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
           case 3059181: /*code*/  return new Property("code", "CodeableConcept", "Describes what was observed. Sometimes this is called the observation \"code\".", 0, 1, code);
-          case -1410166417: /*value[x]*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case 111972721: /*value*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -2029823716: /*valueQuantity*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case 924902896: /*valueCodeableConcept*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -1424603934: /*valueString*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case 733421943: /*valueBoolean*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -1668204915: /*valueInteger*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case 2030761548: /*valueRange*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case 2030767386: /*valueRatio*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -962229101: /*valueSampledData*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -475566732: /*valueAttachment*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -765708322: /*valueTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case 1047929900: /*valueDateTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-          case -1524344174: /*valuePeriod*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -1410166417: /*value[x]*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case 111972721: /*value*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -2029823716: /*valueQuantity*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case 924902896: /*valueCodeableConcept*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -1424603934: /*valueString*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case 733421943: /*valueBoolean*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -1668204915: /*valueInteger*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case 2030761548: /*valueRange*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case 2030767386: /*valueRatio*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -962229101: /*valueSampledData*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -765708322: /*valueTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case 1047929900: /*valueDateTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+          case -1524344174: /*valuePeriod*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
           case 1034315687: /*dataAbsentReason*/  return new Property("dataAbsentReason", "CodeableConcept", "Provides a reason why the expected value in the element Observation.component.value[x] is missing.", 0, 1, dataAbsentReason);
           case -297950712: /*interpretation*/  return new Property("interpretation", "CodeableConcept", "The assessment made based on the result of the observation.  Intended as a simple compact code often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result. Otherwise known as abnormal flag.", 0, 1, interpretation);
           case -1912545102: /*referenceRange*/  return new Property("referenceRange", "@Observation.referenceRange", "Guidance on how to interpret the value by comparison to a normal or recommended range.", 0, java.lang.Integer.MAX_VALUE, referenceRange);
@@ -1549,7 +1127,7 @@ public class Observation extends DomainResource {
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case 3059181: /*code*/ return new String[] {"CodeableConcept"};
-        case 111972721: /*value*/ return new String[] {"Quantity", "CodeableConcept", "string", "boolean", "integer", "Range", "Ratio", "SampledData", "Attachment", "time", "dateTime", "Period"};
+        case 111972721: /*value*/ return new String[] {"Quantity", "CodeableConcept", "string", "boolean", "integer", "Range", "Ratio", "SampledData", "time", "dateTime", "Period"};
         case 1034315687: /*dataAbsentReason*/ return new String[] {"CodeableConcept"};
         case -297950712: /*interpretation*/ return new String[] {"CodeableConcept"};
         case -1912545102: /*referenceRange*/ return new String[] {"@Observation.referenceRange"};
@@ -1596,10 +1174,6 @@ public class Observation extends DomainResource {
           this.value = new SampledData();
           return this.value;
         }
-        else if (name.equals("valueAttachment")) {
-          this.value = new Attachment();
-          return this.value;
-        }
         else if (name.equals("valueTime")) {
           this.value = new TimeType();
           return this.value;
@@ -1643,24 +1217,24 @@ public class Observation extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof ObservationComponentComponent))
+        if (!(other_ instanceof ObservationComponentComponent))
           return false;
-        ObservationComponentComponent o = (ObservationComponentComponent) other;
+        ObservationComponentComponent o = (ObservationComponentComponent) other_;
         return compareDeep(code, o.code, true) && compareDeep(value, o.value, true) && compareDeep(dataAbsentReason, o.dataAbsentReason, true)
            && compareDeep(interpretation, o.interpretation, true) && compareDeep(referenceRange, o.referenceRange, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof ObservationComponentComponent))
+        if (!(other_ instanceof ObservationComponentComponent))
           return false;
-        ObservationComponentComponent o = (ObservationComponentComponent) other;
+        ObservationComponentComponent o = (ObservationComponentComponent) other_;
         return true;
       }
 
@@ -1686,7 +1260,7 @@ public class Observation extends DomainResource {
     /**
      * A plan, proposal or order that is fulfilled in whole or in part by this event.
      */
-    @Child(name = "basedOn", type = {CarePlan.class, DeviceRequest.class, ImmunizationRecommendation.class, MedicationRequest.class, NutritionOrder.class, ProcedureRequest.class}, order=1, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "basedOn", type = {CarePlan.class, DeviceRequest.class, ImmunizationRecommendation.class, MedicationRequest.class, NutritionOrder.class, ServiceRequest.class}, order=1, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Fulfills plan, proposal or order", formalDefinition="A plan, proposal or order that is fulfilled in whole or in part by this event." )
     protected List<Reference> basedOn;
     /**
@@ -1696,9 +1270,21 @@ public class Observation extends DomainResource {
 
 
     /**
+     * A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.
+     */
+    @Child(name = "partOf", type = {MedicationAdministration.class, MedicationDispense.class, MedicationStatement.class, Procedure.class, Immunization.class, ImagingStudy.class}, order=2, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Description(shortDefinition="Part of referenced event", formalDefinition="A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure." )
+    protected List<Reference> partOf;
+    /**
+     * The actual objects that are the target of the reference (A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.)
+     */
+    protected List<Resource> partOfTarget;
+
+
+    /**
      * The status of the result value.
      */
-    @Child(name = "status", type = {CodeType.class}, order=2, min=1, max=1, modifier=true, summary=true)
+    @Child(name = "status", type = {CodeType.class}, order=3, min=1, max=1, modifier=true, summary=true)
     @Description(shortDefinition="registered | preliminary | final | amended +", formalDefinition="The status of the result value." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-status")
     protected Enumeration<ObservationStatus> status;
@@ -1706,7 +1292,7 @@ public class Observation extends DomainResource {
     /**
      * A code that classifies the general type of observation being made.
      */
-    @Child(name = "category", type = {CodeableConcept.class}, order=3, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+    @Child(name = "category", type = {CodeableConcept.class}, order=4, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
     @Description(shortDefinition="Classification of  type of observation", formalDefinition="A code that classifies the general type of observation being made." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-category")
     protected List<CodeableConcept> category;
@@ -1714,7 +1300,7 @@ public class Observation extends DomainResource {
     /**
      * Describes what was observed. Sometimes this is called the observation "name".
      */
-    @Child(name = "code", type = {CodeableConcept.class}, order=4, min=1, max=1, modifier=false, summary=true)
+    @Child(name = "code", type = {CodeableConcept.class}, order=5, min=1, max=1, modifier=false, summary=true)
     @Description(shortDefinition="Type of observation (code / type)", formalDefinition="Describes what was observed. Sometimes this is called the observation \"name\"." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-codes")
     protected CodeableConcept code;
@@ -1722,7 +1308,7 @@ public class Observation extends DomainResource {
     /**
      * The patient, or group of patients, location, or device whose characteristics (direct or indirect) are described by the observation and into whose record the observation is placed.  Comments: Indirect characteristics may be those of a specimen, fetus, donor,  other observer (for example a relative or EMT), or any observation made about the subject.
      */
-    @Child(name = "subject", type = {Patient.class, Group.class, Device.class, Location.class}, order=5, min=0, max=1, modifier=false, summary=true)
+    @Child(name = "subject", type = {Patient.class, Group.class, Device.class, Location.class}, order=6, min=0, max=1, modifier=false, summary=true)
     @Description(shortDefinition="Who and/or what this is about", formalDefinition="The patient, or group of patients, location, or device whose characteristics (direct or indirect) are described by the observation and into whose record the observation is placed.  Comments: Indirect characteristics may be those of a specimen, fetus, donor,  other observer (for example a relative or EMT), or any observation made about the subject." )
     protected Reference subject;
 
@@ -1732,9 +1318,21 @@ public class Observation extends DomainResource {
     protected Resource subjectTarget;
 
     /**
+     * The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.
+     */
+    @Child(name = "focus", type = {Reference.class}, order=7, min=0, max=1, modifier=false, summary=true)
+    @Description(shortDefinition="The \"focal point\" of the observation", formalDefinition="The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus." )
+    protected Reference focus;
+
+    /**
+     * The actual object that is the target of the reference (The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.)
+     */
+    protected Resource focusTarget;
+
+    /**
      * The healthcare event  (e.g. a patient and healthcare provider interaction) during which this observation is made.
      */
-    @Child(name = "context", type = {Encounter.class, EpisodeOfCare.class}, order=6, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "context", type = {Encounter.class, EpisodeOfCare.class}, order=8, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="Healthcare event during which this observation is made", formalDefinition="The healthcare event  (e.g. a patient and healthcare provider interaction) during which this observation is made." )
     protected Reference context;
 
@@ -1746,21 +1344,21 @@ public class Observation extends DomainResource {
     /**
      * The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the "physiologically relevant time". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.
      */
-    @Child(name = "effective", type = {DateTimeType.class, Period.class, Timing.class}, order=7, min=0, max=1, modifier=false, summary=true)
+    @Child(name = "effective", type = {DateTimeType.class, Period.class, Timing.class}, order=9, min=0, max=1, modifier=false, summary=true)
     @Description(shortDefinition="Clinically relevant time/time-period for observation", formalDefinition="The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself." )
     protected Type effective;
 
     /**
      * The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified.
      */
-    @Child(name = "issued", type = {InstantType.class}, order=8, min=0, max=1, modifier=false, summary=true)
+    @Child(name = "issued", type = {InstantType.class}, order=10, min=0, max=1, modifier=false, summary=true)
     @Description(shortDefinition="Date/Time this version was made available", formalDefinition="The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified." )
     protected InstantType issued;
 
     /**
      * Who was responsible for asserting the observed value as "true".
      */
-    @Child(name = "performer", type = {Practitioner.class, Organization.class, Patient.class, RelatedPerson.class}, order=9, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "performer", type = {Practitioner.class, PractitionerRole.class, Organization.class, CareTeam.class, Patient.class, RelatedPerson.class}, order=11, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Who is responsible for the observation", formalDefinition="Who was responsible for asserting the observed value as \"true\"." )
     protected List<Reference> performer;
     /**
@@ -1772,22 +1370,22 @@ public class Observation extends DomainResource {
     /**
      * The information determined as a result of making the observation, if the information has a simple value.
      */
-    @Child(name = "value", type = {Quantity.class, CodeableConcept.class, StringType.class, BooleanType.class, IntegerType.class, Range.class, Ratio.class, SampledData.class, Attachment.class, TimeType.class, DateTimeType.class, Period.class}, order=10, min=0, max=1, modifier=false, summary=true)
+    @Child(name = "value", type = {Quantity.class, CodeableConcept.class, StringType.class, BooleanType.class, IntegerType.class, Range.class, Ratio.class, SampledData.class, TimeType.class, DateTimeType.class, Period.class}, order=12, min=0, max=1, modifier=false, summary=true)
     @Description(shortDefinition="Actual result", formalDefinition="The information determined as a result of making the observation, if the information has a simple value." )
     protected Type value;
 
     /**
      * Provides a reason why the expected value in the element Observation.value[x] is missing.
      */
-    @Child(name = "dataAbsentReason", type = {CodeableConcept.class}, order=11, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "dataAbsentReason", type = {CodeableConcept.class}, order=13, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="Why the result is missing", formalDefinition="Provides a reason why the expected value in the element Observation.value[x] is missing." )
-    @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-valueabsentreason")
+    @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/data-absent-reason")
     protected CodeableConcept dataAbsentReason;
 
     /**
      * The assessment made based on the result of the observation.  Intended as a simple compact code often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result. Otherwise known as abnormal flag.
      */
-    @Child(name = "interpretation", type = {CodeableConcept.class}, order=12, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "interpretation", type = {CodeableConcept.class}, order=14, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="High, low, normal, etc.", formalDefinition="The assessment made based on the result of the observation.  Intended as a simple compact code often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result. Otherwise known as abnormal flag." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-interpretation")
     protected CodeableConcept interpretation;
@@ -1795,14 +1393,14 @@ public class Observation extends DomainResource {
     /**
      * May include statements about significant, unexpected or unreliable values, or information about the source of the value where this may be relevant to the interpretation of the result.
      */
-    @Child(name = "comment", type = {StringType.class}, order=13, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "comment", type = {StringType.class}, order=15, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="Comments about result", formalDefinition="May include statements about significant, unexpected or unreliable values, or information about the source of the value where this may be relevant to the interpretation of the result." )
     protected StringType comment;
 
     /**
      * Indicates the site on the subject's body where the observation was made (i.e. the target site).
      */
-    @Child(name = "bodySite", type = {CodeableConcept.class}, order=14, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "bodySite", type = {CodeableConcept.class}, order=16, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="Observed body part", formalDefinition="Indicates the site on the subject's body where the observation was made (i.e. the target site)." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/body-site")
     protected CodeableConcept bodySite;
@@ -1810,7 +1408,7 @@ public class Observation extends DomainResource {
     /**
      * Indicates the mechanism used to perform the observation.
      */
-    @Child(name = "method", type = {CodeableConcept.class}, order=15, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "method", type = {CodeableConcept.class}, order=17, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="How it was done", formalDefinition="Indicates the mechanism used to perform the observation." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/observation-methods")
     protected CodeableConcept method;
@@ -1818,7 +1416,7 @@ public class Observation extends DomainResource {
     /**
      * The specimen that was used when this observation was made.
      */
-    @Child(name = "specimen", type = {Specimen.class}, order=16, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "specimen", type = {Specimen.class}, order=18, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="Specimen used for this observation", formalDefinition="The specimen that was used when this observation was made." )
     protected Reference specimen;
 
@@ -1830,7 +1428,7 @@ public class Observation extends DomainResource {
     /**
      * The device used to generate the observation data.
      */
-    @Child(name = "device", type = {Device.class, DeviceComponent.class, DeviceMetric.class}, order=17, min=0, max=1, modifier=false, summary=false)
+    @Child(name = "device", type = {Device.class, DeviceComponent.class, DeviceMetric.class}, order=19, min=0, max=1, modifier=false, summary=false)
     @Description(shortDefinition="(Measurement) Device", formalDefinition="The device used to generate the observation data." )
     protected Reference device;
 
@@ -1842,25 +1440,42 @@ public class Observation extends DomainResource {
     /**
      * Guidance on how to interpret the value by comparison to a normal or recommended range.
      */
-    @Child(name = "referenceRange", type = {}, order=18, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+    @Child(name = "referenceRange", type = {}, order=20, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
     @Description(shortDefinition="Provides guide for interpretation", formalDefinition="Guidance on how to interpret the value by comparison to a normal or recommended range." )
     protected List<ObservationReferenceRangeComponent> referenceRange;
 
     /**
-     * A  reference to another resource (usually another Observation) whose relationship is defined by the relationship type code.
+     * This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.
      */
-    @Child(name = "related", type = {}, order=19, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
-    @Description(shortDefinition="Resource related to this observation", formalDefinition="A  reference to another resource (usually another Observation) whose relationship is defined by the relationship type code." )
-    protected List<ObservationRelatedComponent> related;
+    @Child(name = "hasMember", type = {Observation.class, QuestionnaireResponse.class, Sequence.class}, order=21, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Description(shortDefinition="Related resource that belongs to the Observation group", formalDefinition="This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group." )
+    protected List<Reference> hasMember;
+    /**
+     * The actual objects that are the target of the reference (This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.)
+     */
+    protected List<Resource> hasMemberTarget;
+
+
+    /**
+     * The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.
+     */
+    @Child(name = "derivedFrom", type = {DocumentReference.class, ImagingStudy.class, Media.class, QuestionnaireResponse.class, Observation.class, Sequence.class}, order=22, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Description(shortDefinition="Related measurements the observation is made from", formalDefinition="The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image." )
+    protected List<Reference> derivedFrom;
+    /**
+     * The actual objects that are the target of the reference (The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.)
+     */
+    protected List<Resource> derivedFromTarget;
+
 
     /**
      * Some observations have multiple component observations.  These component observations are expressed as separate code value pairs that share the same attributes.  Examples include systolic and diastolic component observations for blood pressure measurement and multiple component observations for genetics observations.
      */
-    @Child(name = "component", type = {}, order=20, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "component", type = {}, order=23, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Component results", formalDefinition="Some observations have multiple component observations.  These component observations are expressed as separate code value pairs that share the same attributes.  Examples include systolic and diastolic component observations for blood pressure measurement and multiple component observations for genetics observations." )
     protected List<ObservationComponentComponent> component;
 
-    private static final long serialVersionUID = -1771290322L;
+    private static final long serialVersionUID = 479448059L;
 
   /**
    * Constructor
@@ -1992,6 +1607,69 @@ public class Observation extends DomainResource {
       if (this.basedOnTarget == null)
         this.basedOnTarget = new ArrayList<Resource>();
       return this.basedOnTarget;
+    }
+
+    /**
+     * @return {@link #partOf} (A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.)
+     */
+    public List<Reference> getPartOf() { 
+      if (this.partOf == null)
+        this.partOf = new ArrayList<Reference>();
+      return this.partOf;
+    }
+
+    /**
+     * @return Returns a reference to <code>this</code> for easy method chaining
+     */
+    public Observation setPartOf(List<Reference> thePartOf) { 
+      this.partOf = thePartOf;
+      return this;
+    }
+
+    public boolean hasPartOf() { 
+      if (this.partOf == null)
+        return false;
+      for (Reference item : this.partOf)
+        if (!item.isEmpty())
+          return true;
+      return false;
+    }
+
+    public Reference addPartOf() { //3
+      Reference t = new Reference();
+      if (this.partOf == null)
+        this.partOf = new ArrayList<Reference>();
+      this.partOf.add(t);
+      return t;
+    }
+
+    public Observation addPartOf(Reference t) { //3
+      if (t == null)
+        return this;
+      if (this.partOf == null)
+        this.partOf = new ArrayList<Reference>();
+      this.partOf.add(t);
+      return this;
+    }
+
+    /**
+     * @return The first repetition of repeating field {@link #partOf}, creating it if it does not already exist
+     */
+    public Reference getPartOfFirstRep() { 
+      if (getPartOf().isEmpty()) {
+        addPartOf();
+      }
+      return getPartOf().get(0);
+    }
+
+    /**
+     * @deprecated Use Reference#setResource(IBaseResource) instead
+     */
+    @Deprecated
+    public List<Resource> getPartOfTarget() { 
+      if (this.partOfTarget == null)
+        this.partOfTarget = new ArrayList<Resource>();
+      return this.partOfTarget;
     }
 
     /**
@@ -2152,6 +1830,45 @@ public class Observation extends DomainResource {
      */
     public Observation setSubjectTarget(Resource value) { 
       this.subjectTarget = value;
+      return this;
+    }
+
+    /**
+     * @return {@link #focus} (The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.)
+     */
+    public Reference getFocus() { 
+      if (this.focus == null)
+        if (Configuration.errorOnAutoCreate())
+          throw new Error("Attempt to auto-create Observation.focus");
+        else if (Configuration.doAutoCreate())
+          this.focus = new Reference(); // cc
+      return this.focus;
+    }
+
+    public boolean hasFocus() { 
+      return this.focus != null && !this.focus.isEmpty();
+    }
+
+    /**
+     * @param value {@link #focus} (The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.)
+     */
+    public Observation setFocus(Reference value) { 
+      this.focus = value;
+      return this;
+    }
+
+    /**
+     * @return {@link #focus} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.)
+     */
+    public Resource getFocusTarget() { 
+      return this.focusTarget;
+    }
+
+    /**
+     * @param value {@link #focus} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.)
+     */
+    public Observation setFocusTarget(Resource value) { 
+      this.focusTarget = value;
       return this;
     }
 
@@ -2473,19 +2190,6 @@ public class Observation extends DomainResource {
 
     public boolean hasValueSampledData() { 
       return this.value instanceof SampledData;
-    }
-
-    /**
-     * @return {@link #value} (The information determined as a result of making the observation, if the information has a simple value.)
-     */
-    public Attachment getValueAttachment() throws FHIRException { 
-      if (!(this.value instanceof Attachment))
-        throw new FHIRException("Type mismatch: the type Attachment was expected, but "+this.value.getClass().getName()+" was encountered");
-      return (Attachment) this.value;
-    }
-
-    public boolean hasValueAttachment() { 
-      return this.value instanceof Attachment;
     }
 
     /**
@@ -2821,56 +2525,129 @@ public class Observation extends DomainResource {
     }
 
     /**
-     * @return {@link #related} (A  reference to another resource (usually another Observation) whose relationship is defined by the relationship type code.)
+     * @return {@link #hasMember} (This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.)
      */
-    public List<ObservationRelatedComponent> getRelated() { 
-      if (this.related == null)
-        this.related = new ArrayList<ObservationRelatedComponent>();
-      return this.related;
+    public List<Reference> getHasMember() { 
+      if (this.hasMember == null)
+        this.hasMember = new ArrayList<Reference>();
+      return this.hasMember;
     }
 
     /**
      * @return Returns a reference to <code>this</code> for easy method chaining
      */
-    public Observation setRelated(List<ObservationRelatedComponent> theRelated) { 
-      this.related = theRelated;
+    public Observation setHasMember(List<Reference> theHasMember) { 
+      this.hasMember = theHasMember;
       return this;
     }
 
-    public boolean hasRelated() { 
-      if (this.related == null)
+    public boolean hasHasMember() { 
+      if (this.hasMember == null)
         return false;
-      for (ObservationRelatedComponent item : this.related)
+      for (Reference item : this.hasMember)
         if (!item.isEmpty())
           return true;
       return false;
     }
 
-    public ObservationRelatedComponent addRelated() { //3
-      ObservationRelatedComponent t = new ObservationRelatedComponent();
-      if (this.related == null)
-        this.related = new ArrayList<ObservationRelatedComponent>();
-      this.related.add(t);
+    public Reference addHasMember() { //3
+      Reference t = new Reference();
+      if (this.hasMember == null)
+        this.hasMember = new ArrayList<Reference>();
+      this.hasMember.add(t);
       return t;
     }
 
-    public Observation addRelated(ObservationRelatedComponent t) { //3
+    public Observation addHasMember(Reference t) { //3
       if (t == null)
         return this;
-      if (this.related == null)
-        this.related = new ArrayList<ObservationRelatedComponent>();
-      this.related.add(t);
+      if (this.hasMember == null)
+        this.hasMember = new ArrayList<Reference>();
+      this.hasMember.add(t);
       return this;
     }
 
     /**
-     * @return The first repetition of repeating field {@link #related}, creating it if it does not already exist
+     * @return The first repetition of repeating field {@link #hasMember}, creating it if it does not already exist
      */
-    public ObservationRelatedComponent getRelatedFirstRep() { 
-      if (getRelated().isEmpty()) {
-        addRelated();
+    public Reference getHasMemberFirstRep() { 
+      if (getHasMember().isEmpty()) {
+        addHasMember();
       }
-      return getRelated().get(0);
+      return getHasMember().get(0);
+    }
+
+    /**
+     * @deprecated Use Reference#setResource(IBaseResource) instead
+     */
+    @Deprecated
+    public List<Resource> getHasMemberTarget() { 
+      if (this.hasMemberTarget == null)
+        this.hasMemberTarget = new ArrayList<Resource>();
+      return this.hasMemberTarget;
+    }
+
+    /**
+     * @return {@link #derivedFrom} (The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.)
+     */
+    public List<Reference> getDerivedFrom() { 
+      if (this.derivedFrom == null)
+        this.derivedFrom = new ArrayList<Reference>();
+      return this.derivedFrom;
+    }
+
+    /**
+     * @return Returns a reference to <code>this</code> for easy method chaining
+     */
+    public Observation setDerivedFrom(List<Reference> theDerivedFrom) { 
+      this.derivedFrom = theDerivedFrom;
+      return this;
+    }
+
+    public boolean hasDerivedFrom() { 
+      if (this.derivedFrom == null)
+        return false;
+      for (Reference item : this.derivedFrom)
+        if (!item.isEmpty())
+          return true;
+      return false;
+    }
+
+    public Reference addDerivedFrom() { //3
+      Reference t = new Reference();
+      if (this.derivedFrom == null)
+        this.derivedFrom = new ArrayList<Reference>();
+      this.derivedFrom.add(t);
+      return t;
+    }
+
+    public Observation addDerivedFrom(Reference t) { //3
+      if (t == null)
+        return this;
+      if (this.derivedFrom == null)
+        this.derivedFrom = new ArrayList<Reference>();
+      this.derivedFrom.add(t);
+      return this;
+    }
+
+    /**
+     * @return The first repetition of repeating field {@link #derivedFrom}, creating it if it does not already exist
+     */
+    public Reference getDerivedFromFirstRep() { 
+      if (getDerivedFrom().isEmpty()) {
+        addDerivedFrom();
+      }
+      return getDerivedFrom().get(0);
+    }
+
+    /**
+     * @deprecated Use Reference#setResource(IBaseResource) instead
+     */
+    @Deprecated
+    public List<Resource> getDerivedFromTarget() { 
+      if (this.derivedFromTarget == null)
+        this.derivedFromTarget = new ArrayList<Resource>();
+      return this.derivedFromTarget;
     }
 
     /**
@@ -2929,16 +2706,18 @@ public class Observation extends DomainResource {
       protected void listChildren(List<Property> children) {
         super.listChildren(children);
         children.add(new Property("identifier", "Identifier", "A unique identifier assigned to this observation.", 0, java.lang.Integer.MAX_VALUE, identifier));
-        children.add(new Property("basedOn", "Reference(CarePlan|DeviceRequest|ImmunizationRecommendation|MedicationRequest|NutritionOrder|ProcedureRequest)", "A plan, proposal or order that is fulfilled in whole or in part by this event.", 0, java.lang.Integer.MAX_VALUE, basedOn));
+        children.add(new Property("basedOn", "Reference(CarePlan|DeviceRequest|ImmunizationRecommendation|MedicationRequest|NutritionOrder|ServiceRequest)", "A plan, proposal or order that is fulfilled in whole or in part by this event.", 0, java.lang.Integer.MAX_VALUE, basedOn));
+        children.add(new Property("partOf", "Reference(MedicationAdministration|MedicationDispense|MedicationStatement|Procedure|Immunization|ImagingStudy)", "A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.", 0, java.lang.Integer.MAX_VALUE, partOf));
         children.add(new Property("status", "code", "The status of the result value.", 0, 1, status));
         children.add(new Property("category", "CodeableConcept", "A code that classifies the general type of observation being made.", 0, java.lang.Integer.MAX_VALUE, category));
         children.add(new Property("code", "CodeableConcept", "Describes what was observed. Sometimes this is called the observation \"name\".", 0, 1, code));
         children.add(new Property("subject", "Reference(Patient|Group|Device|Location)", "The patient, or group of patients, location, or device whose characteristics (direct or indirect) are described by the observation and into whose record the observation is placed.  Comments: Indirect characteristics may be those of a specimen, fetus, donor,  other observer (for example a relative or EMT), or any observation made about the subject.", 0, 1, subject));
+        children.add(new Property("focus", "Reference(Any)", "The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.", 0, 1, focus));
         children.add(new Property("context", "Reference(Encounter|EpisodeOfCare)", "The healthcare event  (e.g. a patient and healthcare provider interaction) during which this observation is made.", 0, 1, context));
         children.add(new Property("effective[x]", "dateTime|Period|Timing", "The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.", 0, 1, effective));
         children.add(new Property("issued", "instant", "The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified.", 0, 1, issued));
-        children.add(new Property("performer", "Reference(Practitioner|Organization|Patient|RelatedPerson)", "Who was responsible for asserting the observed value as \"true\".", 0, java.lang.Integer.MAX_VALUE, performer));
-        children.add(new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value));
+        children.add(new Property("performer", "Reference(Practitioner|PractitionerRole|Organization|CareTeam|Patient|RelatedPerson)", "Who was responsible for asserting the observed value as \"true\".", 0, java.lang.Integer.MAX_VALUE, performer));
+        children.add(new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value));
         children.add(new Property("dataAbsentReason", "CodeableConcept", "Provides a reason why the expected value in the element Observation.value[x] is missing.", 0, 1, dataAbsentReason));
         children.add(new Property("interpretation", "CodeableConcept", "The assessment made based on the result of the observation.  Intended as a simple compact code often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result. Otherwise known as abnormal flag.", 0, 1, interpretation));
         children.add(new Property("comment", "string", "May include statements about significant, unexpected or unreliable values, or information about the source of the value where this may be relevant to the interpretation of the result.", 0, 1, comment));
@@ -2947,7 +2726,8 @@ public class Observation extends DomainResource {
         children.add(new Property("specimen", "Reference(Specimen)", "The specimen that was used when this observation was made.", 0, 1, specimen));
         children.add(new Property("device", "Reference(Device|DeviceComponent|DeviceMetric)", "The device used to generate the observation data.", 0, 1, device));
         children.add(new Property("referenceRange", "", "Guidance on how to interpret the value by comparison to a normal or recommended range.", 0, java.lang.Integer.MAX_VALUE, referenceRange));
-        children.add(new Property("related", "", "A  reference to another resource (usually another Observation) whose relationship is defined by the relationship type code.", 0, java.lang.Integer.MAX_VALUE, related));
+        children.add(new Property("hasMember", "Reference(Observation|QuestionnaireResponse|Sequence)", "This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.", 0, java.lang.Integer.MAX_VALUE, hasMember));
+        children.add(new Property("derivedFrom", "Reference(DocumentReference|ImagingStudy|Media|QuestionnaireResponse|Observation|Sequence)", "The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.", 0, java.lang.Integer.MAX_VALUE, derivedFrom));
         children.add(new Property("component", "", "Some observations have multiple component observations.  These component observations are expressed as separate code value pairs that share the same attributes.  Examples include systolic and diastolic component observations for blood pressure measurement and multiple component observations for genetics observations.", 0, java.lang.Integer.MAX_VALUE, component));
       }
 
@@ -2955,11 +2735,13 @@ public class Observation extends DomainResource {
       public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
         switch (_hash) {
         case -1618432855: /*identifier*/  return new Property("identifier", "Identifier", "A unique identifier assigned to this observation.", 0, java.lang.Integer.MAX_VALUE, identifier);
-        case -332612366: /*basedOn*/  return new Property("basedOn", "Reference(CarePlan|DeviceRequest|ImmunizationRecommendation|MedicationRequest|NutritionOrder|ProcedureRequest)", "A plan, proposal or order that is fulfilled in whole or in part by this event.", 0, java.lang.Integer.MAX_VALUE, basedOn);
+        case -332612366: /*basedOn*/  return new Property("basedOn", "Reference(CarePlan|DeviceRequest|ImmunizationRecommendation|MedicationRequest|NutritionOrder|ServiceRequest)", "A plan, proposal or order that is fulfilled in whole or in part by this event.", 0, java.lang.Integer.MAX_VALUE, basedOn);
+        case -995410646: /*partOf*/  return new Property("partOf", "Reference(MedicationAdministration|MedicationDispense|MedicationStatement|Procedure|Immunization|ImagingStudy)", "A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.", 0, java.lang.Integer.MAX_VALUE, partOf);
         case -892481550: /*status*/  return new Property("status", "code", "The status of the result value.", 0, 1, status);
         case 50511102: /*category*/  return new Property("category", "CodeableConcept", "A code that classifies the general type of observation being made.", 0, java.lang.Integer.MAX_VALUE, category);
         case 3059181: /*code*/  return new Property("code", "CodeableConcept", "Describes what was observed. Sometimes this is called the observation \"name\".", 0, 1, code);
         case -1867885268: /*subject*/  return new Property("subject", "Reference(Patient|Group|Device|Location)", "The patient, or group of patients, location, or device whose characteristics (direct or indirect) are described by the observation and into whose record the observation is placed.  Comments: Indirect characteristics may be those of a specimen, fetus, donor,  other observer (for example a relative or EMT), or any observation made about the subject.", 0, 1, subject);
+        case 97604824: /*focus*/  return new Property("focus", "Reference(Any)", "The actual focus of an observation when it is not the patient of record.  The focus is point of attention when the observation representing something  or someone associated with the patient.  It could be  a  spouse or parent, a fetus or donor.  The focus of an observation coulde be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's trachestomy tube. In this example, the child is the patient of record and the mother is the focus.", 0, 1, focus);
         case 951530927: /*context*/  return new Property("context", "Reference(Encounter|EpisodeOfCare)", "The healthcare event  (e.g. a patient and healthcare provider interaction) during which this observation is made.", 0, 1, context);
         case 247104889: /*effective[x]*/  return new Property("effective[x]", "dateTime|Period|Timing", "The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.", 0, 1, effective);
         case -1468651097: /*effective*/  return new Property("effective[x]", "dateTime|Period|Timing", "The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.", 0, 1, effective);
@@ -2967,21 +2749,20 @@ public class Observation extends DomainResource {
         case -403934648: /*effectivePeriod*/  return new Property("effective[x]", "dateTime|Period|Timing", "The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.", 0, 1, effective);
         case -285872943: /*effectiveTiming*/  return new Property("effective[x]", "dateTime|Period|Timing", "The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.", 0, 1, effective);
         case -1179159893: /*issued*/  return new Property("issued", "instant", "The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified.", 0, 1, issued);
-        case 481140686: /*performer*/  return new Property("performer", "Reference(Practitioner|Organization|Patient|RelatedPerson)", "Who was responsible for asserting the observed value as \"true\".", 0, java.lang.Integer.MAX_VALUE, performer);
-        case -1410166417: /*value[x]*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case 111972721: /*value*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -2029823716: /*valueQuantity*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case 924902896: /*valueCodeableConcept*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -1424603934: /*valueString*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case 733421943: /*valueBoolean*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -1668204915: /*valueInteger*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case 2030761548: /*valueRange*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case 2030767386: /*valueRatio*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -962229101: /*valueSampledData*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -475566732: /*valueAttachment*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -765708322: /*valueTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case 1047929900: /*valueDateTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
-        case -1524344174: /*valuePeriod*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|Attachment|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 481140686: /*performer*/  return new Property("performer", "Reference(Practitioner|PractitionerRole|Organization|CareTeam|Patient|RelatedPerson)", "Who was responsible for asserting the observed value as \"true\".", 0, java.lang.Integer.MAX_VALUE, performer);
+        case -1410166417: /*value[x]*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 111972721: /*value*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case -2029823716: /*valueQuantity*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 924902896: /*valueCodeableConcept*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case -1424603934: /*valueString*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 733421943: /*valueBoolean*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case -1668204915: /*valueInteger*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 2030761548: /*valueRange*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 2030767386: /*valueRatio*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case -962229101: /*valueSampledData*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case -765708322: /*valueTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case 1047929900: /*valueDateTime*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
+        case -1524344174: /*valuePeriod*/  return new Property("value[x]", "Quantity|CodeableConcept|string|boolean|integer|Range|Ratio|SampledData|time|dateTime|Period", "The information determined as a result of making the observation, if the information has a simple value.", 0, 1, value);
         case 1034315687: /*dataAbsentReason*/  return new Property("dataAbsentReason", "CodeableConcept", "Provides a reason why the expected value in the element Observation.value[x] is missing.", 0, 1, dataAbsentReason);
         case -297950712: /*interpretation*/  return new Property("interpretation", "CodeableConcept", "The assessment made based on the result of the observation.  Intended as a simple compact code often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result. Otherwise known as abnormal flag.", 0, 1, interpretation);
         case 950398559: /*comment*/  return new Property("comment", "string", "May include statements about significant, unexpected or unreliable values, or information about the source of the value where this may be relevant to the interpretation of the result.", 0, 1, comment);
@@ -2990,7 +2771,8 @@ public class Observation extends DomainResource {
         case -2132868344: /*specimen*/  return new Property("specimen", "Reference(Specimen)", "The specimen that was used when this observation was made.", 0, 1, specimen);
         case -1335157162: /*device*/  return new Property("device", "Reference(Device|DeviceComponent|DeviceMetric)", "The device used to generate the observation data.", 0, 1, device);
         case -1912545102: /*referenceRange*/  return new Property("referenceRange", "", "Guidance on how to interpret the value by comparison to a normal or recommended range.", 0, java.lang.Integer.MAX_VALUE, referenceRange);
-        case 1090493483: /*related*/  return new Property("related", "", "A  reference to another resource (usually another Observation) whose relationship is defined by the relationship type code.", 0, java.lang.Integer.MAX_VALUE, related);
+        case -458019372: /*hasMember*/  return new Property("hasMember", "Reference(Observation|QuestionnaireResponse|Sequence)", "This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.", 0, java.lang.Integer.MAX_VALUE, hasMember);
+        case 1077922663: /*derivedFrom*/  return new Property("derivedFrom", "Reference(DocumentReference|ImagingStudy|Media|QuestionnaireResponse|Observation|Sequence)", "The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.", 0, java.lang.Integer.MAX_VALUE, derivedFrom);
         case -1399907075: /*component*/  return new Property("component", "", "Some observations have multiple component observations.  These component observations are expressed as separate code value pairs that share the same attributes.  Examples include systolic and diastolic component observations for blood pressure measurement and multiple component observations for genetics observations.", 0, java.lang.Integer.MAX_VALUE, component);
         default: return super.getNamedProperty(_hash, _name, _checkValid);
         }
@@ -3002,10 +2784,12 @@ public class Observation extends DomainResource {
         switch (hash) {
         case -1618432855: /*identifier*/ return this.identifier == null ? new Base[0] : this.identifier.toArray(new Base[this.identifier.size()]); // Identifier
         case -332612366: /*basedOn*/ return this.basedOn == null ? new Base[0] : this.basedOn.toArray(new Base[this.basedOn.size()]); // Reference
+        case -995410646: /*partOf*/ return this.partOf == null ? new Base[0] : this.partOf.toArray(new Base[this.partOf.size()]); // Reference
         case -892481550: /*status*/ return this.status == null ? new Base[0] : new Base[] {this.status}; // Enumeration<ObservationStatus>
         case 50511102: /*category*/ return this.category == null ? new Base[0] : this.category.toArray(new Base[this.category.size()]); // CodeableConcept
         case 3059181: /*code*/ return this.code == null ? new Base[0] : new Base[] {this.code}; // CodeableConcept
         case -1867885268: /*subject*/ return this.subject == null ? new Base[0] : new Base[] {this.subject}; // Reference
+        case 97604824: /*focus*/ return this.focus == null ? new Base[0] : new Base[] {this.focus}; // Reference
         case 951530927: /*context*/ return this.context == null ? new Base[0] : new Base[] {this.context}; // Reference
         case -1468651097: /*effective*/ return this.effective == null ? new Base[0] : new Base[] {this.effective}; // Type
         case -1179159893: /*issued*/ return this.issued == null ? new Base[0] : new Base[] {this.issued}; // InstantType
@@ -3019,7 +2803,8 @@ public class Observation extends DomainResource {
         case -2132868344: /*specimen*/ return this.specimen == null ? new Base[0] : new Base[] {this.specimen}; // Reference
         case -1335157162: /*device*/ return this.device == null ? new Base[0] : new Base[] {this.device}; // Reference
         case -1912545102: /*referenceRange*/ return this.referenceRange == null ? new Base[0] : this.referenceRange.toArray(new Base[this.referenceRange.size()]); // ObservationReferenceRangeComponent
-        case 1090493483: /*related*/ return this.related == null ? new Base[0] : this.related.toArray(new Base[this.related.size()]); // ObservationRelatedComponent
+        case -458019372: /*hasMember*/ return this.hasMember == null ? new Base[0] : this.hasMember.toArray(new Base[this.hasMember.size()]); // Reference
+        case 1077922663: /*derivedFrom*/ return this.derivedFrom == null ? new Base[0] : this.derivedFrom.toArray(new Base[this.derivedFrom.size()]); // Reference
         case -1399907075: /*component*/ return this.component == null ? new Base[0] : this.component.toArray(new Base[this.component.size()]); // ObservationComponentComponent
         default: return super.getProperty(hash, name, checkValid);
         }
@@ -3035,6 +2820,9 @@ public class Observation extends DomainResource {
         case -332612366: // basedOn
           this.getBasedOn().add(castToReference(value)); // Reference
           return value;
+        case -995410646: // partOf
+          this.getPartOf().add(castToReference(value)); // Reference
+          return value;
         case -892481550: // status
           value = new ObservationStatusEnumFactory().fromType(castToCode(value));
           this.status = (Enumeration) value; // Enumeration<ObservationStatus>
@@ -3047,6 +2835,9 @@ public class Observation extends DomainResource {
           return value;
         case -1867885268: // subject
           this.subject = castToReference(value); // Reference
+          return value;
+        case 97604824: // focus
+          this.focus = castToReference(value); // Reference
           return value;
         case 951530927: // context
           this.context = castToReference(value); // Reference
@@ -3087,8 +2878,11 @@ public class Observation extends DomainResource {
         case -1912545102: // referenceRange
           this.getReferenceRange().add((ObservationReferenceRangeComponent) value); // ObservationReferenceRangeComponent
           return value;
-        case 1090493483: // related
-          this.getRelated().add((ObservationRelatedComponent) value); // ObservationRelatedComponent
+        case -458019372: // hasMember
+          this.getHasMember().add(castToReference(value)); // Reference
+          return value;
+        case 1077922663: // derivedFrom
+          this.getDerivedFrom().add(castToReference(value)); // Reference
           return value;
         case -1399907075: // component
           this.getComponent().add((ObservationComponentComponent) value); // ObservationComponentComponent
@@ -3104,6 +2898,8 @@ public class Observation extends DomainResource {
           this.getIdentifier().add(castToIdentifier(value));
         } else if (name.equals("basedOn")) {
           this.getBasedOn().add(castToReference(value));
+        } else if (name.equals("partOf")) {
+          this.getPartOf().add(castToReference(value));
         } else if (name.equals("status")) {
           value = new ObservationStatusEnumFactory().fromType(castToCode(value));
           this.status = (Enumeration) value; // Enumeration<ObservationStatus>
@@ -3113,6 +2909,8 @@ public class Observation extends DomainResource {
           this.code = castToCodeableConcept(value); // CodeableConcept
         } else if (name.equals("subject")) {
           this.subject = castToReference(value); // Reference
+        } else if (name.equals("focus")) {
+          this.focus = castToReference(value); // Reference
         } else if (name.equals("context")) {
           this.context = castToReference(value); // Reference
         } else if (name.equals("effective[x]")) {
@@ -3139,8 +2937,10 @@ public class Observation extends DomainResource {
           this.device = castToReference(value); // Reference
         } else if (name.equals("referenceRange")) {
           this.getReferenceRange().add((ObservationReferenceRangeComponent) value);
-        } else if (name.equals("related")) {
-          this.getRelated().add((ObservationRelatedComponent) value);
+        } else if (name.equals("hasMember")) {
+          this.getHasMember().add(castToReference(value));
+        } else if (name.equals("derivedFrom")) {
+          this.getDerivedFrom().add(castToReference(value));
         } else if (name.equals("component")) {
           this.getComponent().add((ObservationComponentComponent) value);
         } else
@@ -3153,10 +2953,12 @@ public class Observation extends DomainResource {
         switch (hash) {
         case -1618432855:  return addIdentifier(); 
         case -332612366:  return addBasedOn(); 
+        case -995410646:  return addPartOf(); 
         case -892481550:  return getStatusElement();
         case 50511102:  return addCategory(); 
         case 3059181:  return getCode(); 
         case -1867885268:  return getSubject(); 
+        case 97604824:  return getFocus(); 
         case 951530927:  return getContext(); 
         case 247104889:  return getEffective(); 
         case -1468651097:  return getEffective(); 
@@ -3172,7 +2974,8 @@ public class Observation extends DomainResource {
         case -2132868344:  return getSpecimen(); 
         case -1335157162:  return getDevice(); 
         case -1912545102:  return addReferenceRange(); 
-        case 1090493483:  return addRelated(); 
+        case -458019372:  return addHasMember(); 
+        case 1077922663:  return addDerivedFrom(); 
         case -1399907075:  return addComponent(); 
         default: return super.makeProperty(hash, name);
         }
@@ -3184,15 +2987,17 @@ public class Observation extends DomainResource {
         switch (hash) {
         case -1618432855: /*identifier*/ return new String[] {"Identifier"};
         case -332612366: /*basedOn*/ return new String[] {"Reference"};
+        case -995410646: /*partOf*/ return new String[] {"Reference"};
         case -892481550: /*status*/ return new String[] {"code"};
         case 50511102: /*category*/ return new String[] {"CodeableConcept"};
         case 3059181: /*code*/ return new String[] {"CodeableConcept"};
         case -1867885268: /*subject*/ return new String[] {"Reference"};
+        case 97604824: /*focus*/ return new String[] {"Reference"};
         case 951530927: /*context*/ return new String[] {"Reference"};
         case -1468651097: /*effective*/ return new String[] {"dateTime", "Period", "Timing"};
         case -1179159893: /*issued*/ return new String[] {"instant"};
         case 481140686: /*performer*/ return new String[] {"Reference"};
-        case 111972721: /*value*/ return new String[] {"Quantity", "CodeableConcept", "string", "boolean", "integer", "Range", "Ratio", "SampledData", "Attachment", "time", "dateTime", "Period"};
+        case 111972721: /*value*/ return new String[] {"Quantity", "CodeableConcept", "string", "boolean", "integer", "Range", "Ratio", "SampledData", "time", "dateTime", "Period"};
         case 1034315687: /*dataAbsentReason*/ return new String[] {"CodeableConcept"};
         case -297950712: /*interpretation*/ return new String[] {"CodeableConcept"};
         case 950398559: /*comment*/ return new String[] {"string"};
@@ -3201,7 +3006,8 @@ public class Observation extends DomainResource {
         case -2132868344: /*specimen*/ return new String[] {"Reference"};
         case -1335157162: /*device*/ return new String[] {"Reference"};
         case -1912545102: /*referenceRange*/ return new String[] {};
-        case 1090493483: /*related*/ return new String[] {};
+        case -458019372: /*hasMember*/ return new String[] {"Reference"};
+        case 1077922663: /*derivedFrom*/ return new String[] {"Reference"};
         case -1399907075: /*component*/ return new String[] {};
         default: return super.getTypesForProperty(hash, name);
         }
@@ -3216,6 +3022,9 @@ public class Observation extends DomainResource {
         else if (name.equals("basedOn")) {
           return addBasedOn();
         }
+        else if (name.equals("partOf")) {
+          return addPartOf();
+        }
         else if (name.equals("status")) {
           throw new FHIRException("Cannot call addChild on a primitive type Observation.status");
         }
@@ -3229,6 +3038,10 @@ public class Observation extends DomainResource {
         else if (name.equals("subject")) {
           this.subject = new Reference();
           return this.subject;
+        }
+        else if (name.equals("focus")) {
+          this.focus = new Reference();
+          return this.focus;
         }
         else if (name.equals("context")) {
           this.context = new Reference();
@@ -3284,10 +3097,6 @@ public class Observation extends DomainResource {
           this.value = new SampledData();
           return this.value;
         }
-        else if (name.equals("valueAttachment")) {
-          this.value = new Attachment();
-          return this.value;
-        }
         else if (name.equals("valueTime")) {
           this.value = new TimeType();
           return this.value;
@@ -3330,8 +3139,11 @@ public class Observation extends DomainResource {
         else if (name.equals("referenceRange")) {
           return addReferenceRange();
         }
-        else if (name.equals("related")) {
-          return addRelated();
+        else if (name.equals("hasMember")) {
+          return addHasMember();
+        }
+        else if (name.equals("derivedFrom")) {
+          return addDerivedFrom();
         }
         else if (name.equals("component")) {
           return addComponent();
@@ -3358,6 +3170,11 @@ public class Observation extends DomainResource {
           for (Reference i : basedOn)
             dst.basedOn.add(i.copy());
         };
+        if (partOf != null) {
+          dst.partOf = new ArrayList<Reference>();
+          for (Reference i : partOf)
+            dst.partOf.add(i.copy());
+        };
         dst.status = status == null ? null : status.copy();
         if (category != null) {
           dst.category = new ArrayList<CodeableConcept>();
@@ -3366,6 +3183,7 @@ public class Observation extends DomainResource {
         };
         dst.code = code == null ? null : code.copy();
         dst.subject = subject == null ? null : subject.copy();
+        dst.focus = focus == null ? null : focus.copy();
         dst.context = context == null ? null : context.copy();
         dst.effective = effective == null ? null : effective.copy();
         dst.issued = issued == null ? null : issued.copy();
@@ -3387,10 +3205,15 @@ public class Observation extends DomainResource {
           for (ObservationReferenceRangeComponent i : referenceRange)
             dst.referenceRange.add(i.copy());
         };
-        if (related != null) {
-          dst.related = new ArrayList<ObservationRelatedComponent>();
-          for (ObservationRelatedComponent i : related)
-            dst.related.add(i.copy());
+        if (hasMember != null) {
+          dst.hasMember = new ArrayList<Reference>();
+          for (Reference i : hasMember)
+            dst.hasMember.add(i.copy());
+        };
+        if (derivedFrom != null) {
+          dst.derivedFrom = new ArrayList<Reference>();
+          for (Reference i : derivedFrom)
+            dst.derivedFrom.add(i.copy());
         };
         if (component != null) {
           dst.component = new ArrayList<ObservationComponentComponent>();
@@ -3405,38 +3228,39 @@ public class Observation extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof Observation))
+        if (!(other_ instanceof Observation))
           return false;
-        Observation o = (Observation) other;
-        return compareDeep(identifier, o.identifier, true) && compareDeep(basedOn, o.basedOn, true) && compareDeep(status, o.status, true)
-           && compareDeep(category, o.category, true) && compareDeep(code, o.code, true) && compareDeep(subject, o.subject, true)
-           && compareDeep(context, o.context, true) && compareDeep(effective, o.effective, true) && compareDeep(issued, o.issued, true)
-           && compareDeep(performer, o.performer, true) && compareDeep(value, o.value, true) && compareDeep(dataAbsentReason, o.dataAbsentReason, true)
+        Observation o = (Observation) other_;
+        return compareDeep(identifier, o.identifier, true) && compareDeep(basedOn, o.basedOn, true) && compareDeep(partOf, o.partOf, true)
+           && compareDeep(status, o.status, true) && compareDeep(category, o.category, true) && compareDeep(code, o.code, true)
+           && compareDeep(subject, o.subject, true) && compareDeep(focus, o.focus, true) && compareDeep(context, o.context, true)
+           && compareDeep(effective, o.effective, true) && compareDeep(issued, o.issued, true) && compareDeep(performer, o.performer, true)
+           && compareDeep(value, o.value, true) && compareDeep(dataAbsentReason, o.dataAbsentReason, true)
            && compareDeep(interpretation, o.interpretation, true) && compareDeep(comment, o.comment, true)
            && compareDeep(bodySite, o.bodySite, true) && compareDeep(method, o.method, true) && compareDeep(specimen, o.specimen, true)
-           && compareDeep(device, o.device, true) && compareDeep(referenceRange, o.referenceRange, true) && compareDeep(related, o.related, true)
-           && compareDeep(component, o.component, true);
+           && compareDeep(device, o.device, true) && compareDeep(referenceRange, o.referenceRange, true) && compareDeep(hasMember, o.hasMember, true)
+           && compareDeep(derivedFrom, o.derivedFrom, true) && compareDeep(component, o.component, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof Observation))
+        if (!(other_ instanceof Observation))
           return false;
-        Observation o = (Observation) other;
+        Observation o = (Observation) other_;
         return compareValues(status, o.status, true) && compareValues(issued, o.issued, true) && compareValues(comment, o.comment, true)
           ;
       }
 
       public boolean isEmpty() {
-        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(identifier, basedOn, status
-          , category, code, subject, context, effective, issued, performer, value, dataAbsentReason
-          , interpretation, comment, bodySite, method, specimen, device, referenceRange
-          , related, component);
+        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(identifier, basedOn, partOf
+          , status, category, code, subject, focus, context, effective, issued, performer
+          , value, dataAbsentReason, interpretation, comment, bodySite, method, specimen
+          , device, referenceRange, hasMember, derivedFrom, component);
       }
 
   @Override
@@ -3598,7 +3422,7 @@ public class Observation extends DomainResource {
    * Path: <b>Observation.valueDateTime, Observation.valuePeriod</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="value-date", path="Observation.value.as(DateTime) | Observation.value.as(Period)", description="The value of the observation, if the value is a date or period of time", type="date" )
+  @SearchParamDefinition(name="value-date", path="Observation.value.as(dateTime) | Observation.value.as(Period)", description="The value of the observation, if the value is a date or period of time", type="date" )
   public static final String SP_VALUE_DATE = "value-date";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>value-date</b>
@@ -3609,6 +3433,110 @@ public class Observation extends DomainResource {
    * </p>
    */
   public static final ca.uhn.fhir.rest.gclient.DateClientParam VALUE_DATE = new ca.uhn.fhir.rest.gclient.DateClientParam(SP_VALUE_DATE);
+
+ /**
+   * Search parameter: <b>focus</b>
+   * <p>
+   * Description: <b>The focus of an observation when the focus is not the patient of record.</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.focus</b><br>
+   * </p>
+   */
+  @SearchParamDefinition(name="focus", path="Observation.focus", description="The focus of an observation when the focus is not the patient of record.", type="reference" )
+  public static final String SP_FOCUS = "focus";
+ /**
+   * <b>Fluent Client</b> search parameter constant for <b>focus</b>
+   * <p>
+   * Description: <b>The focus of an observation when the focus is not the patient of record.</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.focus</b><br>
+   * </p>
+   */
+  public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam FOCUS = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_FOCUS);
+
+/**
+   * Constant for fluent queries to be used to add include statements. Specifies
+   * the path value of "<b>Observation:focus</b>".
+   */
+  public static final ca.uhn.fhir.model.api.Include INCLUDE_FOCUS = new ca.uhn.fhir.model.api.Include("Observation:focus").toLocked();
+
+ /**
+   * Search parameter: <b>derived-from</b>
+   * <p>
+   * Description: <b>Related measurements the observation is made from</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.derivedFrom</b><br>
+   * </p>
+   */
+  @SearchParamDefinition(name="derived-from", path="Observation.derivedFrom", description="Related measurements the observation is made from", type="reference", target={DocumentReference.class, ImagingStudy.class, Media.class, Observation.class, QuestionnaireResponse.class, Sequence.class } )
+  public static final String SP_DERIVED_FROM = "derived-from";
+ /**
+   * <b>Fluent Client</b> search parameter constant for <b>derived-from</b>
+   * <p>
+   * Description: <b>Related measurements the observation is made from</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.derivedFrom</b><br>
+   * </p>
+   */
+  public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam DERIVED_FROM = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_DERIVED_FROM);
+
+/**
+   * Constant for fluent queries to be used to add include statements. Specifies
+   * the path value of "<b>Observation:derived-from</b>".
+   */
+  public static final ca.uhn.fhir.model.api.Include INCLUDE_DERIVED_FROM = new ca.uhn.fhir.model.api.Include("Observation:derived-from").toLocked();
+
+ /**
+   * Search parameter: <b>part-of</b>
+   * <p>
+   * Description: <b>Part of referenced event</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.partOf</b><br>
+   * </p>
+   */
+  @SearchParamDefinition(name="part-of", path="Observation.partOf", description="Part of referenced event", type="reference", target={ImagingStudy.class, Immunization.class, MedicationAdministration.class, MedicationDispense.class, MedicationStatement.class, Procedure.class } )
+  public static final String SP_PART_OF = "part-of";
+ /**
+   * <b>Fluent Client</b> search parameter constant for <b>part-of</b>
+   * <p>
+   * Description: <b>Part of referenced event</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.partOf</b><br>
+   * </p>
+   */
+  public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam PART_OF = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_PART_OF);
+
+/**
+   * Constant for fluent queries to be used to add include statements. Specifies
+   * the path value of "<b>Observation:part-of</b>".
+   */
+  public static final ca.uhn.fhir.model.api.Include INCLUDE_PART_OF = new ca.uhn.fhir.model.api.Include("Observation:part-of").toLocked();
+
+ /**
+   * Search parameter: <b>has-member</b>
+   * <p>
+   * Description: <b>Related resource that belongs to the Observation group</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.hasMember</b><br>
+   * </p>
+   */
+  @SearchParamDefinition(name="has-member", path="Observation.hasMember", description="Related resource that belongs to the Observation group", type="reference", target={Observation.class, QuestionnaireResponse.class, Sequence.class } )
+  public static final String SP_HAS_MEMBER = "has-member";
+ /**
+   * <b>Fluent Client</b> search parameter constant for <b>has-member</b>
+   * <p>
+   * Description: <b>Related resource that belongs to the Observation group</b><br>
+   * Type: <b>reference</b><br>
+   * Path: <b>Observation.hasMember</b><br>
+   * </p>
+   */
+  public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam HAS_MEMBER = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_HAS_MEMBER);
+
+/**
+   * Constant for fluent queries to be used to add include statements. Specifies
+   * the path value of "<b>Observation:has-member</b>".
+   */
+  public static final ca.uhn.fhir.model.api.Include INCLUDE_HAS_MEMBER = new ca.uhn.fhir.model.api.Include("Observation:has-member").toLocked();
 
  /**
    * Search parameter: <b>code-value-string</b>
@@ -3653,17 +3581,17 @@ public class Observation extends DomainResource {
  /**
    * Search parameter: <b>based-on</b>
    * <p>
-   * Description: <b>Reference to the test or procedure request.</b><br>
+   * Description: <b>Reference to the service request.</b><br>
    * Type: <b>reference</b><br>
    * Path: <b>Observation.basedOn</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="based-on", path="Observation.basedOn", description="Reference to the test or procedure request.", type="reference", target={CarePlan.class, DeviceRequest.class, ImmunizationRecommendation.class, MedicationRequest.class, NutritionOrder.class, ProcedureRequest.class } )
+  @SearchParamDefinition(name="based-on", path="Observation.basedOn", description="Reference to the service request.", type="reference", target={CarePlan.class, DeviceRequest.class, ImmunizationRecommendation.class, MedicationRequest.class, NutritionOrder.class, ServiceRequest.class } )
   public static final String SP_BASED_ON = "based-on";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>based-on</b>
    * <p>
-   * Description: <b>Reference to the test or procedure request.</b><br>
+   * Description: <b>Reference to the service request.</b><br>
    * Type: <b>reference</b><br>
    * Path: <b>Observation.basedOn</b><br>
    * </p>
@@ -3675,26 +3603,6 @@ public class Observation extends DomainResource {
    * the path value of "<b>Observation:based-on</b>".
    */
   public static final ca.uhn.fhir.model.api.Include INCLUDE_BASED_ON = new ca.uhn.fhir.model.api.Include("Observation:based-on").toLocked();
-
- /**
-   * Search parameter: <b>related</b>
-   * <p>
-   * Description: <b>Related Observations - search on related-type and related-target together</b><br>
-   * Type: <b>composite</b><br>
-   * Path: <b></b><br>
-   * </p>
-   */
-  @SearchParamDefinition(name="related", path="Observation.related", description="Related Observations - search on related-type and related-target together", type="composite", compositeOf={"related-target", "related-type"} )
-  public static final String SP_RELATED = "related";
- /**
-   * <b>Fluent Client</b> search parameter constant for <b>related</b>
-   * <p>
-   * Description: <b>Related Observations - search on related-type and related-target together</b><br>
-   * Type: <b>composite</b><br>
-   * Path: <b></b><br>
-   * </p>
-   */
-  public static final ca.uhn.fhir.rest.gclient.CompositeClientParam<ca.uhn.fhir.rest.gclient.ReferenceClientParam, ca.uhn.fhir.rest.gclient.TokenClientParam> RELATED = new ca.uhn.fhir.rest.gclient.CompositeClientParam<ca.uhn.fhir.rest.gclient.ReferenceClientParam, ca.uhn.fhir.rest.gclient.TokenClientParam>(SP_RELATED);
 
  /**
    * Search parameter: <b>code-value-date</b>
@@ -3862,7 +3770,7 @@ public class Observation extends DomainResource {
    * Path: <b>Observation.valueString</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="value-string", path="Observation.value.as(String)", description="The value of the observation, if the value is a string, and also searches in CodeableConcept.text", type="string" )
+  @SearchParamDefinition(name="value-string", path="Observation.value.as(string)", description="The value of the observation, if the value is a string, and also searches in CodeableConcept.text", type="string" )
   public static final String SP_VALUE_STRING = "value-string";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>value-string</b>
@@ -3902,7 +3810,7 @@ public class Observation extends DomainResource {
    * Path: <b>Observation.performer</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="performer", path="Observation.performer", description="Who performed the observation", type="reference", providesMembershipIn={ @ca.uhn.fhir.model.api.annotation.Compartment(name="Patient"), @ca.uhn.fhir.model.api.annotation.Compartment(name="Practitioner"), @ca.uhn.fhir.model.api.annotation.Compartment(name="RelatedPerson") }, target={Organization.class, Patient.class, Practitioner.class, RelatedPerson.class } )
+  @SearchParamDefinition(name="performer", path="Observation.performer", description="Who performed the observation", type="reference", providesMembershipIn={ @ca.uhn.fhir.model.api.annotation.Compartment(name="Patient"), @ca.uhn.fhir.model.api.annotation.Compartment(name="Practitioner"), @ca.uhn.fhir.model.api.annotation.Compartment(name="RelatedPerson") }, target={CareTeam.class, Organization.class, Patient.class, Practitioner.class, PractitionerRole.class, RelatedPerson.class } )
   public static final String SP_PERFORMER = "performer";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>performer</b>
@@ -4065,52 +3973,6 @@ public class Observation extends DomainResource {
    * the path value of "<b>Observation:encounter</b>".
    */
   public static final ca.uhn.fhir.model.api.Include INCLUDE_ENCOUNTER = new ca.uhn.fhir.model.api.Include("Observation:encounter").toLocked();
-
- /**
-   * Search parameter: <b>related-type</b>
-   * <p>
-   * Description: <b>has-member | derived-from | sequel-to | replaces | qualified-by | interfered-by</b><br>
-   * Type: <b>token</b><br>
-   * Path: <b>Observation.related.type</b><br>
-   * </p>
-   */
-  @SearchParamDefinition(name="related-type", path="Observation.related.type", description="has-member | derived-from | sequel-to | replaces | qualified-by | interfered-by", type="token" )
-  public static final String SP_RELATED_TYPE = "related-type";
- /**
-   * <b>Fluent Client</b> search parameter constant for <b>related-type</b>
-   * <p>
-   * Description: <b>has-member | derived-from | sequel-to | replaces | qualified-by | interfered-by</b><br>
-   * Type: <b>token</b><br>
-   * Path: <b>Observation.related.type</b><br>
-   * </p>
-   */
-  public static final ca.uhn.fhir.rest.gclient.TokenClientParam RELATED_TYPE = new ca.uhn.fhir.rest.gclient.TokenClientParam(SP_RELATED_TYPE);
-
- /**
-   * Search parameter: <b>related-target</b>
-   * <p>
-   * Description: <b>Resource that is related to this one</b><br>
-   * Type: <b>reference</b><br>
-   * Path: <b>Observation.related.target</b><br>
-   * </p>
-   */
-  @SearchParamDefinition(name="related-target", path="Observation.related.target", description="Resource that is related to this one", type="reference", target={Observation.class, QuestionnaireResponse.class, Sequence.class } )
-  public static final String SP_RELATED_TARGET = "related-target";
- /**
-   * <b>Fluent Client</b> search parameter constant for <b>related-target</b>
-   * <p>
-   * Description: <b>Resource that is related to this one</b><br>
-   * Type: <b>reference</b><br>
-   * Path: <b>Observation.related.target</b><br>
-   * </p>
-   */
-  public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam RELATED_TARGET = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_RELATED_TARGET);
-
-/**
-   * Constant for fluent queries to be used to add include statements. Specifies
-   * the path value of "<b>Observation:related-target</b>".
-   */
-  public static final ca.uhn.fhir.model.api.Include INCLUDE_RELATED_TARGET = new ca.uhn.fhir.model.api.Include("Observation:related-target").toLocked();
 
  /**
    * Search parameter: <b>code-value-concept</b>

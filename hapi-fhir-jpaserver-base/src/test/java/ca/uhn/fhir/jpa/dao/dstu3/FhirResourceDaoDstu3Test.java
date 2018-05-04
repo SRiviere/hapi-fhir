@@ -23,12 +23,10 @@ import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.fhir.instance.model.api.*;
 import org.junit.*;
 import org.mockito.ArgumentCaptor;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 
 import ca.uhn.fhir.jpa.dao.*;
@@ -2506,36 +2504,6 @@ public class FhirResourceDaoDstu3Test extends BaseJpaDstu3Test {
 		assertEquals(1, profiles.size());
 		assertEquals("http://profile/2", profiles.get(0).getValue());
 
-	}
-
-	/**
-	 * Can we handle content that was previously saved containing vocabulary that
-	 * is no longer valid
-	 */
-	@Test
-	public void testResourceInDatabaseContainsInvalidVocabulary() {
-		final Patient p = new Patient();
-		p.setGender(AdministrativeGender.MALE);
-		final IIdType id = myPatientDao.create(p).getId().toUnqualifiedVersionless();
-		
-		TransactionTemplate tx = new TransactionTemplate(myTxManager);
-		tx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-		tx.execute(new TransactionCallbackWithoutResult() {
-			@Override
-			protected void doInTransactionWithoutResult(TransactionStatus theStatus) {
-				ResourceTable table = myResourceTableDao.findOne(id.getIdPartAsLong());
-				String newContent = myFhirCtx.newJsonParser().encodeResourceToString(p);
-				newContent = newContent.replace("male", "foo");
-				table.setResource(newContent.getBytes(Charsets.UTF_8));
-				table.setEncoding(ResourceEncodingEnum.JSON);
-				myResourceTableDao.save(table);
-			}
-		});
-		
-		Patient read = myPatientDao.read(id);
-		String string = myFhirCtx.newXmlParser().setPrettyPrint(true).encodeResourceToString(read);
-		ourLog.info(string);
-		assertThat(string, containsString("value=\"foo\""));
 	}
 
 	@Test

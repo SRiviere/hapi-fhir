@@ -104,6 +104,10 @@ private Map<String, Object> userData;
 		return false;
 	}
 	
+  public boolean isBooleanPrimitive() {
+    return false;
+  }
+
 	public boolean hasPrimitiveValue() {
 		return isPrimitive();
 	}
@@ -314,15 +318,33 @@ private Map<String, Object> userData;
 			throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a String");
 	}
 	
-	public UriType castToUri(Base b) throws FHIRException {
-		if (b instanceof UriType)
-			return (UriType) b;
-		else if (b.hasPrimitiveValue())
-			return new UriType(b.primitiveValue());
-		else
-			throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a Uri");
-	}
-	
+  public UriType castToUri(Base b) throws FHIRException {
+    if (b instanceof UriType)
+      return (UriType) b;
+    else if (b.hasPrimitiveValue())
+      return new UriType(b.primitiveValue());
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a Uri");
+  }
+  
+  public UrlType castToUrl(Base b) throws FHIRException {
+    if (b instanceof UrlType)
+      return (UrlType) b;
+    else if (b.hasPrimitiveValue())
+      return new UrlType(b.primitiveValue());
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a Uri");
+  }
+  
+  public CanonicalType castToCanonical(Base b) throws FHIRException {
+    if (b instanceof CanonicalType)
+      return (CanonicalType) b;
+    else if (b.hasPrimitiveValue())
+      return new CanonicalType(b.primitiveValue());
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a Uri");
+  }
+  
 	public DateType castToDate(Base b) throws FHIRException {
 		if (b instanceof DateType)
 			return (DateType) b;
@@ -595,6 +617,36 @@ private Map<String, Object> userData;
 			throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a Meta");
 	}
 		
+	
+  public MarketingStatus castToMarketingStatus(Base b) throws FHIRException {
+    if (b instanceof MarketingStatus)
+      return (MarketingStatus) b;
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a MarketingStatus");
+  }
+    
+  public ProductShelfLife castToProductShelfLife(Base b) throws FHIRException {
+    if (b instanceof ProductShelfLife)
+      return (ProductShelfLife) b;
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a ProductShelfLife");
+  }
+    
+  public ProdCharacteristic castToProdCharacteristic(Base b) throws FHIRException {
+    if (b instanceof ProdCharacteristic)
+      return (ProdCharacteristic) b;
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a ProdCharacteristic");
+  }
+    
+  
+  public SubstanceAmount castToSubstanceAmount(Base b) throws FHIRException {
+    if (b instanceof SubstanceAmount)
+      return (SubstanceAmount) b;
+    else
+      throw new FHIRException("Unable to convert a "+b.getClass().getName()+" to a SubstanceAmount");
+  }
+    
 	public Extension castToExtension(Base b) throws FHIRException {
 		if (b instanceof Extension)
 			return (Extension) b;

@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.util;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,4 +40,63 @@ public class JpaConstants {
 	 */
 	public static final String EXT_SUBSCRIPTION_SUBJECT_TEMPLATE = "http://hapifhir.io/fhir/StructureDefinition/subscription-email-subject-template";
 
+
+	/**
+	 * This extension URL indicates whether a REST HOOK delivery should
+	 * include the version ID when delivering.
+	 * <p>
+	 * This extension should be of type <code>boolean</code> and should be
+	 * placed on the <code>Subscription.channel</code> element.
+	 * </p>
+	 */
+	public static final String EXT_SUBSCRIPTION_RESTHOOK_STRIP_VERSION_IDS = "http://hapifhir.io/fhir/StructureDefinition/subscription-resthook-strip-version-ids";
+
+	/**
+	 * This extension URL indicates whether a REST HOOK delivery should
+	 * reload the resource and deliver the latest version always. This
+	 * could be useful for example if a resource which triggers a
+	 * subscription gets updated many times in short succession and there
+	 * is no value in delivering the older versions.
+	 * <p>
+	 * Note that if the resource is now deleted, this may cause
+	 * the delivery to be cancelled altogether.
+	 * </p>
+	 *
+	 * <p>
+	 * This extension should be of type <code>boolean</code> and should be
+	 * placed on the <code>Subscription.channel</code> element.
+	 * </p>
+	 */
+	public static final String EXT_SUBSCRIPTION_RESTHOOK_DELIVER_LATEST_VERSION = "http://hapifhir.io/fhir/StructureDefinition/subscription-resthook-deliver-latest-version";
+	/**
+	 * Operation name for the $expunge operation
+	 */
+	public static final String OPERATION_NAME_EXPUNGE = "$expunge";
+	/**
+	 * Parameter name for the $expunge operation
+	 */
+	public static final String OPERATION_EXPUNGE_PARAM_LIMIT = "limit";
+	/**
+	 * Parameter name for the $expunge operation
+	 */
+	public static final String OPERATION_EXPUNGE_PARAM_EXPUNGE_DELETED_RESOURCES = "expungeDeletedResources";
+	/**
+	 * Parameter name for the $expunge operation
+	 */
+	public static final String OPERATION_EXPUNGE_PARAM_EXPUNGE_PREVIOUS_VERSIONS = "expungePreviousVersions";
+	/**
+	 * Parameter name for the $expunge operation
+	 */
+	public static final String OPERATION_EXPUNGE_PARAM_EXPUNGE_EVERYTHING = "expungeEverything";
+	/**
+	 * Output parameter name for the $expunge operation
+	 */
+	public static final String OPERATION_EXPUNGE_OUT_PARAM_EXPUNGE_COUNT = "count";
+	/**
+	 * Header name for the "X-Meta-Snapshot-Mode" header, which
+	 * specifies that properties in meta (tags, profiles, security labels)
+	 * should be treated as a snapshot, meaning that these things will
+	 * be removed if they are nt explicitly included in updates
+	 */
+	public static final String HEADER_META_SNAPSHOT_MODE = "X-Meta-Snapshot-Mode";
 }

@@ -1,6 +1,7 @@
 package ca.uhn.fhir.jpa.dao;
 
 import ca.uhn.fhir.jpa.entity.ResourceEncodingEnum;
+import ca.uhn.fhir.jpa.util.JpaConstants;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.Validate;
@@ -12,7 +13,7 @@ import java.util.*;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +64,11 @@ public class DaoConfig {
 	/**
 	 * update setter javadoc if default changes
 	 */
+	private boolean myAllowContainsSearches = true;
+
+	/**
+	 * update setter javadoc if default changes
+	 */
 	private boolean myAllowInlineMatchUrlReferences = true;
 	private boolean myAllowMultipleDelete;
 	private boolean myDefaultSearchParamsCanBeOverridden = false;
@@ -85,7 +91,6 @@ public class DaoConfig {
 	 */
 	private Integer myFetchSizeDefaultMaximum = null;
 	private int myHardTagListLimit = 1000;
-	private int myIncludeLimit = 2000;
 	/**
 	 * update setter javadoc if default changes
 	 */
@@ -104,12 +109,14 @@ public class DaoConfig {
 	private Long myReuseCachedSearchResultsForMillis = DEFAULT_REUSE_CACHED_SEARCH_RESULTS_FOR_MILLIS;
 	private boolean mySchedulingDisabled;
 	private boolean mySuppressUpdatesWithNoChange = true;
-	private Set<String> myTreatBaseUrlsAsLocal = new HashSet<String>();
-	private Set<String> myTreatReferencesAsLogical = new HashSet<String>(DEFAULT_LOGICAL_BASE_URLS);
+	private Set<String> myTreatBaseUrlsAsLocal = new HashSet<>();
+	private Set<String> myTreatReferencesAsLogical = new HashSet<>(DEFAULT_LOGICAL_BASE_URLS);
 	private boolean myAutoCreatePlaceholderReferenceTargets;
 	private Integer myCacheControlNoStoreMaxResultsUpperLimit = 1000;
 	private Integer myCountSearchResultsUpTo = null;
 	private IdStrategyEnum myResourceServerIdStrategy = IdStrategyEnum.SEQUENTIAL_NUMERIC;
+	private boolean myMarkResourcesForReindexingUponSearchParameterChange;
+	private boolean myExpungeEnabled;
 
 	/**
 	 * Constructor
@@ -118,6 +125,7 @@ public class DaoConfig {
 		setSubscriptionEnabled(true);
 		setSubscriptionPollDelay(0);
 		setSubscriptionPurgeInactiveAfterMillis(Long.MAX_VALUE);
+		setMarkResourcesForReindexingUponSearchParameterChange(true);
 	}
 
 	/**
@@ -129,10 +137,11 @@ public class DaoConfig {
 		validateTreatBaseUrlsAsLocal(theTreatReferencesAsLogical);
 
 		if (myTreatReferencesAsLogical == null) {
-			myTreatReferencesAsLogical = new HashSet<String>();
+			myTreatReferencesAsLogical = new HashSet<>();
 		}
 		myTreatReferencesAsLogical.add(theTreatReferencesAsLogical);
 	}
+
 
 	/**
 	 * Specifies the highest number that a client is permitted to use in a
@@ -271,7 +280,6 @@ public class DaoConfig {
 	 * (next/prev links in search response bundles) will become invalid. Defaults to 1 hour.
 	 * </p>
 	 * <p>
-	 * <p>
 	 * To disable this feature entirely, see {@link #setExpireSearchResults(boolean)}
 	 * </p>
 	 *
@@ -290,8 +298,6 @@ public class DaoConfig {
 	 * number of milliseconds, they will be deleted from the database, and any paging links
 	 * (next/prev links in search response bundles) will become invalid. Defaults to 1 hour.
 	 * </p>
-	 * <p>
-	 * <p>
 	 * <p>
 	 * To disable this feature entirely, see {@link #setExpireSearchResults(boolean)}
 	 * </p>
@@ -344,19 +350,6 @@ public class DaoConfig {
 		myHardTagListLimit = theHardTagListLimit;
 	}
 
-	public int getIncludeLimit() {
-		return myIncludeLimit;
-	}
-
-	/**
-	 * This is the maximum number of resources that will be added to a single page of returned resources. Because of
-	 * includes with wildcards and other possibilities it is possible for a client to make requests that include very
-	 * large amounts of data, so this hard limit can be imposed to prevent runaway requests.
-	 */
-	public void setIncludeLimit(int theIncludeLimit) {
-		myIncludeLimit = theIncludeLimit;
-	}
-
 	/**
 	 * If set to {@link IndexEnabledEnum#DISABLED} (default is {@link IndexEnabledEnum#DISABLED})
 	 * the server will not create search indexes for search parameters with no values in resources.
@@ -387,6 +380,11 @@ public class DaoConfig {
 	 * <p>
 	 * This feature may be enabled on servers where supporting the use of the :missing parameter is
 	 * of higher importance than raw write performance
+	 * </p>
+	 * <p>
+	 * Note that this setting also has an impact on sorting (i.e. using the
+	 * <code>_sort</code> parameter on searches): If the server is configured
+	 * to not index missing field.
 	 * </p>
 	 */
 	public void setIndexMissingFields(IndexEnabledEnum theIndexMissingFields) {
@@ -471,25 +469,6 @@ public class DaoConfig {
 	}
 
 	/**
-	 * This setting configures the strategy to use in generating IDs for newly
-	 * created resources on the server. The default is {@link IdStrategyEnum#SEQUENTIAL_NUMERIC}.
-	 */
-	public IdStrategyEnum getResourceServerIdStrategy() {
-		return myResourceServerIdStrategy;
-	}
-
-	/**
-	 * This setting configures the strategy to use in generating IDs for newly
-	 * created resources on the server. The default is {@link IdStrategyEnum#SEQUENTIAL_NUMERIC}.
-	 *
-	 * @param theResourceIdStrategy The strategy. Must not be null.
-	 */
-	public void setResourceServerIdStrategy(IdStrategyEnum theResourceIdStrategy) {
-		Validate.notNull(theResourceIdStrategy, "theResourceIdStrategy must not be null");
-		myResourceServerIdStrategy = theResourceIdStrategy;
-	}
-
-	/**
 	 * If set, an individual resource will not be allowed to have more than the
 	 * given number of tags, profiles, and security labels (the limit is for the combined
 	 * total for all of these things on an individual resource).
@@ -517,6 +496,25 @@ public class DaoConfig {
 	 */
 	public void setResourceMetaCountHardLimit(Integer theResourceMetaCountHardLimit) {
 		myResourceMetaCountHardLimit = theResourceMetaCountHardLimit;
+	}
+
+	/**
+	 * This setting configures the strategy to use in generating IDs for newly
+	 * created resources on the server. The default is {@link IdStrategyEnum#SEQUENTIAL_NUMERIC}.
+	 */
+	public IdStrategyEnum getResourceServerIdStrategy() {
+		return myResourceServerIdStrategy;
+	}
+
+	/**
+	 * This setting configures the strategy to use in generating IDs for newly
+	 * created resources on the server. The default is {@link IdStrategyEnum#SEQUENTIAL_NUMERIC}.
+	 *
+	 * @param theResourceIdStrategy The strategy. Must not be null.
+	 */
+	public void setResourceServerIdStrategy(IdStrategyEnum theResourceIdStrategy) {
+		Validate.notNull(theResourceIdStrategy, "theResourceIdStrategy must not be null");
+		myResourceServerIdStrategy = theResourceIdStrategy;
 	}
 
 	/**
@@ -659,6 +657,26 @@ public class DaoConfig {
 	public DaoConfig setTreatReferencesAsLogical(Set<String> theTreatReferencesAsLogical) {
 		myTreatReferencesAsLogical = theTreatReferencesAsLogical;
 		return this;
+	}
+
+	/**
+	 * If enabled, the server will support the use of :contains searches,
+	 * which are helpful but can have adverse effects on performance.
+	 * <p>
+	 * Default is <code>true</code>
+	 */
+	public boolean isAllowContainsSearches() {
+		return myAllowContainsSearches;
+	}
+
+	/**
+	 * If enabled, the server will support the use of :contains searches,
+	 * which are helpful but can have adverse effects on performance.
+	 * <p>
+	 * Default is <code>true</code>
+	 */
+	public void setAllowContainsSearches(boolean theAllowContainsSearches) {
+		this.myAllowContainsSearches = theAllowContainsSearches;
 	}
 
 	/**
@@ -912,6 +930,36 @@ public class DaoConfig {
 	}
 
 	/**
+	 * If set to <code>true</code> (default is <code>false</code>), the $expunge operation
+	 * will be enabled on this server. This operation is potentially dangerous since it allows
+	 * a client to physically delete data in a way that can not be recovered (without resorting
+	 * to backups).
+	 * <p>
+	 * It is recommended to not enable this setting without appropriate security
+	 * in place on your server to prevent non-administrators from using this
+	 * operation.
+	 * </p>
+	 */
+	public boolean isExpungeEnabled() {
+		return myExpungeEnabled;
+	}
+
+	/**
+	 * If set to <code>true</code> (default is <code>false</code>), the $expunge operation
+	 * will be enabled on this server. This operation is potentially dangerous since it allows
+	 * a client to physically delete data in a way that can not be recovered (without resorting
+	 * to backups).
+	 * <p>
+	 * It is recommended to not enable this setting without appropriate security
+	 * in place on your server to prevent non-administrators from using this
+	 * operation.
+	 * </p>
+	 */
+	public void setExpungeEnabled(boolean theExpungeEnabled) {
+		myExpungeEnabled = theExpungeEnabled;
+	}
+
+	/**
 	 * Should contained IDs be indexed the same way that non-contained IDs are (default is
 	 * <code>true</code>)
 	 */
@@ -925,6 +973,24 @@ public class DaoConfig {
 	 */
 	public void setIndexContainedResources(boolean theIndexContainedResources) {
 		myIndexContainedResources = theIndexContainedResources;
+	}
+
+	/**
+	 * Should resources be marked as needing reindexing when a
+	 * SearchParameter resource is added or changed. This should generally
+	 * be true (which is the default)
+	 */
+	public boolean isMarkResourcesForReindexingUponSearchParameterChange() {
+		return myMarkResourcesForReindexingUponSearchParameterChange;
+	}
+
+	/**
+	 * Should resources be marked as needing reindexing when a
+	 * SearchParameter resource is added or changed. This should generally
+	 * be true (which is the default)
+	 */
+	public void setMarkResourcesForReindexingUponSearchParameterChange(boolean theMarkResourcesForReindexingUponSearchParameterChange) {
+		myMarkResourcesForReindexingUponSearchParameterChange = theMarkResourcesForReindexingUponSearchParameterChange;
 	}
 
 	public boolean isSchedulingDisabled() {
@@ -984,7 +1050,7 @@ public class DaoConfig {
 	 * a new one.
 	 * <p>
 	 * This causes friendlier error messages to be generated, but adds an
-	 * extra round-trip to the database for eavh save so it can cause
+	 * extra round-trip to the database for each save so it can cause
 	 * a small performance hit.
 	 * </p>
 	 */
@@ -994,7 +1060,7 @@ public class DaoConfig {
 
 	/**
 	 * If set to <code>true</code> (default is <code>true</code>), indexes will be
-	 * created for search parameters marked as {@link ca.uhn.fhir.jpa.util.JpaConstants#EXT_SP_UNIQUE}.
+	 * created for search parameters marked as {@link JpaConstants#EXT_SP_UNIQUE}.
 	 * This is a HAPI FHIR specific extension which can be used to specify that no more than one
 	 * resource can exist which matches a given criteria, using a database constraint to
 	 * enforce this.
@@ -1005,7 +1071,7 @@ public class DaoConfig {
 
 	/**
 	 * If set to <code>true</code> (default is <code>true</code>), indexes will be
-	 * created for search parameters marked as {@link ca.uhn.fhir.jpa.util.JpaConstants#EXT_SP_UNIQUE}.
+	 * created for search parameters marked as {@link JpaConstants#EXT_SP_UNIQUE}.
 	 * This is a HAPI FHIR specific extension which can be used to specify that no more than one
 	 * resource can exist which matches a given criteria, using a database constraint to
 	 * enforce this.
@@ -1025,6 +1091,18 @@ public class DaoConfig {
 	@Deprecated
 	public void setHardSearchLimit(int theHardSearchLimit) {
 		// this method does nothing
+	}
+
+	/**
+	 * This is the maximum number of resources that will be added to a single page of returned resources. Because of
+	 * includes with wildcards and other possibilities it is possible for a client to make requests that include very
+	 * large amounts of data, so this hard limit can be imposed to prevent runaway requests.
+	 *
+	 * @deprecated Deprecated in HAPI FHIR 3.2.0 as this method doesn't actually do anything
+	 */
+	@Deprecated
+	public void setIncludeLimit(@SuppressWarnings("unused") int theIncludeLimit) {
+		// nothing
 	}
 
 	/**

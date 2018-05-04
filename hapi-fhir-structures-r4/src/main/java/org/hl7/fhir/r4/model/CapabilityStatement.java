@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -47,12 +47,12 @@ import org.hl7.fhir.exceptions.FHIRException;
  * A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server that may be used as a statement of actual server functionality or a statement of required or desired server implementation.
  */
 @ResourceDef(name="CapabilityStatement", profile="http://hl7.org/fhir/Profile/CapabilityStatement")
-@ChildOrder(names={"url", "version", "name", "title", "status", "experimental", "date", "publisher", "contact", "description", "useContext", "jurisdiction", "purpose", "copyright", "kind", "instantiates", "software", "implementation", "fhirVersion", "acceptUnknown", "format", "patchFormat", "implementationGuide", "profile", "rest", "messaging", "document"})
+@ChildOrder(names={"url", "version", "name", "title", "status", "experimental", "date", "publisher", "contact", "description", "useContext", "jurisdiction", "purpose", "copyright", "kind", "instantiates", "software", "implementation", "fhirVersion", "format", "patchFormat", "implementationGuide", "rest", "messaging", "document"})
 public class CapabilityStatement extends MetadataResource implements IBaseConformance {
 
     public enum CapabilityStatementKind {
         /**
-         * The CapabilityStatement instance represents the present capabilities of a specific system instance.  This is the kind returned by OPTIONS for a FHIR server end-point.
+         * The CapabilityStatement instance represents the present capabilities of a specific system instance.  This is the kind returned by /metadata for a FHIR server end-point.
          */
         INSTANCE, 
         /**
@@ -99,7 +99,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
         public String getDefinition() {
           switch (this) {
-            case INSTANCE: return "The CapabilityStatement instance represents the present capabilities of a specific system instance.  This is the kind returned by OPTIONS for a FHIR server end-point.";
+            case INSTANCE: return "The CapabilityStatement instance represents the present capabilities of a specific system instance.  This is the kind returned by /metadata for a FHIR server end-point.";
             case CAPABILITY: return "The CapabilityStatement instance represents the capabilities of a system or piece of software, independent of a particular installation.";
             case REQUIREMENTS: return "The CapabilityStatement instance represents a set of requirements for other systems to meet; e.g. as part of an implementation guide or 'request for proposal'.";
             default: return "?";
@@ -154,130 +154,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       return "?";
       }
     public String toSystem(CapabilityStatementKind code) {
-      return code.getSystem();
-      }
-    }
-
-    public enum UnknownContentCode {
-        /**
-         * The application does not accept either unknown elements or extensions.
-         */
-        NO, 
-        /**
-         * The application accepts unknown extensions, but not unknown elements.
-         */
-        EXTENSIONS, 
-        /**
-         * The application accepts unknown elements, but not unknown extensions.
-         */
-        ELEMENTS, 
-        /**
-         * The application accepts unknown elements and extensions.
-         */
-        BOTH, 
-        /**
-         * added to help the parsers with the generic types
-         */
-        NULL;
-        public static UnknownContentCode fromCode(String codeString) throws FHIRException {
-            if (codeString == null || "".equals(codeString))
-                return null;
-        if ("no".equals(codeString))
-          return NO;
-        if ("extensions".equals(codeString))
-          return EXTENSIONS;
-        if ("elements".equals(codeString))
-          return ELEMENTS;
-        if ("both".equals(codeString))
-          return BOTH;
-        if (Configuration.isAcceptInvalidEnums())
-          return null;
-        else
-          throw new FHIRException("Unknown UnknownContentCode code '"+codeString+"'");
-        }
-        public String toCode() {
-          switch (this) {
-            case NO: return "no";
-            case EXTENSIONS: return "extensions";
-            case ELEMENTS: return "elements";
-            case BOTH: return "both";
-            default: return "?";
-          }
-        }
-        public String getSystem() {
-          switch (this) {
-            case NO: return "http://hl7.org/fhir/unknown-content-code";
-            case EXTENSIONS: return "http://hl7.org/fhir/unknown-content-code";
-            case ELEMENTS: return "http://hl7.org/fhir/unknown-content-code";
-            case BOTH: return "http://hl7.org/fhir/unknown-content-code";
-            default: return "?";
-          }
-        }
-        public String getDefinition() {
-          switch (this) {
-            case NO: return "The application does not accept either unknown elements or extensions.";
-            case EXTENSIONS: return "The application accepts unknown extensions, but not unknown elements.";
-            case ELEMENTS: return "The application accepts unknown elements, but not unknown extensions.";
-            case BOTH: return "The application accepts unknown elements and extensions.";
-            default: return "?";
-          }
-        }
-        public String getDisplay() {
-          switch (this) {
-            case NO: return "Neither Elements or Extensions";
-            case EXTENSIONS: return "Unknown Extensions";
-            case ELEMENTS: return "Unknown Elements";
-            case BOTH: return "Unknown Elements and Extensions";
-            default: return "?";
-          }
-        }
-    }
-
-  public static class UnknownContentCodeEnumFactory implements EnumFactory<UnknownContentCode> {
-    public UnknownContentCode fromCode(String codeString) throws IllegalArgumentException {
-      if (codeString == null || "".equals(codeString))
-            if (codeString == null || "".equals(codeString))
-                return null;
-        if ("no".equals(codeString))
-          return UnknownContentCode.NO;
-        if ("extensions".equals(codeString))
-          return UnknownContentCode.EXTENSIONS;
-        if ("elements".equals(codeString))
-          return UnknownContentCode.ELEMENTS;
-        if ("both".equals(codeString))
-          return UnknownContentCode.BOTH;
-        throw new IllegalArgumentException("Unknown UnknownContentCode code '"+codeString+"'");
-        }
-        public Enumeration<UnknownContentCode> fromType(Base code) throws FHIRException {
-          if (code == null)
-            return null;
-          if (code.isEmpty())
-            return new Enumeration<UnknownContentCode>(this);
-          String codeString = ((PrimitiveType) code).asStringValue();
-          if (codeString == null || "".equals(codeString))
-            return null;
-        if ("no".equals(codeString))
-          return new Enumeration<UnknownContentCode>(this, UnknownContentCode.NO);
-        if ("extensions".equals(codeString))
-          return new Enumeration<UnknownContentCode>(this, UnknownContentCode.EXTENSIONS);
-        if ("elements".equals(codeString))
-          return new Enumeration<UnknownContentCode>(this, UnknownContentCode.ELEMENTS);
-        if ("both".equals(codeString))
-          return new Enumeration<UnknownContentCode>(this, UnknownContentCode.BOTH);
-        throw new FHIRException("Unknown UnknownContentCode code '"+codeString+"'");
-        }
-    public String toCode(UnknownContentCode code) {
-      if (code == UnknownContentCode.NO)
-        return "no";
-      if (code == UnknownContentCode.EXTENSIONS)
-        return "extensions";
-      if (code == UnknownContentCode.ELEMENTS)
-        return "elements";
-      if (code == UnknownContentCode.BOTH)
-        return "both";
-      return "?";
-      }
-    public String toSystem(UnknownContentCode code) {
       return code.getSystem();
       }
     }
@@ -688,7 +564,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
 
     public enum ConditionalReadStatus {
         /**
-         * No support for conditional deletes.
+         * No support for conditional reads
          */
         NOTSUPPORTED, 
         /**
@@ -743,7 +619,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
         public String getDefinition() {
           switch (this) {
-            case NOTSUPPORTED: return "No support for conditional deletes.";
+            case NOTSUPPORTED: return "No support for conditional reads";
             case MODIFIEDSINCE: return "Conditional reads are supported, but only with the If-Modified-Since HTTP Header.";
             case NOTMATCH: return "Conditional reads are supported, but only with the If-None-Match HTTP Header.";
             case FULLSUPPORT: return "Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.";
@@ -1274,114 +1150,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
     }
 
-    public enum MessageSignificanceCategory {
-        /**
-         * The message represents/requests a change that should not be processed more than once; e.g., making a booking for an appointment.
-         */
-        CONSEQUENCE, 
-        /**
-         * The message represents a response to query for current information. Retrospective processing is wrong and/or wasteful.
-         */
-        CURRENCY, 
-        /**
-         * The content is not necessarily intended to be current, and it can be reprocessed, though there may be version issues created by processing old notifications.
-         */
-        NOTIFICATION, 
-        /**
-         * added to help the parsers with the generic types
-         */
-        NULL;
-        public static MessageSignificanceCategory fromCode(String codeString) throws FHIRException {
-            if (codeString == null || "".equals(codeString))
-                return null;
-        if ("Consequence".equals(codeString))
-          return CONSEQUENCE;
-        if ("Currency".equals(codeString))
-          return CURRENCY;
-        if ("Notification".equals(codeString))
-          return NOTIFICATION;
-        if (Configuration.isAcceptInvalidEnums())
-          return null;
-        else
-          throw new FHIRException("Unknown MessageSignificanceCategory code '"+codeString+"'");
-        }
-        public String toCode() {
-          switch (this) {
-            case CONSEQUENCE: return "Consequence";
-            case CURRENCY: return "Currency";
-            case NOTIFICATION: return "Notification";
-            default: return "?";
-          }
-        }
-        public String getSystem() {
-          switch (this) {
-            case CONSEQUENCE: return "http://hl7.org/fhir/message-significance-category";
-            case CURRENCY: return "http://hl7.org/fhir/message-significance-category";
-            case NOTIFICATION: return "http://hl7.org/fhir/message-significance-category";
-            default: return "?";
-          }
-        }
-        public String getDefinition() {
-          switch (this) {
-            case CONSEQUENCE: return "The message represents/requests a change that should not be processed more than once; e.g., making a booking for an appointment.";
-            case CURRENCY: return "The message represents a response to query for current information. Retrospective processing is wrong and/or wasteful.";
-            case NOTIFICATION: return "The content is not necessarily intended to be current, and it can be reprocessed, though there may be version issues created by processing old notifications.";
-            default: return "?";
-          }
-        }
-        public String getDisplay() {
-          switch (this) {
-            case CONSEQUENCE: return "Consequence";
-            case CURRENCY: return "Currency";
-            case NOTIFICATION: return "Notification";
-            default: return "?";
-          }
-        }
-    }
-
-  public static class MessageSignificanceCategoryEnumFactory implements EnumFactory<MessageSignificanceCategory> {
-    public MessageSignificanceCategory fromCode(String codeString) throws IllegalArgumentException {
-      if (codeString == null || "".equals(codeString))
-            if (codeString == null || "".equals(codeString))
-                return null;
-        if ("Consequence".equals(codeString))
-          return MessageSignificanceCategory.CONSEQUENCE;
-        if ("Currency".equals(codeString))
-          return MessageSignificanceCategory.CURRENCY;
-        if ("Notification".equals(codeString))
-          return MessageSignificanceCategory.NOTIFICATION;
-        throw new IllegalArgumentException("Unknown MessageSignificanceCategory code '"+codeString+"'");
-        }
-        public Enumeration<MessageSignificanceCategory> fromType(Base code) throws FHIRException {
-          if (code == null)
-            return null;
-          if (code.isEmpty())
-            return new Enumeration<MessageSignificanceCategory>(this);
-          String codeString = ((PrimitiveType) code).asStringValue();
-          if (codeString == null || "".equals(codeString))
-            return null;
-        if ("Consequence".equals(codeString))
-          return new Enumeration<MessageSignificanceCategory>(this, MessageSignificanceCategory.CONSEQUENCE);
-        if ("Currency".equals(codeString))
-          return new Enumeration<MessageSignificanceCategory>(this, MessageSignificanceCategory.CURRENCY);
-        if ("Notification".equals(codeString))
-          return new Enumeration<MessageSignificanceCategory>(this, MessageSignificanceCategory.NOTIFICATION);
-        throw new FHIRException("Unknown MessageSignificanceCategory code '"+codeString+"'");
-        }
-    public String toCode(MessageSignificanceCategory code) {
-      if (code == MessageSignificanceCategory.CONSEQUENCE)
-        return "Consequence";
-      if (code == MessageSignificanceCategory.CURRENCY)
-        return "Currency";
-      if (code == MessageSignificanceCategory.NOTIFICATION)
-        return "Notification";
-      return "?";
-      }
-    public String toSystem(MessageSignificanceCategory code) {
-      return code.getSystem();
-      }
-    }
-
     public enum DocumentMode {
         /**
          * The application produces documents of the specified type.
@@ -1763,23 +1531,23 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementSoftwareComponent))
+        if (!(other_ instanceof CapabilityStatementSoftwareComponent))
           return false;
-        CapabilityStatementSoftwareComponent o = (CapabilityStatementSoftwareComponent) other;
+        CapabilityStatementSoftwareComponent o = (CapabilityStatementSoftwareComponent) other_;
         return compareDeep(name, o.name, true) && compareDeep(version, o.version, true) && compareDeep(releaseDate, o.releaseDate, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementSoftwareComponent))
+        if (!(other_ instanceof CapabilityStatementSoftwareComponent))
           return false;
-        CapabilityStatementSoftwareComponent o = (CapabilityStatementSoftwareComponent) other;
+        CapabilityStatementSoftwareComponent o = (CapabilityStatementSoftwareComponent) other_;
         return compareValues(name, o.name, true) && compareValues(version, o.version, true) && compareValues(releaseDate, o.releaseDate, true)
           ;
       }
@@ -1808,11 +1576,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.
          */
-        @Child(name = "url", type = {UriType.class}, order=2, min=0, max=1, modifier=false, summary=true)
+        @Child(name = "url", type = {UrlType.class}, order=2, min=0, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Base URL for the installation", formalDefinition="An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces." )
-        protected UriType url;
+        protected UrlType url;
 
-        private static final long serialVersionUID = -289238508L;
+        private static final long serialVersionUID = 98009649L;
 
     /**
      * Constructor
@@ -1877,12 +1645,12 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return {@link #url} (An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
          */
-        public UriType getUrlElement() { 
+        public UrlType getUrlElement() { 
           if (this.url == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create CapabilityStatementImplementationComponent.url");
             else if (Configuration.doAutoCreate())
-              this.url = new UriType(); // bb
+              this.url = new UrlType(); // bb
           return this.url;
         }
 
@@ -1897,7 +1665,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @param value {@link #url} (An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
          */
-        public CapabilityStatementImplementationComponent setUrlElement(UriType value) { 
+        public CapabilityStatementImplementationComponent setUrlElement(UrlType value) { 
           this.url = value;
           return this;
         }
@@ -1917,7 +1685,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
             this.url = null;
           else {
             if (this.url == null)
-              this.url = new UriType();
+              this.url = new UrlType();
             this.url.setValue(value);
           }
           return this;
@@ -1926,14 +1694,14 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("description", "string", "Information about the specific installation that this capability statement relates to.", 0, 1, description));
-          children.add(new Property("url", "uri", "An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.", 0, 1, url));
+          children.add(new Property("url", "url", "An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.", 0, 1, url));
         }
 
         @Override
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
           case -1724546052: /*description*/  return new Property("description", "string", "Information about the specific installation that this capability statement relates to.", 0, 1, description);
-          case 116079: /*url*/  return new Property("url", "uri", "An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.", 0, 1, url);
+          case 116079: /*url*/  return new Property("url", "url", "An absolute base URL for the implementation.  This forms the base for REST interfaces as well as the mailbox and document interfaces.", 0, 1, url);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -1943,7 +1711,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
         switch (hash) {
         case -1724546052: /*description*/ return this.description == null ? new Base[0] : new Base[] {this.description}; // StringType
-        case 116079: /*url*/ return this.url == null ? new Base[0] : new Base[] {this.url}; // UriType
+        case 116079: /*url*/ return this.url == null ? new Base[0] : new Base[] {this.url}; // UrlType
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -1956,7 +1724,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.description = castToString(value); // StringType
           return value;
         case 116079: // url
-          this.url = castToUri(value); // UriType
+          this.url = castToUrl(value); // UrlType
           return value;
         default: return super.setProperty(hash, name, value);
         }
@@ -1968,7 +1736,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         if (name.equals("description")) {
           this.description = castToString(value); // StringType
         } else if (name.equals("url")) {
-          this.url = castToUri(value); // UriType
+          this.url = castToUrl(value); // UrlType
         } else
           return super.setProperty(name, value);
         return value;
@@ -1988,7 +1756,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case -1724546052: /*description*/ return new String[] {"string"};
-        case 116079: /*url*/ return new String[] {"uri"};
+        case 116079: /*url*/ return new String[] {"url"};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -2015,22 +1783,22 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementImplementationComponent))
+        if (!(other_ instanceof CapabilityStatementImplementationComponent))
           return false;
-        CapabilityStatementImplementationComponent o = (CapabilityStatementImplementationComponent) other;
+        CapabilityStatementImplementationComponent o = (CapabilityStatementImplementationComponent) other_;
         return compareDeep(description, o.description, true) && compareDeep(url, o.url, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementImplementationComponent))
+        if (!(other_ instanceof CapabilityStatementImplementationComponent))
           return false;
-        CapabilityStatementImplementationComponent o = (CapabilityStatementImplementationComponent) other;
+        CapabilityStatementImplementationComponent o = (CapabilityStatementImplementationComponent) other_;
         return compareValues(description, o.description, true) && compareValues(url, o.url, true);
       }
 
@@ -2093,18 +1861,18 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * Definition of an operation or a named query together with its parameters and their meaning and type.
          */
-        @Child(name = "operation", type = {}, order=7, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
-        @Description(shortDefinition="Definition of an operation or a custom query", formalDefinition="Definition of an operation or a named query together with its parameters and their meaning and type." )
-        protected List<CapabilityStatementRestOperationComponent> operation;
+        @Child(name = "operation", type = {CapabilityStatementRestResourceOperationComponent.class}, order=7, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+        @Description(shortDefinition="Definition of a system level operation", formalDefinition="Definition of an operation or a named query together with its parameters and their meaning and type." )
+        protected List<CapabilityStatementRestResourceOperationComponent> operation;
 
         /**
          * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .
          */
-        @Child(name = "compartment", type = {UriType.class}, order=8, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+        @Child(name = "compartment", type = {CanonicalType.class}, order=8, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
         @Description(shortDefinition="Compartments served/used by system", formalDefinition="An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL ." )
-        protected List<UriType> compartment;
+        protected List<CanonicalType> compartment;
 
-        private static final long serialVersionUID = 38012979L;
+        private static final long serialVersionUID = -1766393559L;
 
     /**
      * Constructor
@@ -2401,16 +2169,16 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return {@link #operation} (Definition of an operation or a named query together with its parameters and their meaning and type.)
          */
-        public List<CapabilityStatementRestOperationComponent> getOperation() { 
+        public List<CapabilityStatementRestResourceOperationComponent> getOperation() { 
           if (this.operation == null)
-            this.operation = new ArrayList<CapabilityStatementRestOperationComponent>();
+            this.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
           return this.operation;
         }
 
         /**
          * @return Returns a reference to <code>this</code> for easy method chaining
          */
-        public CapabilityStatementRestComponent setOperation(List<CapabilityStatementRestOperationComponent> theOperation) { 
+        public CapabilityStatementRestComponent setOperation(List<CapabilityStatementRestResourceOperationComponent> theOperation) { 
           this.operation = theOperation;
           return this;
         }
@@ -2418,25 +2186,25 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         public boolean hasOperation() { 
           if (this.operation == null)
             return false;
-          for (CapabilityStatementRestOperationComponent item : this.operation)
+          for (CapabilityStatementRestResourceOperationComponent item : this.operation)
             if (!item.isEmpty())
               return true;
           return false;
         }
 
-        public CapabilityStatementRestOperationComponent addOperation() { //3
-          CapabilityStatementRestOperationComponent t = new CapabilityStatementRestOperationComponent();
+        public CapabilityStatementRestResourceOperationComponent addOperation() { //3
+          CapabilityStatementRestResourceOperationComponent t = new CapabilityStatementRestResourceOperationComponent();
           if (this.operation == null)
-            this.operation = new ArrayList<CapabilityStatementRestOperationComponent>();
+            this.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
           this.operation.add(t);
           return t;
         }
 
-        public CapabilityStatementRestComponent addOperation(CapabilityStatementRestOperationComponent t) { //3
+        public CapabilityStatementRestComponent addOperation(CapabilityStatementRestResourceOperationComponent t) { //3
           if (t == null)
             return this;
           if (this.operation == null)
-            this.operation = new ArrayList<CapabilityStatementRestOperationComponent>();
+            this.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
           this.operation.add(t);
           return this;
         }
@@ -2444,7 +2212,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return The first repetition of repeating field {@link #operation}, creating it if it does not already exist
          */
-        public CapabilityStatementRestOperationComponent getOperationFirstRep() { 
+        public CapabilityStatementRestResourceOperationComponent getOperationFirstRep() { 
           if (getOperation().isEmpty()) {
             addOperation();
           }
@@ -2454,16 +2222,16 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return {@link #compartment} (An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .)
          */
-        public List<UriType> getCompartment() { 
+        public List<CanonicalType> getCompartment() { 
           if (this.compartment == null)
-            this.compartment = new ArrayList<UriType>();
+            this.compartment = new ArrayList<CanonicalType>();
           return this.compartment;
         }
 
         /**
          * @return Returns a reference to <code>this</code> for easy method chaining
          */
-        public CapabilityStatementRestComponent setCompartment(List<UriType> theCompartment) { 
+        public CapabilityStatementRestComponent setCompartment(List<CanonicalType> theCompartment) { 
           this.compartment = theCompartment;
           return this;
         }
@@ -2471,7 +2239,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         public boolean hasCompartment() { 
           if (this.compartment == null)
             return false;
-          for (UriType item : this.compartment)
+          for (CanonicalType item : this.compartment)
             if (!item.isEmpty())
               return true;
           return false;
@@ -2480,10 +2248,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return {@link #compartment} (An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .)
          */
-        public UriType addCompartmentElement() {//2 
-          UriType t = new UriType();
+        public CanonicalType addCompartmentElement() {//2 
+          CanonicalType t = new CanonicalType();
           if (this.compartment == null)
-            this.compartment = new ArrayList<UriType>();
+            this.compartment = new ArrayList<CanonicalType>();
           this.compartment.add(t);
           return t;
         }
@@ -2492,10 +2260,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
          * @param value {@link #compartment} (An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .)
          */
         public CapabilityStatementRestComponent addCompartment(String value) { //1
-          UriType t = new UriType();
+          CanonicalType t = new CanonicalType();
           t.setValue(value);
           if (this.compartment == null)
-            this.compartment = new ArrayList<UriType>();
+            this.compartment = new ArrayList<CanonicalType>();
           this.compartment.add(t);
           return this;
         }
@@ -2506,8 +2274,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         public boolean hasCompartment(String value) { 
           if (this.compartment == null)
             return false;
-          for (UriType v : this.compartment)
-            if (v.equals(value)) // uri
+          for (CanonicalType v : this.compartment)
+            if (v.getValue().equals(value)) // canonical(CompartmentDefinition)
               return true;
           return false;
         }
@@ -2520,8 +2288,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           children.add(new Property("resource", "", "A specification of the restful capabilities of the solution for a specific resource type.", 0, java.lang.Integer.MAX_VALUE, resource));
           children.add(new Property("interaction", "", "A specification of restful operations supported by the system.", 0, java.lang.Integer.MAX_VALUE, interaction));
           children.add(new Property("searchParam", "@CapabilityStatement.rest.resource.searchParam", "Search parameters that are supported for searching all resources for implementations to support and/or make use of - either references to ones defined in the specification, or additional ones defined for/by the implementation.", 0, java.lang.Integer.MAX_VALUE, searchParam));
-          children.add(new Property("operation", "", "Definition of an operation or a named query together with its parameters and their meaning and type.", 0, java.lang.Integer.MAX_VALUE, operation));
-          children.add(new Property("compartment", "uri", "An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .", 0, java.lang.Integer.MAX_VALUE, compartment));
+          children.add(new Property("operation", "@CapabilityStatement.rest.resource.operation", "Definition of an operation or a named query together with its parameters and their meaning and type.", 0, java.lang.Integer.MAX_VALUE, operation));
+          children.add(new Property("compartment", "canonical(CompartmentDefinition)", "An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .", 0, java.lang.Integer.MAX_VALUE, compartment));
         }
 
         @Override
@@ -2533,8 +2301,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           case -341064690: /*resource*/  return new Property("resource", "", "A specification of the restful capabilities of the solution for a specific resource type.", 0, java.lang.Integer.MAX_VALUE, resource);
           case 1844104722: /*interaction*/  return new Property("interaction", "", "A specification of restful operations supported by the system.", 0, java.lang.Integer.MAX_VALUE, interaction);
           case -553645115: /*searchParam*/  return new Property("searchParam", "@CapabilityStatement.rest.resource.searchParam", "Search parameters that are supported for searching all resources for implementations to support and/or make use of - either references to ones defined in the specification, or additional ones defined for/by the implementation.", 0, java.lang.Integer.MAX_VALUE, searchParam);
-          case 1662702951: /*operation*/  return new Property("operation", "", "Definition of an operation or a named query together with its parameters and their meaning and type.", 0, java.lang.Integer.MAX_VALUE, operation);
-          case -397756334: /*compartment*/  return new Property("compartment", "uri", "An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .", 0, java.lang.Integer.MAX_VALUE, compartment);
+          case 1662702951: /*operation*/  return new Property("operation", "@CapabilityStatement.rest.resource.operation", "Definition of an operation or a named query together with its parameters and their meaning and type.", 0, java.lang.Integer.MAX_VALUE, operation);
+          case -397756334: /*compartment*/  return new Property("compartment", "canonical(CompartmentDefinition)", "An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to a CompartmentDefinition resource by its canonical URL .", 0, java.lang.Integer.MAX_VALUE, compartment);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -2549,8 +2317,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -341064690: /*resource*/ return this.resource == null ? new Base[0] : this.resource.toArray(new Base[this.resource.size()]); // CapabilityStatementRestResourceComponent
         case 1844104722: /*interaction*/ return this.interaction == null ? new Base[0] : this.interaction.toArray(new Base[this.interaction.size()]); // SystemInteractionComponent
         case -553645115: /*searchParam*/ return this.searchParam == null ? new Base[0] : this.searchParam.toArray(new Base[this.searchParam.size()]); // CapabilityStatementRestResourceSearchParamComponent
-        case 1662702951: /*operation*/ return this.operation == null ? new Base[0] : this.operation.toArray(new Base[this.operation.size()]); // CapabilityStatementRestOperationComponent
-        case -397756334: /*compartment*/ return this.compartment == null ? new Base[0] : this.compartment.toArray(new Base[this.compartment.size()]); // UriType
+        case 1662702951: /*operation*/ return this.operation == null ? new Base[0] : this.operation.toArray(new Base[this.operation.size()]); // CapabilityStatementRestResourceOperationComponent
+        case -397756334: /*compartment*/ return this.compartment == null ? new Base[0] : this.compartment.toArray(new Base[this.compartment.size()]); // CanonicalType
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -2579,10 +2347,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.getSearchParam().add((CapabilityStatementRestResourceSearchParamComponent) value); // CapabilityStatementRestResourceSearchParamComponent
           return value;
         case 1662702951: // operation
-          this.getOperation().add((CapabilityStatementRestOperationComponent) value); // CapabilityStatementRestOperationComponent
+          this.getOperation().add((CapabilityStatementRestResourceOperationComponent) value); // CapabilityStatementRestResourceOperationComponent
           return value;
         case -397756334: // compartment
-          this.getCompartment().add(castToUri(value)); // UriType
+          this.getCompartment().add(castToCanonical(value)); // CanonicalType
           return value;
         default: return super.setProperty(hash, name, value);
         }
@@ -2605,9 +2373,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         } else if (name.equals("searchParam")) {
           this.getSearchParam().add((CapabilityStatementRestResourceSearchParamComponent) value);
         } else if (name.equals("operation")) {
-          this.getOperation().add((CapabilityStatementRestOperationComponent) value);
+          this.getOperation().add((CapabilityStatementRestResourceOperationComponent) value);
         } else if (name.equals("compartment")) {
-          this.getCompartment().add(castToUri(value));
+          this.getCompartment().add(castToCanonical(value));
         } else
           return super.setProperty(name, value);
         return value;
@@ -2638,8 +2406,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -341064690: /*resource*/ return new String[] {};
         case 1844104722: /*interaction*/ return new String[] {};
         case -553645115: /*searchParam*/ return new String[] {"@CapabilityStatement.rest.resource.searchParam"};
-        case 1662702951: /*operation*/ return new String[] {};
-        case -397756334: /*compartment*/ return new String[] {"uri"};
+        case 1662702951: /*operation*/ return new String[] {"@CapabilityStatement.rest.resource.operation"};
+        case -397756334: /*compartment*/ return new String[] {"canonical"};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -2698,39 +2466,38 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
             dst.searchParam.add(i.copy());
         };
         if (operation != null) {
-          dst.operation = new ArrayList<CapabilityStatementRestOperationComponent>();
-          for (CapabilityStatementRestOperationComponent i : operation)
+          dst.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
+          for (CapabilityStatementRestResourceOperationComponent i : operation)
             dst.operation.add(i.copy());
         };
         if (compartment != null) {
-          dst.compartment = new ArrayList<UriType>();
-          for (UriType i : compartment)
+          dst.compartment = new ArrayList<CanonicalType>();
+          for (CanonicalType i : compartment)
             dst.compartment.add(i.copy());
         };
         return dst;
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestComponent))
+        if (!(other_ instanceof CapabilityStatementRestComponent))
           return false;
-        CapabilityStatementRestComponent o = (CapabilityStatementRestComponent) other;
+        CapabilityStatementRestComponent o = (CapabilityStatementRestComponent) other_;
         return compareDeep(mode, o.mode, true) && compareDeep(documentation, o.documentation, true) && compareDeep(security, o.security, true)
            && compareDeep(resource, o.resource, true) && compareDeep(interaction, o.interaction, true) && compareDeep(searchParam, o.searchParam, true)
            && compareDeep(operation, o.operation, true) && compareDeep(compartment, o.compartment, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestComponent))
+        if (!(other_ instanceof CapabilityStatementRestComponent))
           return false;
-        CapabilityStatementRestComponent o = (CapabilityStatementRestComponent) other;
-        return compareValues(mode, o.mode, true) && compareValues(documentation, o.documentation, true) && compareValues(compartment, o.compartment, true)
-          ;
+        CapabilityStatementRestComponent o = (CapabilityStatementRestComponent) other_;
+        return compareValues(mode, o.mode, true) && compareValues(documentation, o.documentation, true);
       }
 
       public boolean isEmpty() {
@@ -2769,14 +2536,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         @Description(shortDefinition="General description of how security works", formalDefinition="General description of how security works." )
         protected StringType description;
 
-        /**
-         * Certificates associated with security profiles.
-         */
-        @Child(name = "certificate", type = {}, order=4, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
-        @Description(shortDefinition="Certificates associated with security profiles", formalDefinition="Certificates associated with security profiles." )
-        protected List<CapabilityStatementRestSecurityCertificateComponent> certificate;
-
-        private static final long serialVersionUID = 1081654002L;
+        private static final long serialVersionUID = 253997386L;
 
     /**
      * Constructor
@@ -2932,65 +2692,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           return this;
         }
 
-        /**
-         * @return {@link #certificate} (Certificates associated with security profiles.)
-         */
-        public List<CapabilityStatementRestSecurityCertificateComponent> getCertificate() { 
-          if (this.certificate == null)
-            this.certificate = new ArrayList<CapabilityStatementRestSecurityCertificateComponent>();
-          return this.certificate;
-        }
-
-        /**
-         * @return Returns a reference to <code>this</code> for easy method chaining
-         */
-        public CapabilityStatementRestSecurityComponent setCertificate(List<CapabilityStatementRestSecurityCertificateComponent> theCertificate) { 
-          this.certificate = theCertificate;
-          return this;
-        }
-
-        public boolean hasCertificate() { 
-          if (this.certificate == null)
-            return false;
-          for (CapabilityStatementRestSecurityCertificateComponent item : this.certificate)
-            if (!item.isEmpty())
-              return true;
-          return false;
-        }
-
-        public CapabilityStatementRestSecurityCertificateComponent addCertificate() { //3
-          CapabilityStatementRestSecurityCertificateComponent t = new CapabilityStatementRestSecurityCertificateComponent();
-          if (this.certificate == null)
-            this.certificate = new ArrayList<CapabilityStatementRestSecurityCertificateComponent>();
-          this.certificate.add(t);
-          return t;
-        }
-
-        public CapabilityStatementRestSecurityComponent addCertificate(CapabilityStatementRestSecurityCertificateComponent t) { //3
-          if (t == null)
-            return this;
-          if (this.certificate == null)
-            this.certificate = new ArrayList<CapabilityStatementRestSecurityCertificateComponent>();
-          this.certificate.add(t);
-          return this;
-        }
-
-        /**
-         * @return The first repetition of repeating field {@link #certificate}, creating it if it does not already exist
-         */
-        public CapabilityStatementRestSecurityCertificateComponent getCertificateFirstRep() { 
-          if (getCertificate().isEmpty()) {
-            addCertificate();
-          }
-          return getCertificate().get(0);
-        }
-
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("cors", "boolean", "Server adds CORS headers when responding to requests - this enables javascript applications to use the server.", 0, 1, cors));
           children.add(new Property("service", "CodeableConcept", "Types of security services that are supported/required by the system.", 0, java.lang.Integer.MAX_VALUE, service));
           children.add(new Property("description", "string", "General description of how security works.", 0, 1, description));
-          children.add(new Property("certificate", "", "Certificates associated with security profiles.", 0, java.lang.Integer.MAX_VALUE, certificate));
         }
 
         @Override
@@ -2999,7 +2705,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           case 3059629: /*cors*/  return new Property("cors", "boolean", "Server adds CORS headers when responding to requests - this enables javascript applications to use the server.", 0, 1, cors);
           case 1984153269: /*service*/  return new Property("service", "CodeableConcept", "Types of security services that are supported/required by the system.", 0, java.lang.Integer.MAX_VALUE, service);
           case -1724546052: /*description*/  return new Property("description", "string", "General description of how security works.", 0, 1, description);
-          case 1952399767: /*certificate*/  return new Property("certificate", "", "Certificates associated with security profiles.", 0, java.lang.Integer.MAX_VALUE, certificate);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -3011,7 +2716,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 3059629: /*cors*/ return this.cors == null ? new Base[0] : new Base[] {this.cors}; // BooleanType
         case 1984153269: /*service*/ return this.service == null ? new Base[0] : this.service.toArray(new Base[this.service.size()]); // CodeableConcept
         case -1724546052: /*description*/ return this.description == null ? new Base[0] : new Base[] {this.description}; // StringType
-        case 1952399767: /*certificate*/ return this.certificate == null ? new Base[0] : this.certificate.toArray(new Base[this.certificate.size()]); // CapabilityStatementRestSecurityCertificateComponent
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -3029,9 +2733,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -1724546052: // description
           this.description = castToString(value); // StringType
           return value;
-        case 1952399767: // certificate
-          this.getCertificate().add((CapabilityStatementRestSecurityCertificateComponent) value); // CapabilityStatementRestSecurityCertificateComponent
-          return value;
         default: return super.setProperty(hash, name, value);
         }
 
@@ -3045,8 +2746,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.getService().add(castToCodeableConcept(value));
         } else if (name.equals("description")) {
           this.description = castToString(value); // StringType
-        } else if (name.equals("certificate")) {
-          this.getCertificate().add((CapabilityStatementRestSecurityCertificateComponent) value);
         } else
           return super.setProperty(name, value);
         return value;
@@ -3058,7 +2757,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 3059629:  return getCorsElement();
         case 1984153269:  return addService(); 
         case -1724546052:  return getDescriptionElement();
-        case 1952399767:  return addCertificate(); 
         default: return super.makeProperty(hash, name);
         }
 
@@ -3070,7 +2768,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 3059629: /*cors*/ return new String[] {"boolean"};
         case 1984153269: /*service*/ return new String[] {"CodeableConcept"};
         case -1724546052: /*description*/ return new String[] {"string"};
-        case 1952399767: /*certificate*/ return new String[] {};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -3087,9 +2784,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         else if (name.equals("description")) {
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.description");
         }
-        else if (name.equals("certificate")) {
-          return addCertificate();
-        }
         else
           return super.addChild(name);
       }
@@ -3104,287 +2798,37 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
             dst.service.add(i.copy());
         };
         dst.description = description == null ? null : description.copy();
-        if (certificate != null) {
-          dst.certificate = new ArrayList<CapabilityStatementRestSecurityCertificateComponent>();
-          for (CapabilityStatementRestSecurityCertificateComponent i : certificate)
-            dst.certificate.add(i.copy());
-        };
         return dst;
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestSecurityComponent))
+        if (!(other_ instanceof CapabilityStatementRestSecurityComponent))
           return false;
-        CapabilityStatementRestSecurityComponent o = (CapabilityStatementRestSecurityComponent) other;
+        CapabilityStatementRestSecurityComponent o = (CapabilityStatementRestSecurityComponent) other_;
         return compareDeep(cors, o.cors, true) && compareDeep(service, o.service, true) && compareDeep(description, o.description, true)
-           && compareDeep(certificate, o.certificate, true);
+          ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestSecurityComponent))
+        if (!(other_ instanceof CapabilityStatementRestSecurityComponent))
           return false;
-        CapabilityStatementRestSecurityComponent o = (CapabilityStatementRestSecurityComponent) other;
+        CapabilityStatementRestSecurityComponent o = (CapabilityStatementRestSecurityComponent) other_;
         return compareValues(cors, o.cors, true) && compareValues(description, o.description, true);
       }
 
       public boolean isEmpty() {
         return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(cors, service, description
-          , certificate);
+          );
       }
 
   public String fhirType() {
     return "CapabilityStatement.rest.security";
-
-  }
-
-  }
-
-    @Block()
-    public static class CapabilityStatementRestSecurityCertificateComponent extends BackboneElement implements IBaseBackboneElement {
-        /**
-         * Mime type for a certificate.
-         */
-        @Child(name = "type", type = {CodeType.class}, order=1, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Mime type for certificates", formalDefinition="Mime type for a certificate." )
-        protected CodeType type;
-
-        /**
-         * Actual certificate.
-         */
-        @Child(name = "blob", type = {Base64BinaryType.class}, order=2, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Actual certificate", formalDefinition="Actual certificate." )
-        protected Base64BinaryType blob;
-
-        private static final long serialVersionUID = 2092655854L;
-
-    /**
-     * Constructor
-     */
-      public CapabilityStatementRestSecurityCertificateComponent() {
-        super();
-      }
-
-        /**
-         * @return {@link #type} (Mime type for a certificate.). This is the underlying object with id, value and extensions. The accessor "getType" gives direct access to the value
-         */
-        public CodeType getTypeElement() { 
-          if (this.type == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementRestSecurityCertificateComponent.type");
-            else if (Configuration.doAutoCreate())
-              this.type = new CodeType(); // bb
-          return this.type;
-        }
-
-        public boolean hasTypeElement() { 
-          return this.type != null && !this.type.isEmpty();
-        }
-
-        public boolean hasType() { 
-          return this.type != null && !this.type.isEmpty();
-        }
-
-        /**
-         * @param value {@link #type} (Mime type for a certificate.). This is the underlying object with id, value and extensions. The accessor "getType" gives direct access to the value
-         */
-        public CapabilityStatementRestSecurityCertificateComponent setTypeElement(CodeType value) { 
-          this.type = value;
-          return this;
-        }
-
-        /**
-         * @return Mime type for a certificate.
-         */
-        public String getType() { 
-          return this.type == null ? null : this.type.getValue();
-        }
-
-        /**
-         * @param value Mime type for a certificate.
-         */
-        public CapabilityStatementRestSecurityCertificateComponent setType(String value) { 
-          if (Utilities.noString(value))
-            this.type = null;
-          else {
-            if (this.type == null)
-              this.type = new CodeType();
-            this.type.setValue(value);
-          }
-          return this;
-        }
-
-        /**
-         * @return {@link #blob} (Actual certificate.). This is the underlying object with id, value and extensions. The accessor "getBlob" gives direct access to the value
-         */
-        public Base64BinaryType getBlobElement() { 
-          if (this.blob == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementRestSecurityCertificateComponent.blob");
-            else if (Configuration.doAutoCreate())
-              this.blob = new Base64BinaryType(); // bb
-          return this.blob;
-        }
-
-        public boolean hasBlobElement() { 
-          return this.blob != null && !this.blob.isEmpty();
-        }
-
-        public boolean hasBlob() { 
-          return this.blob != null && !this.blob.isEmpty();
-        }
-
-        /**
-         * @param value {@link #blob} (Actual certificate.). This is the underlying object with id, value and extensions. The accessor "getBlob" gives direct access to the value
-         */
-        public CapabilityStatementRestSecurityCertificateComponent setBlobElement(Base64BinaryType value) { 
-          this.blob = value;
-          return this;
-        }
-
-        /**
-         * @return Actual certificate.
-         */
-        public byte[] getBlob() { 
-          return this.blob == null ? null : this.blob.getValue();
-        }
-
-        /**
-         * @param value Actual certificate.
-         */
-        public CapabilityStatementRestSecurityCertificateComponent setBlob(byte[] value) { 
-          if (value == null)
-            this.blob = null;
-          else {
-            if (this.blob == null)
-              this.blob = new Base64BinaryType();
-            this.blob.setValue(value);
-          }
-          return this;
-        }
-
-        protected void listChildren(List<Property> children) {
-          super.listChildren(children);
-          children.add(new Property("type", "code", "Mime type for a certificate.", 0, 1, type));
-          children.add(new Property("blob", "base64Binary", "Actual certificate.", 0, 1, blob));
-        }
-
-        @Override
-        public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
-          switch (_hash) {
-          case 3575610: /*type*/  return new Property("type", "code", "Mime type for a certificate.", 0, 1, type);
-          case 3026845: /*blob*/  return new Property("blob", "base64Binary", "Actual certificate.", 0, 1, blob);
-          default: return super.getNamedProperty(_hash, _name, _checkValid);
-          }
-
-        }
-
-      @Override
-      public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
-        switch (hash) {
-        case 3575610: /*type*/ return this.type == null ? new Base[0] : new Base[] {this.type}; // CodeType
-        case 3026845: /*blob*/ return this.blob == null ? new Base[0] : new Base[] {this.blob}; // Base64BinaryType
-        default: return super.getProperty(hash, name, checkValid);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(int hash, String name, Base value) throws FHIRException {
-        switch (hash) {
-        case 3575610: // type
-          this.type = castToCode(value); // CodeType
-          return value;
-        case 3026845: // blob
-          this.blob = castToBase64Binary(value); // Base64BinaryType
-          return value;
-        default: return super.setProperty(hash, name, value);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(String name, Base value) throws FHIRException {
-        if (name.equals("type")) {
-          this.type = castToCode(value); // CodeType
-        } else if (name.equals("blob")) {
-          this.blob = castToBase64Binary(value); // Base64BinaryType
-        } else
-          return super.setProperty(name, value);
-        return value;
-      }
-
-      @Override
-      public Base makeProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3575610:  return getTypeElement();
-        case 3026845:  return getBlobElement();
-        default: return super.makeProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public String[] getTypesForProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3575610: /*type*/ return new String[] {"code"};
-        case 3026845: /*blob*/ return new String[] {"base64Binary"};
-        default: return super.getTypesForProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public Base addChild(String name) throws FHIRException {
-        if (name.equals("type")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.type");
-        }
-        else if (name.equals("blob")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.blob");
-        }
-        else
-          return super.addChild(name);
-      }
-
-      public CapabilityStatementRestSecurityCertificateComponent copy() {
-        CapabilityStatementRestSecurityCertificateComponent dst = new CapabilityStatementRestSecurityCertificateComponent();
-        copyValues(dst);
-        dst.type = type == null ? null : type.copy();
-        dst.blob = blob == null ? null : blob.copy();
-        return dst;
-      }
-
-      @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
-          return false;
-        if (!(other instanceof CapabilityStatementRestSecurityCertificateComponent))
-          return false;
-        CapabilityStatementRestSecurityCertificateComponent o = (CapabilityStatementRestSecurityCertificateComponent) other;
-        return compareDeep(type, o.type, true) && compareDeep(blob, o.blob, true);
-      }
-
-      @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
-          return false;
-        if (!(other instanceof CapabilityStatementRestSecurityCertificateComponent))
-          return false;
-        CapabilityStatementRestSecurityCertificateComponent o = (CapabilityStatementRestSecurityCertificateComponent) other;
-        return compareValues(type, o.type, true) && compareValues(blob, o.blob, true);
-      }
-
-      public boolean isEmpty() {
-        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(type, blob);
-      }
-
-  public String fhirType() {
-    return "CapabilityStatement.rest.security.certificate";
 
   }
 
@@ -3403,33 +2847,35 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).
          */
-        @Child(name = "profile", type = {StructureDefinition.class}, order=2, min=0, max=1, modifier=false, summary=true)
+        @Child(name = "profile", type = {CanonicalType.class}, order=2, min=0, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Base System profile for all uses of resource", formalDefinition="A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses)." )
-        protected Reference profile;
+        protected CanonicalType profile;
 
         /**
-         * The actual object that is the target of the reference (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         * A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).
          */
-        protected StructureDefinition profileTarget;
+        @Child(name = "supportedProfile", type = {CanonicalType.class}, order=3, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+        @Description(shortDefinition="Profiles for use cases supported", formalDefinition="A list of profiles that represent different use cases supported by the system. For a server, \"supported by the system\" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses)." )
+        protected List<CanonicalType> supportedProfile;
 
         /**
          * Additional information about the resource type used by the system.
          */
-        @Child(name = "documentation", type = {MarkdownType.class}, order=3, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "documentation", type = {MarkdownType.class}, order=4, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="Additional information about the use of the resource type", formalDefinition="Additional information about the resource type used by the system." )
         protected MarkdownType documentation;
 
         /**
          * Identifies a restful operation supported by the solution.
          */
-        @Child(name = "interaction", type = {}, order=4, min=1, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+        @Child(name = "interaction", type = {}, order=5, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
         @Description(shortDefinition="What operations are supported?", formalDefinition="Identifies a restful operation supported by the solution." )
         protected List<ResourceInteractionComponent> interaction;
 
         /**
          * This field is set to no-version to specify that the system does not support (server) or use (client) versioning for this resource type. If this has some other value, the server must at least correctly track and populate the versionId meta-property on resources. If the value is 'versioned-update', then the server supports all the versioning features, including using e-tags for version integrity in the API.
          */
-        @Child(name = "versioning", type = {CodeType.class}, order=5, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "versioning", type = {CodeType.class}, order=6, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="no-version | versioned | versioned-update", formalDefinition="This field is set to no-version to specify that the system does not support (server) or use (client) versioning for this resource type. If this has some other value, the server must at least correctly track and populate the versionId meta-property on resources. If the value is 'versioned-update', then the server supports all the versioning features, including using e-tags for version integrity in the API." )
         @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/versioning-policy")
         protected Enumeration<ResourceVersionPolicy> versioning;
@@ -3437,28 +2883,28 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * A flag for whether the server is able to return past versions as part of the vRead operation.
          */
-        @Child(name = "readHistory", type = {BooleanType.class}, order=6, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "readHistory", type = {BooleanType.class}, order=7, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="Whether vRead can return past versions", formalDefinition="A flag for whether the server is able to return past versions as part of the vRead operation." )
         protected BooleanType readHistory;
 
         /**
          * A flag to indicate that the server allows or needs to allow the client to create new identities on the server (e.g. that is, the client PUTs to a location where there is no existing resource). Allowing this operation means that the server allows the client to create new identities on the server.
          */
-        @Child(name = "updateCreate", type = {BooleanType.class}, order=7, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "updateCreate", type = {BooleanType.class}, order=8, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="If update can commit to a new identity", formalDefinition="A flag to indicate that the server allows or needs to allow the client to create new identities on the server (e.g. that is, the client PUTs to a location where there is no existing resource). Allowing this operation means that the server allows the client to create new identities on the server." )
         protected BooleanType updateCreate;
 
         /**
          * A flag that indicates that the server supports conditional create.
          */
-        @Child(name = "conditionalCreate", type = {BooleanType.class}, order=8, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "conditionalCreate", type = {BooleanType.class}, order=9, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="If allows/uses conditional create", formalDefinition="A flag that indicates that the server supports conditional create." )
         protected BooleanType conditionalCreate;
 
         /**
          * A code that indicates how the server supports conditional read.
          */
-        @Child(name = "conditionalRead", type = {CodeType.class}, order=9, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "conditionalRead", type = {CodeType.class}, order=10, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="not-supported | modified-since | not-match | full-support", formalDefinition="A code that indicates how the server supports conditional read." )
         @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/conditional-read-status")
         protected Enumeration<ConditionalReadStatus> conditionalRead;
@@ -3466,14 +2912,14 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * A flag that indicates that the server supports conditional update.
          */
-        @Child(name = "conditionalUpdate", type = {BooleanType.class}, order=10, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "conditionalUpdate", type = {BooleanType.class}, order=11, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="If allows/uses conditional update", formalDefinition="A flag that indicates that the server supports conditional update." )
         protected BooleanType conditionalUpdate;
 
         /**
          * A code that indicates how the server supports conditional delete.
          */
-        @Child(name = "conditionalDelete", type = {CodeType.class}, order=11, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "conditionalDelete", type = {CodeType.class}, order=12, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="not-supported | single | multiple - how conditional delete is supported", formalDefinition="A code that indicates how the server supports conditional delete." )
         @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/conditional-delete-status")
         protected Enumeration<ConditionalDeleteStatus> conditionalDelete;
@@ -3481,7 +2927,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * A set of flags that defines how references are supported.
          */
-        @Child(name = "referencePolicy", type = {CodeType.class}, order=12, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+        @Child(name = "referencePolicy", type = {CodeType.class}, order=13, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
         @Description(shortDefinition="literal | logical | resolves | enforced | local", formalDefinition="A set of flags that defines how references are supported." )
         @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/reference-handling-policy")
         protected List<Enumeration<ReferenceHandlingPolicy>> referencePolicy;
@@ -3489,25 +2935,32 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * A list of _include values supported by the server.
          */
-        @Child(name = "searchInclude", type = {StringType.class}, order=13, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+        @Child(name = "searchInclude", type = {StringType.class}, order=14, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
         @Description(shortDefinition="_include values supported by the server", formalDefinition="A list of _include values supported by the server." )
         protected List<StringType> searchInclude;
 
         /**
          * A list of _revinclude (reverse include) values supported by the server.
          */
-        @Child(name = "searchRevInclude", type = {StringType.class}, order=14, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+        @Child(name = "searchRevInclude", type = {StringType.class}, order=15, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
         @Description(shortDefinition="_revinclude values supported by the server", formalDefinition="A list of _revinclude (reverse include) values supported by the server." )
         protected List<StringType> searchRevInclude;
 
         /**
          * Search parameters for implementations to support and/or make use of - either references to ones defined in the specification, or additional ones defined for/by the implementation.
          */
-        @Child(name = "searchParam", type = {}, order=15, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
+        @Child(name = "searchParam", type = {}, order=16, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=false)
         @Description(shortDefinition="Search parameters supported by implementation", formalDefinition="Search parameters for implementations to support and/or make use of - either references to ones defined in the specification, or additional ones defined for/by the implementation." )
         protected List<CapabilityStatementRestResourceSearchParamComponent> searchParam;
 
-        private static final long serialVersionUID = 1271233297L;
+        /**
+         * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the definition of the operation for details about how to invoke the opration, and the parameters.
+         */
+        @Child(name = "operation", type = {}, order=17, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+        @Description(shortDefinition="Definition of an resource operation", formalDefinition="Definition of an operation or a named query together with its parameters and their meaning and type. Consult the definition of the operation for details about how to invoke the opration, and the parameters." )
+        protected List<CapabilityStatementRestResourceOperationComponent> operation;
+
+        private static final long serialVersionUID = -1843372337L;
 
     /**
      * Constructor
@@ -3570,15 +3023,19 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
 
         /**
-         * @return {@link #profile} (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         * @return {@link #profile} (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).). This is the underlying object with id, value and extensions. The accessor "getProfile" gives direct access to the value
          */
-        public Reference getProfile() { 
+        public CanonicalType getProfileElement() { 
           if (this.profile == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create CapabilityStatementRestResourceComponent.profile");
             else if (Configuration.doAutoCreate())
-              this.profile = new Reference(); // cc
+              this.profile = new CanonicalType(); // bb
           return this.profile;
+        }
+
+        public boolean hasProfileElement() { 
+          return this.profile != null && !this.profile.isEmpty();
         }
 
         public boolean hasProfile() { 
@@ -3586,31 +3043,93 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
 
         /**
-         * @param value {@link #profile} (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         * @param value {@link #profile} (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).). This is the underlying object with id, value and extensions. The accessor "getProfile" gives direct access to the value
          */
-        public CapabilityStatementRestResourceComponent setProfile(Reference value) { 
+        public CapabilityStatementRestResourceComponent setProfileElement(CanonicalType value) { 
           this.profile = value;
           return this;
         }
 
         /**
-         * @return {@link #profile} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         * @return A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).
          */
-        public StructureDefinition getProfileTarget() { 
-          if (this.profileTarget == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementRestResourceComponent.profile");
-            else if (Configuration.doAutoCreate())
-              this.profileTarget = new StructureDefinition(); // aa
-          return this.profileTarget;
+        public String getProfile() { 
+          return this.profile == null ? null : this.profile.getValue();
         }
 
         /**
-         * @param value {@link #profile} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         * @param value A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).
          */
-        public CapabilityStatementRestResourceComponent setProfileTarget(StructureDefinition value) { 
-          this.profileTarget = value;
+        public CapabilityStatementRestResourceComponent setProfile(String value) { 
+          if (Utilities.noString(value))
+            this.profile = null;
+          else {
+            if (this.profile == null)
+              this.profile = new CanonicalType();
+            this.profile.setValue(value);
+          }
           return this;
+        }
+
+        /**
+         * @return {@link #supportedProfile} (A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         */
+        public List<CanonicalType> getSupportedProfile() { 
+          if (this.supportedProfile == null)
+            this.supportedProfile = new ArrayList<CanonicalType>();
+          return this.supportedProfile;
+        }
+
+        /**
+         * @return Returns a reference to <code>this</code> for easy method chaining
+         */
+        public CapabilityStatementRestResourceComponent setSupportedProfile(List<CanonicalType> theSupportedProfile) { 
+          this.supportedProfile = theSupportedProfile;
+          return this;
+        }
+
+        public boolean hasSupportedProfile() { 
+          if (this.supportedProfile == null)
+            return false;
+          for (CanonicalType item : this.supportedProfile)
+            if (!item.isEmpty())
+              return true;
+          return false;
+        }
+
+        /**
+         * @return {@link #supportedProfile} (A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         */
+        public CanonicalType addSupportedProfileElement() {//2 
+          CanonicalType t = new CanonicalType();
+          if (this.supportedProfile == null)
+            this.supportedProfile = new ArrayList<CanonicalType>();
+          this.supportedProfile.add(t);
+          return t;
+        }
+
+        /**
+         * @param value {@link #supportedProfile} (A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         */
+        public CapabilityStatementRestResourceComponent addSupportedProfile(String value) { //1
+          CanonicalType t = new CanonicalType();
+          t.setValue(value);
+          if (this.supportedProfile == null)
+            this.supportedProfile = new ArrayList<CanonicalType>();
+          this.supportedProfile.add(t);
+          return this;
+        }
+
+        /**
+         * @param value {@link #supportedProfile} (A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).)
+         */
+        public boolean hasSupportedProfile(String value) { 
+          if (this.supportedProfile == null)
+            return false;
+          for (CanonicalType v : this.supportedProfile)
+            if (v.getValue().equals(value)) // canonical(StructureDefinition)
+              return true;
+          return false;
         }
 
         /**
@@ -4159,7 +3678,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           if (this.searchInclude == null)
             return false;
           for (StringType v : this.searchInclude)
-            if (v.equals(value)) // string
+            if (v.getValue().equals(value)) // string
               return true;
           return false;
         }
@@ -4220,7 +3739,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           if (this.searchRevInclude == null)
             return false;
           for (StringType v : this.searchRevInclude)
-            if (v.equals(value)) // string
+            if (v.getValue().equals(value)) // string
               return true;
           return false;
         }
@@ -4278,10 +3797,64 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           return getSearchParam().get(0);
         }
 
+        /**
+         * @return {@link #operation} (Definition of an operation or a named query together with its parameters and their meaning and type. Consult the definition of the operation for details about how to invoke the opration, and the parameters.)
+         */
+        public List<CapabilityStatementRestResourceOperationComponent> getOperation() { 
+          if (this.operation == null)
+            this.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
+          return this.operation;
+        }
+
+        /**
+         * @return Returns a reference to <code>this</code> for easy method chaining
+         */
+        public CapabilityStatementRestResourceComponent setOperation(List<CapabilityStatementRestResourceOperationComponent> theOperation) { 
+          this.operation = theOperation;
+          return this;
+        }
+
+        public boolean hasOperation() { 
+          if (this.operation == null)
+            return false;
+          for (CapabilityStatementRestResourceOperationComponent item : this.operation)
+            if (!item.isEmpty())
+              return true;
+          return false;
+        }
+
+        public CapabilityStatementRestResourceOperationComponent addOperation() { //3
+          CapabilityStatementRestResourceOperationComponent t = new CapabilityStatementRestResourceOperationComponent();
+          if (this.operation == null)
+            this.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
+          this.operation.add(t);
+          return t;
+        }
+
+        public CapabilityStatementRestResourceComponent addOperation(CapabilityStatementRestResourceOperationComponent t) { //3
+          if (t == null)
+            return this;
+          if (this.operation == null)
+            this.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
+          this.operation.add(t);
+          return this;
+        }
+
+        /**
+         * @return The first repetition of repeating field {@link #operation}, creating it if it does not already exist
+         */
+        public CapabilityStatementRestResourceOperationComponent getOperationFirstRep() { 
+          if (getOperation().isEmpty()) {
+            addOperation();
+          }
+          return getOperation().get(0);
+        }
+
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("type", "code", "A type of resource exposed via the restful interface.", 0, 1, type));
-          children.add(new Property("profile", "Reference(StructureDefinition)", "A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, 1, profile));
+          children.add(new Property("profile", "canonical(StructureDefinition)", "A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, 1, profile));
+          children.add(new Property("supportedProfile", "canonical(StructureDefinition)", "A list of profiles that represent different use cases supported by the system. For a server, \"supported by the system\" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, java.lang.Integer.MAX_VALUE, supportedProfile));
           children.add(new Property("documentation", "markdown", "Additional information about the resource type used by the system.", 0, 1, documentation));
           children.add(new Property("interaction", "", "Identifies a restful operation supported by the solution.", 0, java.lang.Integer.MAX_VALUE, interaction));
           children.add(new Property("versioning", "code", "This field is set to no-version to specify that the system does not support (server) or use (client) versioning for this resource type. If this has some other value, the server must at least correctly track and populate the versionId meta-property on resources. If the value is 'versioned-update', then the server supports all the versioning features, including using e-tags for version integrity in the API.", 0, 1, versioning));
@@ -4295,13 +3868,15 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           children.add(new Property("searchInclude", "string", "A list of _include values supported by the server.", 0, java.lang.Integer.MAX_VALUE, searchInclude));
           children.add(new Property("searchRevInclude", "string", "A list of _revinclude (reverse include) values supported by the server.", 0, java.lang.Integer.MAX_VALUE, searchRevInclude));
           children.add(new Property("searchParam", "", "Search parameters for implementations to support and/or make use of - either references to ones defined in the specification, or additional ones defined for/by the implementation.", 0, java.lang.Integer.MAX_VALUE, searchParam));
+          children.add(new Property("operation", "", "Definition of an operation or a named query together with its parameters and their meaning and type. Consult the definition of the operation for details about how to invoke the opration, and the parameters.", 0, java.lang.Integer.MAX_VALUE, operation));
         }
 
         @Override
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
           case 3575610: /*type*/  return new Property("type", "code", "A type of resource exposed via the restful interface.", 0, 1, type);
-          case -309425751: /*profile*/  return new Property("profile", "Reference(StructureDefinition)", "A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, 1, profile);
+          case -309425751: /*profile*/  return new Property("profile", "canonical(StructureDefinition)", "A specification of the profile that describes the solution's overall support for the resource, including any constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, 1, profile);
+          case 1225477403: /*supportedProfile*/  return new Property("supportedProfile", "canonical(StructureDefinition)", "A list of profiles that represent different use cases supported by the system. For a server, \"supported by the system\" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, java.lang.Integer.MAX_VALUE, supportedProfile);
           case 1587405498: /*documentation*/  return new Property("documentation", "markdown", "Additional information about the resource type used by the system.", 0, 1, documentation);
           case 1844104722: /*interaction*/  return new Property("interaction", "", "Identifies a restful operation supported by the solution.", 0, java.lang.Integer.MAX_VALUE, interaction);
           case -670487542: /*versioning*/  return new Property("versioning", "code", "This field is set to no-version to specify that the system does not support (server) or use (client) versioning for this resource type. If this has some other value, the server must at least correctly track and populate the versionId meta-property on resources. If the value is 'versioned-update', then the server supports all the versioning features, including using e-tags for version integrity in the API.", 0, 1, versioning);
@@ -4315,6 +3890,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           case -1035904544: /*searchInclude*/  return new Property("searchInclude", "string", "A list of _include values supported by the server.", 0, java.lang.Integer.MAX_VALUE, searchInclude);
           case -2123884979: /*searchRevInclude*/  return new Property("searchRevInclude", "string", "A list of _revinclude (reverse include) values supported by the server.", 0, java.lang.Integer.MAX_VALUE, searchRevInclude);
           case -553645115: /*searchParam*/  return new Property("searchParam", "", "Search parameters for implementations to support and/or make use of - either references to ones defined in the specification, or additional ones defined for/by the implementation.", 0, java.lang.Integer.MAX_VALUE, searchParam);
+          case 1662702951: /*operation*/  return new Property("operation", "", "Definition of an operation or a named query together with its parameters and their meaning and type. Consult the definition of the operation for details about how to invoke the opration, and the parameters.", 0, java.lang.Integer.MAX_VALUE, operation);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -4324,7 +3900,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
         switch (hash) {
         case 3575610: /*type*/ return this.type == null ? new Base[0] : new Base[] {this.type}; // CodeType
-        case -309425751: /*profile*/ return this.profile == null ? new Base[0] : new Base[] {this.profile}; // Reference
+        case -309425751: /*profile*/ return this.profile == null ? new Base[0] : new Base[] {this.profile}; // CanonicalType
+        case 1225477403: /*supportedProfile*/ return this.supportedProfile == null ? new Base[0] : this.supportedProfile.toArray(new Base[this.supportedProfile.size()]); // CanonicalType
         case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // MarkdownType
         case 1844104722: /*interaction*/ return this.interaction == null ? new Base[0] : this.interaction.toArray(new Base[this.interaction.size()]); // ResourceInteractionComponent
         case -670487542: /*versioning*/ return this.versioning == null ? new Base[0] : new Base[] {this.versioning}; // Enumeration<ResourceVersionPolicy>
@@ -4338,6 +3915,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -1035904544: /*searchInclude*/ return this.searchInclude == null ? new Base[0] : this.searchInclude.toArray(new Base[this.searchInclude.size()]); // StringType
         case -2123884979: /*searchRevInclude*/ return this.searchRevInclude == null ? new Base[0] : this.searchRevInclude.toArray(new Base[this.searchRevInclude.size()]); // StringType
         case -553645115: /*searchParam*/ return this.searchParam == null ? new Base[0] : this.searchParam.toArray(new Base[this.searchParam.size()]); // CapabilityStatementRestResourceSearchParamComponent
+        case 1662702951: /*operation*/ return this.operation == null ? new Base[0] : this.operation.toArray(new Base[this.operation.size()]); // CapabilityStatementRestResourceOperationComponent
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -4350,7 +3928,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.type = castToCode(value); // CodeType
           return value;
         case -309425751: // profile
-          this.profile = castToReference(value); // Reference
+          this.profile = castToCanonical(value); // CanonicalType
+          return value;
+        case 1225477403: // supportedProfile
+          this.getSupportedProfile().add(castToCanonical(value)); // CanonicalType
           return value;
         case 1587405498: // documentation
           this.documentation = castToMarkdown(value); // MarkdownType
@@ -4395,6 +3976,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -553645115: // searchParam
           this.getSearchParam().add((CapabilityStatementRestResourceSearchParamComponent) value); // CapabilityStatementRestResourceSearchParamComponent
           return value;
+        case 1662702951: // operation
+          this.getOperation().add((CapabilityStatementRestResourceOperationComponent) value); // CapabilityStatementRestResourceOperationComponent
+          return value;
         default: return super.setProperty(hash, name, value);
         }
 
@@ -4405,7 +3989,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         if (name.equals("type")) {
           this.type = castToCode(value); // CodeType
         } else if (name.equals("profile")) {
-          this.profile = castToReference(value); // Reference
+          this.profile = castToCanonical(value); // CanonicalType
+        } else if (name.equals("supportedProfile")) {
+          this.getSupportedProfile().add(castToCanonical(value));
         } else if (name.equals("documentation")) {
           this.documentation = castToMarkdown(value); // MarkdownType
         } else if (name.equals("interaction")) {
@@ -4436,6 +4022,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.getSearchRevInclude().add(castToString(value));
         } else if (name.equals("searchParam")) {
           this.getSearchParam().add((CapabilityStatementRestResourceSearchParamComponent) value);
+        } else if (name.equals("operation")) {
+          this.getOperation().add((CapabilityStatementRestResourceOperationComponent) value);
         } else
           return super.setProperty(name, value);
         return value;
@@ -4445,7 +4033,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base makeProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case 3575610:  return getTypeElement();
-        case -309425751:  return getProfile(); 
+        case -309425751:  return getProfileElement();
+        case 1225477403:  return addSupportedProfileElement();
         case 1587405498:  return getDocumentationElement();
         case 1844104722:  return addInteraction(); 
         case -670487542:  return getVersioningElement();
@@ -4459,6 +4048,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -1035904544:  return addSearchIncludeElement();
         case -2123884979:  return addSearchRevIncludeElement();
         case -553645115:  return addSearchParam(); 
+        case 1662702951:  return addOperation(); 
         default: return super.makeProperty(hash, name);
         }
 
@@ -4468,7 +4058,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case 3575610: /*type*/ return new String[] {"code"};
-        case -309425751: /*profile*/ return new String[] {"Reference"};
+        case -309425751: /*profile*/ return new String[] {"canonical"};
+        case 1225477403: /*supportedProfile*/ return new String[] {"canonical"};
         case 1587405498: /*documentation*/ return new String[] {"markdown"};
         case 1844104722: /*interaction*/ return new String[] {};
         case -670487542: /*versioning*/ return new String[] {"code"};
@@ -4482,6 +4073,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -1035904544: /*searchInclude*/ return new String[] {"string"};
         case -2123884979: /*searchRevInclude*/ return new String[] {"string"};
         case -553645115: /*searchParam*/ return new String[] {};
+        case 1662702951: /*operation*/ return new String[] {};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -4493,8 +4085,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.type");
         }
         else if (name.equals("profile")) {
-          this.profile = new Reference();
-          return this.profile;
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.profile");
+        }
+        else if (name.equals("supportedProfile")) {
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.supportedProfile");
         }
         else if (name.equals("documentation")) {
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.documentation");
@@ -4535,6 +4129,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         else if (name.equals("searchParam")) {
           return addSearchParam();
         }
+        else if (name.equals("operation")) {
+          return addOperation();
+        }
         else
           return super.addChild(name);
       }
@@ -4544,6 +4141,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         copyValues(dst);
         dst.type = type == null ? null : type.copy();
         dst.profile = profile == null ? null : profile.copy();
+        if (supportedProfile != null) {
+          dst.supportedProfile = new ArrayList<CanonicalType>();
+          for (CanonicalType i : supportedProfile)
+            dst.supportedProfile.add(i.copy());
+        };
         dst.documentation = documentation == null ? null : documentation.copy();
         if (interaction != null) {
           dst.interaction = new ArrayList<ResourceInteractionComponent>();
@@ -4577,33 +4179,38 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           for (CapabilityStatementRestResourceSearchParamComponent i : searchParam)
             dst.searchParam.add(i.copy());
         };
+        if (operation != null) {
+          dst.operation = new ArrayList<CapabilityStatementRestResourceOperationComponent>();
+          for (CapabilityStatementRestResourceOperationComponent i : operation)
+            dst.operation.add(i.copy());
+        };
         return dst;
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestResourceComponent))
+        if (!(other_ instanceof CapabilityStatementRestResourceComponent))
           return false;
-        CapabilityStatementRestResourceComponent o = (CapabilityStatementRestResourceComponent) other;
-        return compareDeep(type, o.type, true) && compareDeep(profile, o.profile, true) && compareDeep(documentation, o.documentation, true)
-           && compareDeep(interaction, o.interaction, true) && compareDeep(versioning, o.versioning, true)
-           && compareDeep(readHistory, o.readHistory, true) && compareDeep(updateCreate, o.updateCreate, true)
-           && compareDeep(conditionalCreate, o.conditionalCreate, true) && compareDeep(conditionalRead, o.conditionalRead, true)
-           && compareDeep(conditionalUpdate, o.conditionalUpdate, true) && compareDeep(conditionalDelete, o.conditionalDelete, true)
-           && compareDeep(referencePolicy, o.referencePolicy, true) && compareDeep(searchInclude, o.searchInclude, true)
-           && compareDeep(searchRevInclude, o.searchRevInclude, true) && compareDeep(searchParam, o.searchParam, true)
-          ;
+        CapabilityStatementRestResourceComponent o = (CapabilityStatementRestResourceComponent) other_;
+        return compareDeep(type, o.type, true) && compareDeep(profile, o.profile, true) && compareDeep(supportedProfile, o.supportedProfile, true)
+           && compareDeep(documentation, o.documentation, true) && compareDeep(interaction, o.interaction, true)
+           && compareDeep(versioning, o.versioning, true) && compareDeep(readHistory, o.readHistory, true)
+           && compareDeep(updateCreate, o.updateCreate, true) && compareDeep(conditionalCreate, o.conditionalCreate, true)
+           && compareDeep(conditionalRead, o.conditionalRead, true) && compareDeep(conditionalUpdate, o.conditionalUpdate, true)
+           && compareDeep(conditionalDelete, o.conditionalDelete, true) && compareDeep(referencePolicy, o.referencePolicy, true)
+           && compareDeep(searchInclude, o.searchInclude, true) && compareDeep(searchRevInclude, o.searchRevInclude, true)
+           && compareDeep(searchParam, o.searchParam, true) && compareDeep(operation, o.operation, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestResourceComponent))
+        if (!(other_ instanceof CapabilityStatementRestResourceComponent))
           return false;
-        CapabilityStatementRestResourceComponent o = (CapabilityStatementRestResourceComponent) other;
+        CapabilityStatementRestResourceComponent o = (CapabilityStatementRestResourceComponent) other_;
         return compareValues(type, o.type, true) && compareValues(documentation, o.documentation, true) && compareValues(versioning, o.versioning, true)
            && compareValues(readHistory, o.readHistory, true) && compareValues(updateCreate, o.updateCreate, true)
            && compareValues(conditionalCreate, o.conditionalCreate, true) && compareValues(conditionalRead, o.conditionalRead, true)
@@ -4613,10 +4220,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       public boolean isEmpty() {
-        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(type, profile, documentation
-          , interaction, versioning, readHistory, updateCreate, conditionalCreate, conditionalRead
-          , conditionalUpdate, conditionalDelete, referencePolicy, searchInclude, searchRevInclude
-          , searchParam);
+        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(type, profile, supportedProfile
+          , documentation, interaction, versioning, readHistory, updateCreate, conditionalCreate
+          , conditionalRead, conditionalUpdate, conditionalDelete, referencePolicy, searchInclude
+          , searchRevInclude, searchParam, operation);
       }
 
   public String fhirType() {
@@ -4848,22 +4455,22 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof ResourceInteractionComponent))
+        if (!(other_ instanceof ResourceInteractionComponent))
           return false;
-        ResourceInteractionComponent o = (ResourceInteractionComponent) other;
+        ResourceInteractionComponent o = (ResourceInteractionComponent) other_;
         return compareDeep(code, o.code, true) && compareDeep(documentation, o.documentation, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof ResourceInteractionComponent))
+        if (!(other_ instanceof ResourceInteractionComponent))
           return false;
-        ResourceInteractionComponent o = (ResourceInteractionComponent) other;
+        ResourceInteractionComponent o = (ResourceInteractionComponent) other_;
         return compareValues(code, o.code, true) && compareValues(documentation, o.documentation, true);
       }
 
@@ -4890,9 +4497,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).
          */
-        @Child(name = "definition", type = {UriType.class}, order=2, min=0, max=1, modifier=false, summary=false)
+        @Child(name = "definition", type = {CanonicalType.class}, order=2, min=0, max=1, modifier=false, summary=false)
         @Description(shortDefinition="Source of definition for parameter", formalDefinition="An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]])." )
-        protected UriType definition;
+        protected CanonicalType definition;
 
         /**
          * The type of value a search parameter refers to, and how the content is interpreted.
@@ -4909,7 +4516,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         @Description(shortDefinition="Server-specific usage", formalDefinition="This allows documentation of any distinct behaviors about how the search parameter is used.  For example, text matching algorithms." )
         protected StringType documentation;
 
-        private static final long serialVersionUID = 72133006L;
+        private static final long serialVersionUID = -873420282L;
 
     /**
      * Constructor
@@ -4975,12 +4582,12 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return {@link #definition} (An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).). This is the underlying object with id, value and extensions. The accessor "getDefinition" gives direct access to the value
          */
-        public UriType getDefinitionElement() { 
+        public CanonicalType getDefinitionElement() { 
           if (this.definition == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create CapabilityStatementRestResourceSearchParamComponent.definition");
             else if (Configuration.doAutoCreate())
-              this.definition = new UriType(); // bb
+              this.definition = new CanonicalType(); // bb
           return this.definition;
         }
 
@@ -4995,7 +4602,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @param value {@link #definition} (An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).). This is the underlying object with id, value and extensions. The accessor "getDefinition" gives direct access to the value
          */
-        public CapabilityStatementRestResourceSearchParamComponent setDefinitionElement(UriType value) { 
+        public CapabilityStatementRestResourceSearchParamComponent setDefinitionElement(CanonicalType value) { 
           this.definition = value;
           return this;
         }
@@ -5015,7 +4622,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
             this.definition = null;
           else {
             if (this.definition == null)
-              this.definition = new UriType();
+              this.definition = new CanonicalType();
             this.definition.setValue(value);
           }
           return this;
@@ -5118,7 +4725,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("name", "string", "The name of the search parameter used in the interface.", 0, 1, name));
-          children.add(new Property("definition", "uri", "An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).", 0, 1, definition));
+          children.add(new Property("definition", "canonical(SearchParameter)", "An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).", 0, 1, definition));
           children.add(new Property("type", "code", "The type of value a search parameter refers to, and how the content is interpreted.", 0, 1, type));
           children.add(new Property("documentation", "string", "This allows documentation of any distinct behaviors about how the search parameter is used.  For example, text matching algorithms.", 0, 1, documentation));
         }
@@ -5127,7 +4734,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
           case 3373707: /*name*/  return new Property("name", "string", "The name of the search parameter used in the interface.", 0, 1, name);
-          case -1014418093: /*definition*/  return new Property("definition", "uri", "An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).", 0, 1, definition);
+          case -1014418093: /*definition*/  return new Property("definition", "canonical(SearchParameter)", "An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [[[SearchParameter.url]]]).", 0, 1, definition);
           case 3575610: /*type*/  return new Property("type", "code", "The type of value a search parameter refers to, and how the content is interpreted.", 0, 1, type);
           case 1587405498: /*documentation*/  return new Property("documentation", "string", "This allows documentation of any distinct behaviors about how the search parameter is used.  For example, text matching algorithms.", 0, 1, documentation);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
@@ -5139,7 +4746,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
         switch (hash) {
         case 3373707: /*name*/ return this.name == null ? new Base[0] : new Base[] {this.name}; // StringType
-        case -1014418093: /*definition*/ return this.definition == null ? new Base[0] : new Base[] {this.definition}; // UriType
+        case -1014418093: /*definition*/ return this.definition == null ? new Base[0] : new Base[] {this.definition}; // CanonicalType
         case 3575610: /*type*/ return this.type == null ? new Base[0] : new Base[] {this.type}; // Enumeration<SearchParamType>
         case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // StringType
         default: return super.getProperty(hash, name, checkValid);
@@ -5154,7 +4761,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.name = castToString(value); // StringType
           return value;
         case -1014418093: // definition
-          this.definition = castToUri(value); // UriType
+          this.definition = castToCanonical(value); // CanonicalType
           return value;
         case 3575610: // type
           value = new SearchParamTypeEnumFactory().fromType(castToCode(value));
@@ -5173,7 +4780,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         if (name.equals("name")) {
           this.name = castToString(value); // StringType
         } else if (name.equals("definition")) {
-          this.definition = castToUri(value); // UriType
+          this.definition = castToCanonical(value); // CanonicalType
         } else if (name.equals("type")) {
           value = new SearchParamTypeEnumFactory().fromType(castToCode(value));
           this.type = (Enumeration) value; // Enumeration<SearchParamType>
@@ -5200,7 +4807,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case 3373707: /*name*/ return new String[] {"string"};
-        case -1014418093: /*definition*/ return new String[] {"uri"};
+        case -1014418093: /*definition*/ return new String[] {"canonical"};
         case 3575610: /*type*/ return new String[] {"code"};
         case 1587405498: /*documentation*/ return new String[] {"string"};
         default: return super.getTypesForProperty(hash, name);
@@ -5237,25 +4844,25 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestResourceSearchParamComponent))
+        if (!(other_ instanceof CapabilityStatementRestResourceSearchParamComponent))
           return false;
-        CapabilityStatementRestResourceSearchParamComponent o = (CapabilityStatementRestResourceSearchParamComponent) other;
+        CapabilityStatementRestResourceSearchParamComponent o = (CapabilityStatementRestResourceSearchParamComponent) other_;
         return compareDeep(name, o.name, true) && compareDeep(definition, o.definition, true) && compareDeep(type, o.type, true)
            && compareDeep(documentation, o.documentation, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementRestResourceSearchParamComponent))
+        if (!(other_ instanceof CapabilityStatementRestResourceSearchParamComponent))
           return false;
-        CapabilityStatementRestResourceSearchParamComponent o = (CapabilityStatementRestResourceSearchParamComponent) other;
-        return compareValues(name, o.name, true) && compareValues(definition, o.definition, true) && compareValues(type, o.type, true)
-           && compareValues(documentation, o.documentation, true);
+        CapabilityStatementRestResourceSearchParamComponent o = (CapabilityStatementRestResourceSearchParamComponent) other_;
+        return compareValues(name, o.name, true) && compareValues(type, o.type, true) && compareValues(documentation, o.documentation, true)
+          ;
       }
 
       public boolean isEmpty() {
@@ -5265,6 +4872,324 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
 
   public String fhirType() {
     return "CapabilityStatement.rest.resource.searchParam";
+
+  }
+
+  }
+
+    @Block()
+    public static class CapabilityStatementRestResourceOperationComponent extends BackboneElement implements IBaseBackboneElement {
+        /**
+         * The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.
+         */
+        @Child(name = "name", type = {StringType.class}, order=1, min=1, max=1, modifier=false, summary=true)
+        @Description(shortDefinition="Name by which the operation/query is invoked", formalDefinition="The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called." )
+        protected StringType name;
+
+        /**
+         * Where the formal definition can be found.
+         */
+        @Child(name = "definition", type = {CanonicalType.class}, order=2, min=1, max=1, modifier=false, summary=true)
+        @Description(shortDefinition="The defined operation/query", formalDefinition="Where the formal definition can be found." )
+        protected CanonicalType definition;
+
+        /**
+         * Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.
+         */
+        @Child(name = "documentation", type = {MarkdownType.class}, order=3, min=0, max=1, modifier=false, summary=false)
+        @Description(shortDefinition="Specific details about operation behavior", formalDefinition="Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation." )
+        protected MarkdownType documentation;
+
+        private static final long serialVersionUID = -388608084L;
+
+    /**
+     * Constructor
+     */
+      public CapabilityStatementRestResourceOperationComponent() {
+        super();
+      }
+
+    /**
+     * Constructor
+     */
+      public CapabilityStatementRestResourceOperationComponent(StringType name, CanonicalType definition) {
+        super();
+        this.name = name;
+        this.definition = definition;
+      }
+
+        /**
+         * @return {@link #name} (The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.). This is the underlying object with id, value and extensions. The accessor "getName" gives direct access to the value
+         */
+        public StringType getNameElement() { 
+          if (this.name == null)
+            if (Configuration.errorOnAutoCreate())
+              throw new Error("Attempt to auto-create CapabilityStatementRestResourceOperationComponent.name");
+            else if (Configuration.doAutoCreate())
+              this.name = new StringType(); // bb
+          return this.name;
+        }
+
+        public boolean hasNameElement() { 
+          return this.name != null && !this.name.isEmpty();
+        }
+
+        public boolean hasName() { 
+          return this.name != null && !this.name.isEmpty();
+        }
+
+        /**
+         * @param value {@link #name} (The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.). This is the underlying object with id, value and extensions. The accessor "getName" gives direct access to the value
+         */
+        public CapabilityStatementRestResourceOperationComponent setNameElement(StringType value) { 
+          this.name = value;
+          return this;
+        }
+
+        /**
+         * @return The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.
+         */
+        public String getName() { 
+          return this.name == null ? null : this.name.getValue();
+        }
+
+        /**
+         * @param value The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.
+         */
+        public CapabilityStatementRestResourceOperationComponent setName(String value) { 
+            if (this.name == null)
+              this.name = new StringType();
+            this.name.setValue(value);
+          return this;
+        }
+
+        /**
+         * @return {@link #definition} (Where the formal definition can be found.). This is the underlying object with id, value and extensions. The accessor "getDefinition" gives direct access to the value
+         */
+        public CanonicalType getDefinitionElement() { 
+          if (this.definition == null)
+            if (Configuration.errorOnAutoCreate())
+              throw new Error("Attempt to auto-create CapabilityStatementRestResourceOperationComponent.definition");
+            else if (Configuration.doAutoCreate())
+              this.definition = new CanonicalType(); // bb
+          return this.definition;
+        }
+
+        public boolean hasDefinitionElement() { 
+          return this.definition != null && !this.definition.isEmpty();
+        }
+
+        public boolean hasDefinition() { 
+          return this.definition != null && !this.definition.isEmpty();
+        }
+
+        /**
+         * @param value {@link #definition} (Where the formal definition can be found.). This is the underlying object with id, value and extensions. The accessor "getDefinition" gives direct access to the value
+         */
+        public CapabilityStatementRestResourceOperationComponent setDefinitionElement(CanonicalType value) { 
+          this.definition = value;
+          return this;
+        }
+
+        /**
+         * @return Where the formal definition can be found.
+         */
+        public String getDefinition() { 
+          return this.definition == null ? null : this.definition.getValue();
+        }
+
+        /**
+         * @param value Where the formal definition can be found.
+         */
+        public CapabilityStatementRestResourceOperationComponent setDefinition(String value) { 
+            if (this.definition == null)
+              this.definition = new CanonicalType();
+            this.definition.setValue(value);
+          return this;
+        }
+
+        /**
+         * @return {@link #documentation} (Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.). This is the underlying object with id, value and extensions. The accessor "getDocumentation" gives direct access to the value
+         */
+        public MarkdownType getDocumentationElement() { 
+          if (this.documentation == null)
+            if (Configuration.errorOnAutoCreate())
+              throw new Error("Attempt to auto-create CapabilityStatementRestResourceOperationComponent.documentation");
+            else if (Configuration.doAutoCreate())
+              this.documentation = new MarkdownType(); // bb
+          return this.documentation;
+        }
+
+        public boolean hasDocumentationElement() { 
+          return this.documentation != null && !this.documentation.isEmpty();
+        }
+
+        public boolean hasDocumentation() { 
+          return this.documentation != null && !this.documentation.isEmpty();
+        }
+
+        /**
+         * @param value {@link #documentation} (Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.). This is the underlying object with id, value and extensions. The accessor "getDocumentation" gives direct access to the value
+         */
+        public CapabilityStatementRestResourceOperationComponent setDocumentationElement(MarkdownType value) { 
+          this.documentation = value;
+          return this;
+        }
+
+        /**
+         * @return Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.
+         */
+        public String getDocumentation() { 
+          return this.documentation == null ? null : this.documentation.getValue();
+        }
+
+        /**
+         * @param value Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.
+         */
+        public CapabilityStatementRestResourceOperationComponent setDocumentation(String value) { 
+          if (value == null)
+            this.documentation = null;
+          else {
+            if (this.documentation == null)
+              this.documentation = new MarkdownType();
+            this.documentation.setValue(value);
+          }
+          return this;
+        }
+
+        protected void listChildren(List<Property> children) {
+          super.listChildren(children);
+          children.add(new Property("name", "string", "The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.", 0, 1, name));
+          children.add(new Property("definition", "canonical(OperationDefinition)", "Where the formal definition can be found.", 0, 1, definition));
+          children.add(new Property("documentation", "markdown", "Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.", 0, 1, documentation));
+        }
+
+        @Override
+        public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
+          switch (_hash) {
+          case 3373707: /*name*/  return new Property("name", "string", "The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.", 0, 1, name);
+          case -1014418093: /*definition*/  return new Property("definition", "canonical(OperationDefinition)", "Where the formal definition can be found.", 0, 1, definition);
+          case 1587405498: /*documentation*/  return new Property("documentation", "markdown", "Documentation that describes anything special about the operation behaviour, possibly detailing different behaviour for system, type and instance-level invocation of the operation.", 0, 1, documentation);
+          default: return super.getNamedProperty(_hash, _name, _checkValid);
+          }
+
+        }
+
+      @Override
+      public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
+        switch (hash) {
+        case 3373707: /*name*/ return this.name == null ? new Base[0] : new Base[] {this.name}; // StringType
+        case -1014418093: /*definition*/ return this.definition == null ? new Base[0] : new Base[] {this.definition}; // CanonicalType
+        case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // MarkdownType
+        default: return super.getProperty(hash, name, checkValid);
+        }
+
+      }
+
+      @Override
+      public Base setProperty(int hash, String name, Base value) throws FHIRException {
+        switch (hash) {
+        case 3373707: // name
+          this.name = castToString(value); // StringType
+          return value;
+        case -1014418093: // definition
+          this.definition = castToCanonical(value); // CanonicalType
+          return value;
+        case 1587405498: // documentation
+          this.documentation = castToMarkdown(value); // MarkdownType
+          return value;
+        default: return super.setProperty(hash, name, value);
+        }
+
+      }
+
+      @Override
+      public Base setProperty(String name, Base value) throws FHIRException {
+        if (name.equals("name")) {
+          this.name = castToString(value); // StringType
+        } else if (name.equals("definition")) {
+          this.definition = castToCanonical(value); // CanonicalType
+        } else if (name.equals("documentation")) {
+          this.documentation = castToMarkdown(value); // MarkdownType
+        } else
+          return super.setProperty(name, value);
+        return value;
+      }
+
+      @Override
+      public Base makeProperty(int hash, String name) throws FHIRException {
+        switch (hash) {
+        case 3373707:  return getNameElement();
+        case -1014418093:  return getDefinitionElement();
+        case 1587405498:  return getDocumentationElement();
+        default: return super.makeProperty(hash, name);
+        }
+
+      }
+
+      @Override
+      public String[] getTypesForProperty(int hash, String name) throws FHIRException {
+        switch (hash) {
+        case 3373707: /*name*/ return new String[] {"string"};
+        case -1014418093: /*definition*/ return new String[] {"canonical"};
+        case 1587405498: /*documentation*/ return new String[] {"markdown"};
+        default: return super.getTypesForProperty(hash, name);
+        }
+
+      }
+
+      @Override
+      public Base addChild(String name) throws FHIRException {
+        if (name.equals("name")) {
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.name");
+        }
+        else if (name.equals("definition")) {
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.definition");
+        }
+        else if (name.equals("documentation")) {
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.documentation");
+        }
+        else
+          return super.addChild(name);
+      }
+
+      public CapabilityStatementRestResourceOperationComponent copy() {
+        CapabilityStatementRestResourceOperationComponent dst = new CapabilityStatementRestResourceOperationComponent();
+        copyValues(dst);
+        dst.name = name == null ? null : name.copy();
+        dst.definition = definition == null ? null : definition.copy();
+        dst.documentation = documentation == null ? null : documentation.copy();
+        return dst;
+      }
+
+      @Override
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
+          return false;
+        if (!(other_ instanceof CapabilityStatementRestResourceOperationComponent))
+          return false;
+        CapabilityStatementRestResourceOperationComponent o = (CapabilityStatementRestResourceOperationComponent) other_;
+        return compareDeep(name, o.name, true) && compareDeep(definition, o.definition, true) && compareDeep(documentation, o.documentation, true)
+          ;
+      }
+
+      @Override
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
+          return false;
+        if (!(other_ instanceof CapabilityStatementRestResourceOperationComponent))
+          return false;
+        CapabilityStatementRestResourceOperationComponent o = (CapabilityStatementRestResourceOperationComponent) other_;
+        return compareValues(name, o.name, true) && compareValues(documentation, o.documentation, true);
+      }
+
+      public boolean isEmpty() {
+        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(name, definition, documentation
+          );
+      }
+
+  public String fhirType() {
+    return "CapabilityStatement.rest.resource.operation";
 
   }
 
@@ -5492,22 +5417,22 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof SystemInteractionComponent))
+        if (!(other_ instanceof SystemInteractionComponent))
           return false;
-        SystemInteractionComponent o = (SystemInteractionComponent) other;
+        SystemInteractionComponent o = (SystemInteractionComponent) other_;
         return compareDeep(code, o.code, true) && compareDeep(documentation, o.documentation, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof SystemInteractionComponent))
+        if (!(other_ instanceof SystemInteractionComponent))
           return false;
-        SystemInteractionComponent o = (SystemInteractionComponent) other;
+        SystemInteractionComponent o = (SystemInteractionComponent) other_;
         return compareValues(code, o.code, true) && compareValues(documentation, o.documentation, true);
       }
 
@@ -5517,257 +5442,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
 
   public String fhirType() {
     return "CapabilityStatement.rest.interaction";
-
-  }
-
-  }
-
-    @Block()
-    public static class CapabilityStatementRestOperationComponent extends BackboneElement implements IBaseBackboneElement {
-        /**
-         * The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.
-         */
-        @Child(name = "name", type = {StringType.class}, order=1, min=1, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Name by which the operation/query is invoked", formalDefinition="The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called." )
-        protected StringType name;
-
-        /**
-         * Where the formal definition can be found.
-         */
-        @Child(name = "definition", type = {OperationDefinition.class}, order=2, min=1, max=1, modifier=false, summary=true)
-        @Description(shortDefinition="The defined operation/query", formalDefinition="Where the formal definition can be found." )
-        protected Reference definition;
-
-        /**
-         * The actual object that is the target of the reference (Where the formal definition can be found.)
-         */
-        protected OperationDefinition definitionTarget;
-
-        private static final long serialVersionUID = 122107272L;
-
-    /**
-     * Constructor
-     */
-      public CapabilityStatementRestOperationComponent() {
-        super();
-      }
-
-    /**
-     * Constructor
-     */
-      public CapabilityStatementRestOperationComponent(StringType name, Reference definition) {
-        super();
-        this.name = name;
-        this.definition = definition;
-      }
-
-        /**
-         * @return {@link #name} (The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.). This is the underlying object with id, value and extensions. The accessor "getName" gives direct access to the value
-         */
-        public StringType getNameElement() { 
-          if (this.name == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementRestOperationComponent.name");
-            else if (Configuration.doAutoCreate())
-              this.name = new StringType(); // bb
-          return this.name;
-        }
-
-        public boolean hasNameElement() { 
-          return this.name != null && !this.name.isEmpty();
-        }
-
-        public boolean hasName() { 
-          return this.name != null && !this.name.isEmpty();
-        }
-
-        /**
-         * @param value {@link #name} (The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.). This is the underlying object with id, value and extensions. The accessor "getName" gives direct access to the value
-         */
-        public CapabilityStatementRestOperationComponent setNameElement(StringType value) { 
-          this.name = value;
-          return this;
-        }
-
-        /**
-         * @return The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.
-         */
-        public String getName() { 
-          return this.name == null ? null : this.name.getValue();
-        }
-
-        /**
-         * @param value The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.
-         */
-        public CapabilityStatementRestOperationComponent setName(String value) { 
-            if (this.name == null)
-              this.name = new StringType();
-            this.name.setValue(value);
-          return this;
-        }
-
-        /**
-         * @return {@link #definition} (Where the formal definition can be found.)
-         */
-        public Reference getDefinition() { 
-          if (this.definition == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementRestOperationComponent.definition");
-            else if (Configuration.doAutoCreate())
-              this.definition = new Reference(); // cc
-          return this.definition;
-        }
-
-        public boolean hasDefinition() { 
-          return this.definition != null && !this.definition.isEmpty();
-        }
-
-        /**
-         * @param value {@link #definition} (Where the formal definition can be found.)
-         */
-        public CapabilityStatementRestOperationComponent setDefinition(Reference value) { 
-          this.definition = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #definition} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (Where the formal definition can be found.)
-         */
-        public OperationDefinition getDefinitionTarget() { 
-          if (this.definitionTarget == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementRestOperationComponent.definition");
-            else if (Configuration.doAutoCreate())
-              this.definitionTarget = new OperationDefinition(); // aa
-          return this.definitionTarget;
-        }
-
-        /**
-         * @param value {@link #definition} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (Where the formal definition can be found.)
-         */
-        public CapabilityStatementRestOperationComponent setDefinitionTarget(OperationDefinition value) { 
-          this.definitionTarget = value;
-          return this;
-        }
-
-        protected void listChildren(List<Property> children) {
-          super.listChildren(children);
-          children.add(new Property("name", "string", "The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.", 0, 1, name));
-          children.add(new Property("definition", "Reference(OperationDefinition)", "Where the formal definition can be found.", 0, 1, definition));
-        }
-
-        @Override
-        public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
-          switch (_hash) {
-          case 3373707: /*name*/  return new Property("name", "string", "The name of the operation or query. For an operation, this is the name  prefixed with $ and used in the URL. For a query, this is the name used in the _query parameter when the query is called.", 0, 1, name);
-          case -1014418093: /*definition*/  return new Property("definition", "Reference(OperationDefinition)", "Where the formal definition can be found.", 0, 1, definition);
-          default: return super.getNamedProperty(_hash, _name, _checkValid);
-          }
-
-        }
-
-      @Override
-      public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
-        switch (hash) {
-        case 3373707: /*name*/ return this.name == null ? new Base[0] : new Base[] {this.name}; // StringType
-        case -1014418093: /*definition*/ return this.definition == null ? new Base[0] : new Base[] {this.definition}; // Reference
-        default: return super.getProperty(hash, name, checkValid);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(int hash, String name, Base value) throws FHIRException {
-        switch (hash) {
-        case 3373707: // name
-          this.name = castToString(value); // StringType
-          return value;
-        case -1014418093: // definition
-          this.definition = castToReference(value); // Reference
-          return value;
-        default: return super.setProperty(hash, name, value);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(String name, Base value) throws FHIRException {
-        if (name.equals("name")) {
-          this.name = castToString(value); // StringType
-        } else if (name.equals("definition")) {
-          this.definition = castToReference(value); // Reference
-        } else
-          return super.setProperty(name, value);
-        return value;
-      }
-
-      @Override
-      public Base makeProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3373707:  return getNameElement();
-        case -1014418093:  return getDefinition(); 
-        default: return super.makeProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public String[] getTypesForProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3373707: /*name*/ return new String[] {"string"};
-        case -1014418093: /*definition*/ return new String[] {"Reference"};
-        default: return super.getTypesForProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public Base addChild(String name) throws FHIRException {
-        if (name.equals("name")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.name");
-        }
-        else if (name.equals("definition")) {
-          this.definition = new Reference();
-          return this.definition;
-        }
-        else
-          return super.addChild(name);
-      }
-
-      public CapabilityStatementRestOperationComponent copy() {
-        CapabilityStatementRestOperationComponent dst = new CapabilityStatementRestOperationComponent();
-        copyValues(dst);
-        dst.name = name == null ? null : name.copy();
-        dst.definition = definition == null ? null : definition.copy();
-        return dst;
-      }
-
-      @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
-          return false;
-        if (!(other instanceof CapabilityStatementRestOperationComponent))
-          return false;
-        CapabilityStatementRestOperationComponent o = (CapabilityStatementRestOperationComponent) other;
-        return compareDeep(name, o.name, true) && compareDeep(definition, o.definition, true);
-      }
-
-      @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
-          return false;
-        if (!(other instanceof CapabilityStatementRestOperationComponent))
-          return false;
-        CapabilityStatementRestOperationComponent o = (CapabilityStatementRestOperationComponent) other;
-        return compareValues(name, o.name, true);
-      }
-
-      public boolean isEmpty() {
-        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(name, definition);
-      }
-
-  public String fhirType() {
-    return "CapabilityStatement.rest.operation";
 
   }
 
@@ -5803,14 +5477,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         @Description(shortDefinition="Messages supported by this system", formalDefinition="References to message definitions for messages this system can send or receive." )
         protected List<CapabilityStatementMessagingSupportedMessageComponent> supportedMessage;
 
-        /**
-         * A description of the solution's support for an event at this end-point.
-         */
-        @Child(name = "event", type = {}, order=5, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
-        @Description(shortDefinition="Declare support for this event", formalDefinition="A description of the solution's support for an event at this end-point." )
-        protected List<CapabilityStatementMessagingEventComponent> event;
-
-        private static final long serialVersionUID = 816243355L;
+        private static final long serialVersionUID = -55255167L;
 
     /**
      * Constructor
@@ -6019,66 +5686,12 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           return getSupportedMessage().get(0);
         }
 
-        /**
-         * @return {@link #event} (A description of the solution's support for an event at this end-point.)
-         */
-        public List<CapabilityStatementMessagingEventComponent> getEvent() { 
-          if (this.event == null)
-            this.event = new ArrayList<CapabilityStatementMessagingEventComponent>();
-          return this.event;
-        }
-
-        /**
-         * @return Returns a reference to <code>this</code> for easy method chaining
-         */
-        public CapabilityStatementMessagingComponent setEvent(List<CapabilityStatementMessagingEventComponent> theEvent) { 
-          this.event = theEvent;
-          return this;
-        }
-
-        public boolean hasEvent() { 
-          if (this.event == null)
-            return false;
-          for (CapabilityStatementMessagingEventComponent item : this.event)
-            if (!item.isEmpty())
-              return true;
-          return false;
-        }
-
-        public CapabilityStatementMessagingEventComponent addEvent() { //3
-          CapabilityStatementMessagingEventComponent t = new CapabilityStatementMessagingEventComponent();
-          if (this.event == null)
-            this.event = new ArrayList<CapabilityStatementMessagingEventComponent>();
-          this.event.add(t);
-          return t;
-        }
-
-        public CapabilityStatementMessagingComponent addEvent(CapabilityStatementMessagingEventComponent t) { //3
-          if (t == null)
-            return this;
-          if (this.event == null)
-            this.event = new ArrayList<CapabilityStatementMessagingEventComponent>();
-          this.event.add(t);
-          return this;
-        }
-
-        /**
-         * @return The first repetition of repeating field {@link #event}, creating it if it does not already exist
-         */
-        public CapabilityStatementMessagingEventComponent getEventFirstRep() { 
-          if (getEvent().isEmpty()) {
-            addEvent();
-          }
-          return getEvent().get(0);
-        }
-
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("endpoint", "", "An endpoint (network accessible address) to which messages and/or replies are to be sent.", 0, java.lang.Integer.MAX_VALUE, endpoint));
           children.add(new Property("reliableCache", "unsignedInt", "Length if the receiver's reliable messaging cache in minutes (if a receiver) or how long the cache length on the receiver should be (if a sender).", 0, 1, reliableCache));
           children.add(new Property("documentation", "string", "Documentation about the system's messaging capabilities for this endpoint not otherwise documented by the capability statement.  For example, the process for becoming an authorized messaging exchange partner.", 0, 1, documentation));
           children.add(new Property("supportedMessage", "", "References to message definitions for messages this system can send or receive.", 0, java.lang.Integer.MAX_VALUE, supportedMessage));
-          children.add(new Property("event", "", "A description of the solution's support for an event at this end-point.", 0, java.lang.Integer.MAX_VALUE, event));
         }
 
         @Override
@@ -6088,7 +5701,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           case 897803608: /*reliableCache*/  return new Property("reliableCache", "unsignedInt", "Length if the receiver's reliable messaging cache in minutes (if a receiver) or how long the cache length on the receiver should be (if a sender).", 0, 1, reliableCache);
           case 1587405498: /*documentation*/  return new Property("documentation", "string", "Documentation about the system's messaging capabilities for this endpoint not otherwise documented by the capability statement.  For example, the process for becoming an authorized messaging exchange partner.", 0, 1, documentation);
           case -1805139079: /*supportedMessage*/  return new Property("supportedMessage", "", "References to message definitions for messages this system can send or receive.", 0, java.lang.Integer.MAX_VALUE, supportedMessage);
-          case 96891546: /*event*/  return new Property("event", "", "A description of the solution's support for an event at this end-point.", 0, java.lang.Integer.MAX_VALUE, event);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -6101,7 +5713,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 897803608: /*reliableCache*/ return this.reliableCache == null ? new Base[0] : new Base[] {this.reliableCache}; // UnsignedIntType
         case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // StringType
         case -1805139079: /*supportedMessage*/ return this.supportedMessage == null ? new Base[0] : this.supportedMessage.toArray(new Base[this.supportedMessage.size()]); // CapabilityStatementMessagingSupportedMessageComponent
-        case 96891546: /*event*/ return this.event == null ? new Base[0] : this.event.toArray(new Base[this.event.size()]); // CapabilityStatementMessagingEventComponent
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -6122,9 +5733,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -1805139079: // supportedMessage
           this.getSupportedMessage().add((CapabilityStatementMessagingSupportedMessageComponent) value); // CapabilityStatementMessagingSupportedMessageComponent
           return value;
-        case 96891546: // event
-          this.getEvent().add((CapabilityStatementMessagingEventComponent) value); // CapabilityStatementMessagingEventComponent
-          return value;
         default: return super.setProperty(hash, name, value);
         }
 
@@ -6140,8 +5748,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.documentation = castToString(value); // StringType
         } else if (name.equals("supportedMessage")) {
           this.getSupportedMessage().add((CapabilityStatementMessagingSupportedMessageComponent) value);
-        } else if (name.equals("event")) {
-          this.getEvent().add((CapabilityStatementMessagingEventComponent) value);
         } else
           return super.setProperty(name, value);
         return value;
@@ -6154,7 +5760,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 897803608:  return getReliableCacheElement();
         case 1587405498:  return getDocumentationElement();
         case -1805139079:  return addSupportedMessage(); 
-        case 96891546:  return addEvent(); 
         default: return super.makeProperty(hash, name);
         }
 
@@ -6167,7 +5772,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 897803608: /*reliableCache*/ return new String[] {"unsignedInt"};
         case 1587405498: /*documentation*/ return new String[] {"string"};
         case -1805139079: /*supportedMessage*/ return new String[] {};
-        case 96891546: /*event*/ return new String[] {};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -6186,9 +5790,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
         else if (name.equals("supportedMessage")) {
           return addSupportedMessage();
-        }
-        else if (name.equals("event")) {
-          return addEvent();
         }
         else
           return super.addChild(name);
@@ -6209,40 +5810,35 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           for (CapabilityStatementMessagingSupportedMessageComponent i : supportedMessage)
             dst.supportedMessage.add(i.copy());
         };
-        if (event != null) {
-          dst.event = new ArrayList<CapabilityStatementMessagingEventComponent>();
-          for (CapabilityStatementMessagingEventComponent i : event)
-            dst.event.add(i.copy());
-        };
         return dst;
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementMessagingComponent))
+        if (!(other_ instanceof CapabilityStatementMessagingComponent))
           return false;
-        CapabilityStatementMessagingComponent o = (CapabilityStatementMessagingComponent) other;
+        CapabilityStatementMessagingComponent o = (CapabilityStatementMessagingComponent) other_;
         return compareDeep(endpoint, o.endpoint, true) && compareDeep(reliableCache, o.reliableCache, true)
            && compareDeep(documentation, o.documentation, true) && compareDeep(supportedMessage, o.supportedMessage, true)
-           && compareDeep(event, o.event, true);
+          ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementMessagingComponent))
+        if (!(other_ instanceof CapabilityStatementMessagingComponent))
           return false;
-        CapabilityStatementMessagingComponent o = (CapabilityStatementMessagingComponent) other;
+        CapabilityStatementMessagingComponent o = (CapabilityStatementMessagingComponent) other_;
         return compareValues(reliableCache, o.reliableCache, true) && compareValues(documentation, o.documentation, true)
           ;
       }
 
       public boolean isEmpty() {
         return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(endpoint, reliableCache, documentation
-          , supportedMessage, event);
+          , supportedMessage);
       }
 
   public String fhirType() {
@@ -6265,11 +5861,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.
          */
-        @Child(name = "address", type = {UriType.class}, order=2, min=1, max=1, modifier=false, summary=false)
+        @Child(name = "address", type = {UrlType.class}, order=2, min=1, max=1, modifier=false, summary=false)
         @Description(shortDefinition="Network address or identifier of the end-point", formalDefinition="The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier." )
-        protected UriType address;
+        protected UrlType address;
 
-        private static final long serialVersionUID = 1294656428L;
+        private static final long serialVersionUID = -236946103L;
 
     /**
      * Constructor
@@ -6281,7 +5877,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * Constructor
      */
-      public CapabilityStatementMessagingEndpointComponent(Coding protocol, UriType address) {
+      public CapabilityStatementMessagingEndpointComponent(Coding protocol, UrlType address) {
         super();
         this.protocol = protocol;
         this.address = address;
@@ -6314,12 +5910,12 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @return {@link #address} (The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.). This is the underlying object with id, value and extensions. The accessor "getAddress" gives direct access to the value
          */
-        public UriType getAddressElement() { 
+        public UrlType getAddressElement() { 
           if (this.address == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create CapabilityStatementMessagingEndpointComponent.address");
             else if (Configuration.doAutoCreate())
-              this.address = new UriType(); // bb
+              this.address = new UrlType(); // bb
           return this.address;
         }
 
@@ -6334,7 +5930,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * @param value {@link #address} (The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.). This is the underlying object with id, value and extensions. The accessor "getAddress" gives direct access to the value
          */
-        public CapabilityStatementMessagingEndpointComponent setAddressElement(UriType value) { 
+        public CapabilityStatementMessagingEndpointComponent setAddressElement(UrlType value) { 
           this.address = value;
           return this;
         }
@@ -6351,7 +5947,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
          */
         public CapabilityStatementMessagingEndpointComponent setAddress(String value) { 
             if (this.address == null)
-              this.address = new UriType();
+              this.address = new UrlType();
             this.address.setValue(value);
           return this;
         }
@@ -6359,14 +5955,14 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("protocol", "Coding", "A list of the messaging transport protocol(s) identifiers, supported by this endpoint.", 0, 1, protocol));
-          children.add(new Property("address", "uri", "The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.", 0, 1, address));
+          children.add(new Property("address", "url", "The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.", 0, 1, address));
         }
 
         @Override
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
           case -989163880: /*protocol*/  return new Property("protocol", "Coding", "A list of the messaging transport protocol(s) identifiers, supported by this endpoint.", 0, 1, protocol);
-          case -1147692044: /*address*/  return new Property("address", "uri", "The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.", 0, 1, address);
+          case -1147692044: /*address*/  return new Property("address", "url", "The network address of the end-point. For solutions that do not use network addresses for routing, it can be just an identifier.", 0, 1, address);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -6376,7 +5972,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
         switch (hash) {
         case -989163880: /*protocol*/ return this.protocol == null ? new Base[0] : new Base[] {this.protocol}; // Coding
-        case -1147692044: /*address*/ return this.address == null ? new Base[0] : new Base[] {this.address}; // UriType
+        case -1147692044: /*address*/ return this.address == null ? new Base[0] : new Base[] {this.address}; // UrlType
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -6389,7 +5985,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.protocol = castToCoding(value); // Coding
           return value;
         case -1147692044: // address
-          this.address = castToUri(value); // UriType
+          this.address = castToUrl(value); // UrlType
           return value;
         default: return super.setProperty(hash, name, value);
         }
@@ -6401,7 +5997,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         if (name.equals("protocol")) {
           this.protocol = castToCoding(value); // Coding
         } else if (name.equals("address")) {
-          this.address = castToUri(value); // UriType
+          this.address = castToUrl(value); // UrlType
         } else
           return super.setProperty(name, value);
         return value;
@@ -6421,7 +6017,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case -989163880: /*protocol*/ return new String[] {"Coding"};
-        case -1147692044: /*address*/ return new String[] {"uri"};
+        case -1147692044: /*address*/ return new String[] {"url"};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -6449,22 +6045,22 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementMessagingEndpointComponent))
+        if (!(other_ instanceof CapabilityStatementMessagingEndpointComponent))
           return false;
-        CapabilityStatementMessagingEndpointComponent o = (CapabilityStatementMessagingEndpointComponent) other;
+        CapabilityStatementMessagingEndpointComponent o = (CapabilityStatementMessagingEndpointComponent) other_;
         return compareDeep(protocol, o.protocol, true) && compareDeep(address, o.address, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementMessagingEndpointComponent))
+        if (!(other_ instanceof CapabilityStatementMessagingEndpointComponent))
           return false;
-        CapabilityStatementMessagingEndpointComponent o = (CapabilityStatementMessagingEndpointComponent) other;
+        CapabilityStatementMessagingEndpointComponent o = (CapabilityStatementMessagingEndpointComponent) other_;
         return compareValues(address, o.address, true);
       }
 
@@ -6492,16 +6088,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
          */
-        @Child(name = "definition", type = {MessageDefinition.class}, order=2, min=1, max=1, modifier=false, summary=true)
+        @Child(name = "definition", type = {CanonicalType.class}, order=2, min=1, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Message supported by this system", formalDefinition="Points to a message definition that identifies the messaging event, message structure, allowed responses, etc." )
-        protected Reference definition;
+        protected CanonicalType definition;
 
-        /**
-         * The actual object that is the target of the reference (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.)
-         */
-        protected MessageDefinition definitionTarget;
-
-        private static final long serialVersionUID = -741523869L;
+        private static final long serialVersionUID = -1172840676L;
 
     /**
      * Constructor
@@ -6513,7 +6104,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * Constructor
      */
-      public CapabilityStatementMessagingSupportedMessageComponent(Enumeration<EventCapabilityMode> mode, Reference definition) {
+      public CapabilityStatementMessagingSupportedMessageComponent(Enumeration<EventCapabilityMode> mode, CanonicalType definition) {
         super();
         this.mode = mode;
         this.definition = definition;
@@ -6565,15 +6156,19 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
 
         /**
-         * @return {@link #definition} (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.)
+         * @return {@link #definition} (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.). This is the underlying object with id, value and extensions. The accessor "getDefinition" gives direct access to the value
          */
-        public Reference getDefinition() { 
+        public CanonicalType getDefinitionElement() { 
           if (this.definition == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create CapabilityStatementMessagingSupportedMessageComponent.definition");
             else if (Configuration.doAutoCreate())
-              this.definition = new Reference(); // cc
+              this.definition = new CanonicalType(); // bb
           return this.definition;
+        }
+
+        public boolean hasDefinitionElement() { 
+          return this.definition != null && !this.definition.isEmpty();
         }
 
         public boolean hasDefinition() { 
@@ -6581,44 +6176,41 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
 
         /**
-         * @param value {@link #definition} (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.)
+         * @param value {@link #definition} (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.). This is the underlying object with id, value and extensions. The accessor "getDefinition" gives direct access to the value
          */
-        public CapabilityStatementMessagingSupportedMessageComponent setDefinition(Reference value) { 
+        public CapabilityStatementMessagingSupportedMessageComponent setDefinitionElement(CanonicalType value) { 
           this.definition = value;
           return this;
         }
 
         /**
-         * @return {@link #definition} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.)
+         * @return Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
          */
-        public MessageDefinition getDefinitionTarget() { 
-          if (this.definitionTarget == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingSupportedMessageComponent.definition");
-            else if (Configuration.doAutoCreate())
-              this.definitionTarget = new MessageDefinition(); // aa
-          return this.definitionTarget;
+        public String getDefinition() { 
+          return this.definition == null ? null : this.definition.getValue();
         }
 
         /**
-         * @param value {@link #definition} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.)
+         * @param value Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
          */
-        public CapabilityStatementMessagingSupportedMessageComponent setDefinitionTarget(MessageDefinition value) { 
-          this.definitionTarget = value;
+        public CapabilityStatementMessagingSupportedMessageComponent setDefinition(String value) { 
+            if (this.definition == null)
+              this.definition = new CanonicalType();
+            this.definition.setValue(value);
           return this;
         }
 
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
           children.add(new Property("mode", "code", "The mode of this event declaration - whether application is sender or receiver.", 0, 1, mode));
-          children.add(new Property("definition", "Reference(MessageDefinition)", "Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.", 0, 1, definition));
+          children.add(new Property("definition", "canonical(MessageDefinition)", "Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.", 0, 1, definition));
         }
 
         @Override
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
           case 3357091: /*mode*/  return new Property("mode", "code", "The mode of this event declaration - whether application is sender or receiver.", 0, 1, mode);
-          case -1014418093: /*definition*/  return new Property("definition", "Reference(MessageDefinition)", "Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.", 0, 1, definition);
+          case -1014418093: /*definition*/  return new Property("definition", "canonical(MessageDefinition)", "Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.", 0, 1, definition);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -6628,7 +6220,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
         switch (hash) {
         case 3357091: /*mode*/ return this.mode == null ? new Base[0] : new Base[] {this.mode}; // Enumeration<EventCapabilityMode>
-        case -1014418093: /*definition*/ return this.definition == null ? new Base[0] : new Base[] {this.definition}; // Reference
+        case -1014418093: /*definition*/ return this.definition == null ? new Base[0] : new Base[] {this.definition}; // CanonicalType
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -6642,7 +6234,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.mode = (Enumeration) value; // Enumeration<EventCapabilityMode>
           return value;
         case -1014418093: // definition
-          this.definition = castToReference(value); // Reference
+          this.definition = castToCanonical(value); // CanonicalType
           return value;
         default: return super.setProperty(hash, name, value);
         }
@@ -6655,7 +6247,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           value = new EventCapabilityModeEnumFactory().fromType(castToCode(value));
           this.mode = (Enumeration) value; // Enumeration<EventCapabilityMode>
         } else if (name.equals("definition")) {
-          this.definition = castToReference(value); // Reference
+          this.definition = castToCanonical(value); // CanonicalType
         } else
           return super.setProperty(name, value);
         return value;
@@ -6665,7 +6257,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public Base makeProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case 3357091:  return getModeElement();
-        case -1014418093:  return getDefinition(); 
+        case -1014418093:  return getDefinitionElement();
         default: return super.makeProperty(hash, name);
         }
 
@@ -6675,7 +6267,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
         case 3357091: /*mode*/ return new String[] {"code"};
-        case -1014418093: /*definition*/ return new String[] {"Reference"};
+        case -1014418093: /*definition*/ return new String[] {"canonical"};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -6687,8 +6279,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.mode");
         }
         else if (name.equals("definition")) {
-          this.definition = new Reference();
-          return this.definition;
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.definition");
         }
         else
           return super.addChild(name);
@@ -6703,22 +6294,22 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementMessagingSupportedMessageComponent))
+        if (!(other_ instanceof CapabilityStatementMessagingSupportedMessageComponent))
           return false;
-        CapabilityStatementMessagingSupportedMessageComponent o = (CapabilityStatementMessagingSupportedMessageComponent) other;
+        CapabilityStatementMessagingSupportedMessageComponent o = (CapabilityStatementMessagingSupportedMessageComponent) other_;
         return compareDeep(mode, o.mode, true) && compareDeep(definition, o.definition, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementMessagingSupportedMessageComponent))
+        if (!(other_ instanceof CapabilityStatementMessagingSupportedMessageComponent))
           return false;
-        CapabilityStatementMessagingSupportedMessageComponent o = (CapabilityStatementMessagingSupportedMessageComponent) other;
+        CapabilityStatementMessagingSupportedMessageComponent o = (CapabilityStatementMessagingSupportedMessageComponent) other_;
         return compareValues(mode, o.mode, true);
       }
 
@@ -6734,600 +6325,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
   }
 
     @Block()
-    public static class CapabilityStatementMessagingEventComponent extends BackboneElement implements IBaseBackboneElement {
-        /**
-         * A coded identifier of a supported messaging event.
-         */
-        @Child(name = "code", type = {Coding.class}, order=1, min=1, max=1, modifier=false, summary=true)
-        @Description(shortDefinition="Event type", formalDefinition="A coded identifier of a supported messaging event." )
-        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/message-events")
-        protected Coding code;
-
-        /**
-         * The impact of the content of the message.
-         */
-        @Child(name = "category", type = {CodeType.class}, order=2, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Consequence | Currency | Notification", formalDefinition="The impact of the content of the message." )
-        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/message-significance-category")
-        protected Enumeration<MessageSignificanceCategory> category;
-
-        /**
-         * The mode of this event declaration - whether an application is a sender or receiver.
-         */
-        @Child(name = "mode", type = {CodeType.class}, order=3, min=1, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="sender | receiver", formalDefinition="The mode of this event declaration - whether an application is a sender or receiver." )
-        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/event-capability-mode")
-        protected Enumeration<EventCapabilityMode> mode;
-
-        /**
-         * A resource associated with the event.  This is the resource that defines the event.
-         */
-        @Child(name = "focus", type = {CodeType.class}, order=4, min=1, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Resource that's focus of message", formalDefinition="A resource associated with the event.  This is the resource that defines the event." )
-        @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/resource-types")
-        protected CodeType focus;
-
-        /**
-         * Information about the request for this event.
-         */
-        @Child(name = "request", type = {StructureDefinition.class}, order=5, min=1, max=1, modifier=false, summary=true)
-        @Description(shortDefinition="Profile that describes the request", formalDefinition="Information about the request for this event." )
-        protected Reference request;
-
-        /**
-         * The actual object that is the target of the reference (Information about the request for this event.)
-         */
-        protected StructureDefinition requestTarget;
-
-        /**
-         * Information about the response for this event.
-         */
-        @Child(name = "response", type = {StructureDefinition.class}, order=6, min=1, max=1, modifier=false, summary=true)
-        @Description(shortDefinition="Profile that describes the response", formalDefinition="Information about the response for this event." )
-        protected Reference response;
-
-        /**
-         * The actual object that is the target of the reference (Information about the response for this event.)
-         */
-        protected StructureDefinition responseTarget;
-
-        /**
-         * Guidance on how this event is handled, such as internal system trigger points, business rules, etc.
-         */
-        @Child(name = "documentation", type = {StringType.class}, order=7, min=0, max=1, modifier=false, summary=false)
-        @Description(shortDefinition="Endpoint-specific event documentation", formalDefinition="Guidance on how this event is handled, such as internal system trigger points, business rules, etc." )
-        protected StringType documentation;
-
-        private static final long serialVersionUID = -491306017L;
-
-    /**
-     * Constructor
-     */
-      public CapabilityStatementMessagingEventComponent() {
-        super();
-      }
-
-    /**
-     * Constructor
-     */
-      public CapabilityStatementMessagingEventComponent(Coding code, Enumeration<EventCapabilityMode> mode, CodeType focus, Reference request, Reference response) {
-        super();
-        this.code = code;
-        this.mode = mode;
-        this.focus = focus;
-        this.request = request;
-        this.response = response;
-      }
-
-        /**
-         * @return {@link #code} (A coded identifier of a supported messaging event.)
-         */
-        public Coding getCode() { 
-          if (this.code == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.code");
-            else if (Configuration.doAutoCreate())
-              this.code = new Coding(); // cc
-          return this.code;
-        }
-
-        public boolean hasCode() { 
-          return this.code != null && !this.code.isEmpty();
-        }
-
-        /**
-         * @param value {@link #code} (A coded identifier of a supported messaging event.)
-         */
-        public CapabilityStatementMessagingEventComponent setCode(Coding value) { 
-          this.code = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #category} (The impact of the content of the message.). This is the underlying object with id, value and extensions. The accessor "getCategory" gives direct access to the value
-         */
-        public Enumeration<MessageSignificanceCategory> getCategoryElement() { 
-          if (this.category == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.category");
-            else if (Configuration.doAutoCreate())
-              this.category = new Enumeration<MessageSignificanceCategory>(new MessageSignificanceCategoryEnumFactory()); // bb
-          return this.category;
-        }
-
-        public boolean hasCategoryElement() { 
-          return this.category != null && !this.category.isEmpty();
-        }
-
-        public boolean hasCategory() { 
-          return this.category != null && !this.category.isEmpty();
-        }
-
-        /**
-         * @param value {@link #category} (The impact of the content of the message.). This is the underlying object with id, value and extensions. The accessor "getCategory" gives direct access to the value
-         */
-        public CapabilityStatementMessagingEventComponent setCategoryElement(Enumeration<MessageSignificanceCategory> value) { 
-          this.category = value;
-          return this;
-        }
-
-        /**
-         * @return The impact of the content of the message.
-         */
-        public MessageSignificanceCategory getCategory() { 
-          return this.category == null ? null : this.category.getValue();
-        }
-
-        /**
-         * @param value The impact of the content of the message.
-         */
-        public CapabilityStatementMessagingEventComponent setCategory(MessageSignificanceCategory value) { 
-          if (value == null)
-            this.category = null;
-          else {
-            if (this.category == null)
-              this.category = new Enumeration<MessageSignificanceCategory>(new MessageSignificanceCategoryEnumFactory());
-            this.category.setValue(value);
-          }
-          return this;
-        }
-
-        /**
-         * @return {@link #mode} (The mode of this event declaration - whether an application is a sender or receiver.). This is the underlying object with id, value and extensions. The accessor "getMode" gives direct access to the value
-         */
-        public Enumeration<EventCapabilityMode> getModeElement() { 
-          if (this.mode == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.mode");
-            else if (Configuration.doAutoCreate())
-              this.mode = new Enumeration<EventCapabilityMode>(new EventCapabilityModeEnumFactory()); // bb
-          return this.mode;
-        }
-
-        public boolean hasModeElement() { 
-          return this.mode != null && !this.mode.isEmpty();
-        }
-
-        public boolean hasMode() { 
-          return this.mode != null && !this.mode.isEmpty();
-        }
-
-        /**
-         * @param value {@link #mode} (The mode of this event declaration - whether an application is a sender or receiver.). This is the underlying object with id, value and extensions. The accessor "getMode" gives direct access to the value
-         */
-        public CapabilityStatementMessagingEventComponent setModeElement(Enumeration<EventCapabilityMode> value) { 
-          this.mode = value;
-          return this;
-        }
-
-        /**
-         * @return The mode of this event declaration - whether an application is a sender or receiver.
-         */
-        public EventCapabilityMode getMode() { 
-          return this.mode == null ? null : this.mode.getValue();
-        }
-
-        /**
-         * @param value The mode of this event declaration - whether an application is a sender or receiver.
-         */
-        public CapabilityStatementMessagingEventComponent setMode(EventCapabilityMode value) { 
-            if (this.mode == null)
-              this.mode = new Enumeration<EventCapabilityMode>(new EventCapabilityModeEnumFactory());
-            this.mode.setValue(value);
-          return this;
-        }
-
-        /**
-         * @return {@link #focus} (A resource associated with the event.  This is the resource that defines the event.). This is the underlying object with id, value and extensions. The accessor "getFocus" gives direct access to the value
-         */
-        public CodeType getFocusElement() { 
-          if (this.focus == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.focus");
-            else if (Configuration.doAutoCreate())
-              this.focus = new CodeType(); // bb
-          return this.focus;
-        }
-
-        public boolean hasFocusElement() { 
-          return this.focus != null && !this.focus.isEmpty();
-        }
-
-        public boolean hasFocus() { 
-          return this.focus != null && !this.focus.isEmpty();
-        }
-
-        /**
-         * @param value {@link #focus} (A resource associated with the event.  This is the resource that defines the event.). This is the underlying object with id, value and extensions. The accessor "getFocus" gives direct access to the value
-         */
-        public CapabilityStatementMessagingEventComponent setFocusElement(CodeType value) { 
-          this.focus = value;
-          return this;
-        }
-
-        /**
-         * @return A resource associated with the event.  This is the resource that defines the event.
-         */
-        public String getFocus() { 
-          return this.focus == null ? null : this.focus.getValue();
-        }
-
-        /**
-         * @param value A resource associated with the event.  This is the resource that defines the event.
-         */
-        public CapabilityStatementMessagingEventComponent setFocus(String value) { 
-            if (this.focus == null)
-              this.focus = new CodeType();
-            this.focus.setValue(value);
-          return this;
-        }
-
-        /**
-         * @return {@link #request} (Information about the request for this event.)
-         */
-        public Reference getRequest() { 
-          if (this.request == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.request");
-            else if (Configuration.doAutoCreate())
-              this.request = new Reference(); // cc
-          return this.request;
-        }
-
-        public boolean hasRequest() { 
-          return this.request != null && !this.request.isEmpty();
-        }
-
-        /**
-         * @param value {@link #request} (Information about the request for this event.)
-         */
-        public CapabilityStatementMessagingEventComponent setRequest(Reference value) { 
-          this.request = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #request} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (Information about the request for this event.)
-         */
-        public StructureDefinition getRequestTarget() { 
-          if (this.requestTarget == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.request");
-            else if (Configuration.doAutoCreate())
-              this.requestTarget = new StructureDefinition(); // aa
-          return this.requestTarget;
-        }
-
-        /**
-         * @param value {@link #request} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (Information about the request for this event.)
-         */
-        public CapabilityStatementMessagingEventComponent setRequestTarget(StructureDefinition value) { 
-          this.requestTarget = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #response} (Information about the response for this event.)
-         */
-        public Reference getResponse() { 
-          if (this.response == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.response");
-            else if (Configuration.doAutoCreate())
-              this.response = new Reference(); // cc
-          return this.response;
-        }
-
-        public boolean hasResponse() { 
-          return this.response != null && !this.response.isEmpty();
-        }
-
-        /**
-         * @param value {@link #response} (Information about the response for this event.)
-         */
-        public CapabilityStatementMessagingEventComponent setResponse(Reference value) { 
-          this.response = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #response} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (Information about the response for this event.)
-         */
-        public StructureDefinition getResponseTarget() { 
-          if (this.responseTarget == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.response");
-            else if (Configuration.doAutoCreate())
-              this.responseTarget = new StructureDefinition(); // aa
-          return this.responseTarget;
-        }
-
-        /**
-         * @param value {@link #response} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (Information about the response for this event.)
-         */
-        public CapabilityStatementMessagingEventComponent setResponseTarget(StructureDefinition value) { 
-          this.responseTarget = value;
-          return this;
-        }
-
-        /**
-         * @return {@link #documentation} (Guidance on how this event is handled, such as internal system trigger points, business rules, etc.). This is the underlying object with id, value and extensions. The accessor "getDocumentation" gives direct access to the value
-         */
-        public StringType getDocumentationElement() { 
-          if (this.documentation == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementMessagingEventComponent.documentation");
-            else if (Configuration.doAutoCreate())
-              this.documentation = new StringType(); // bb
-          return this.documentation;
-        }
-
-        public boolean hasDocumentationElement() { 
-          return this.documentation != null && !this.documentation.isEmpty();
-        }
-
-        public boolean hasDocumentation() { 
-          return this.documentation != null && !this.documentation.isEmpty();
-        }
-
-        /**
-         * @param value {@link #documentation} (Guidance on how this event is handled, such as internal system trigger points, business rules, etc.). This is the underlying object with id, value and extensions. The accessor "getDocumentation" gives direct access to the value
-         */
-        public CapabilityStatementMessagingEventComponent setDocumentationElement(StringType value) { 
-          this.documentation = value;
-          return this;
-        }
-
-        /**
-         * @return Guidance on how this event is handled, such as internal system trigger points, business rules, etc.
-         */
-        public String getDocumentation() { 
-          return this.documentation == null ? null : this.documentation.getValue();
-        }
-
-        /**
-         * @param value Guidance on how this event is handled, such as internal system trigger points, business rules, etc.
-         */
-        public CapabilityStatementMessagingEventComponent setDocumentation(String value) { 
-          if (Utilities.noString(value))
-            this.documentation = null;
-          else {
-            if (this.documentation == null)
-              this.documentation = new StringType();
-            this.documentation.setValue(value);
-          }
-          return this;
-        }
-
-        protected void listChildren(List<Property> children) {
-          super.listChildren(children);
-          children.add(new Property("code", "Coding", "A coded identifier of a supported messaging event.", 0, 1, code));
-          children.add(new Property("category", "code", "The impact of the content of the message.", 0, 1, category));
-          children.add(new Property("mode", "code", "The mode of this event declaration - whether an application is a sender or receiver.", 0, 1, mode));
-          children.add(new Property("focus", "code", "A resource associated with the event.  This is the resource that defines the event.", 0, 1, focus));
-          children.add(new Property("request", "Reference(StructureDefinition)", "Information about the request for this event.", 0, 1, request));
-          children.add(new Property("response", "Reference(StructureDefinition)", "Information about the response for this event.", 0, 1, response));
-          children.add(new Property("documentation", "string", "Guidance on how this event is handled, such as internal system trigger points, business rules, etc.", 0, 1, documentation));
-        }
-
-        @Override
-        public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
-          switch (_hash) {
-          case 3059181: /*code*/  return new Property("code", "Coding", "A coded identifier of a supported messaging event.", 0, 1, code);
-          case 50511102: /*category*/  return new Property("category", "code", "The impact of the content of the message.", 0, 1, category);
-          case 3357091: /*mode*/  return new Property("mode", "code", "The mode of this event declaration - whether an application is a sender or receiver.", 0, 1, mode);
-          case 97604824: /*focus*/  return new Property("focus", "code", "A resource associated with the event.  This is the resource that defines the event.", 0, 1, focus);
-          case 1095692943: /*request*/  return new Property("request", "Reference(StructureDefinition)", "Information about the request for this event.", 0, 1, request);
-          case -340323263: /*response*/  return new Property("response", "Reference(StructureDefinition)", "Information about the response for this event.", 0, 1, response);
-          case 1587405498: /*documentation*/  return new Property("documentation", "string", "Guidance on how this event is handled, such as internal system trigger points, business rules, etc.", 0, 1, documentation);
-          default: return super.getNamedProperty(_hash, _name, _checkValid);
-          }
-
-        }
-
-      @Override
-      public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
-        switch (hash) {
-        case 3059181: /*code*/ return this.code == null ? new Base[0] : new Base[] {this.code}; // Coding
-        case 50511102: /*category*/ return this.category == null ? new Base[0] : new Base[] {this.category}; // Enumeration<MessageSignificanceCategory>
-        case 3357091: /*mode*/ return this.mode == null ? new Base[0] : new Base[] {this.mode}; // Enumeration<EventCapabilityMode>
-        case 97604824: /*focus*/ return this.focus == null ? new Base[0] : new Base[] {this.focus}; // CodeType
-        case 1095692943: /*request*/ return this.request == null ? new Base[0] : new Base[] {this.request}; // Reference
-        case -340323263: /*response*/ return this.response == null ? new Base[0] : new Base[] {this.response}; // Reference
-        case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // StringType
-        default: return super.getProperty(hash, name, checkValid);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(int hash, String name, Base value) throws FHIRException {
-        switch (hash) {
-        case 3059181: // code
-          this.code = castToCoding(value); // Coding
-          return value;
-        case 50511102: // category
-          value = new MessageSignificanceCategoryEnumFactory().fromType(castToCode(value));
-          this.category = (Enumeration) value; // Enumeration<MessageSignificanceCategory>
-          return value;
-        case 3357091: // mode
-          value = new EventCapabilityModeEnumFactory().fromType(castToCode(value));
-          this.mode = (Enumeration) value; // Enumeration<EventCapabilityMode>
-          return value;
-        case 97604824: // focus
-          this.focus = castToCode(value); // CodeType
-          return value;
-        case 1095692943: // request
-          this.request = castToReference(value); // Reference
-          return value;
-        case -340323263: // response
-          this.response = castToReference(value); // Reference
-          return value;
-        case 1587405498: // documentation
-          this.documentation = castToString(value); // StringType
-          return value;
-        default: return super.setProperty(hash, name, value);
-        }
-
-      }
-
-      @Override
-      public Base setProperty(String name, Base value) throws FHIRException {
-        if (name.equals("code")) {
-          this.code = castToCoding(value); // Coding
-        } else if (name.equals("category")) {
-          value = new MessageSignificanceCategoryEnumFactory().fromType(castToCode(value));
-          this.category = (Enumeration) value; // Enumeration<MessageSignificanceCategory>
-        } else if (name.equals("mode")) {
-          value = new EventCapabilityModeEnumFactory().fromType(castToCode(value));
-          this.mode = (Enumeration) value; // Enumeration<EventCapabilityMode>
-        } else if (name.equals("focus")) {
-          this.focus = castToCode(value); // CodeType
-        } else if (name.equals("request")) {
-          this.request = castToReference(value); // Reference
-        } else if (name.equals("response")) {
-          this.response = castToReference(value); // Reference
-        } else if (name.equals("documentation")) {
-          this.documentation = castToString(value); // StringType
-        } else
-          return super.setProperty(name, value);
-        return value;
-      }
-
-      @Override
-      public Base makeProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3059181:  return getCode(); 
-        case 50511102:  return getCategoryElement();
-        case 3357091:  return getModeElement();
-        case 97604824:  return getFocusElement();
-        case 1095692943:  return getRequest(); 
-        case -340323263:  return getResponse(); 
-        case 1587405498:  return getDocumentationElement();
-        default: return super.makeProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public String[] getTypesForProperty(int hash, String name) throws FHIRException {
-        switch (hash) {
-        case 3059181: /*code*/ return new String[] {"Coding"};
-        case 50511102: /*category*/ return new String[] {"code"};
-        case 3357091: /*mode*/ return new String[] {"code"};
-        case 97604824: /*focus*/ return new String[] {"code"};
-        case 1095692943: /*request*/ return new String[] {"Reference"};
-        case -340323263: /*response*/ return new String[] {"Reference"};
-        case 1587405498: /*documentation*/ return new String[] {"string"};
-        default: return super.getTypesForProperty(hash, name);
-        }
-
-      }
-
-      @Override
-      public Base addChild(String name) throws FHIRException {
-        if (name.equals("code")) {
-          this.code = new Coding();
-          return this.code;
-        }
-        else if (name.equals("category")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.category");
-        }
-        else if (name.equals("mode")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.mode");
-        }
-        else if (name.equals("focus")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.focus");
-        }
-        else if (name.equals("request")) {
-          this.request = new Reference();
-          return this.request;
-        }
-        else if (name.equals("response")) {
-          this.response = new Reference();
-          return this.response;
-        }
-        else if (name.equals("documentation")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.documentation");
-        }
-        else
-          return super.addChild(name);
-      }
-
-      public CapabilityStatementMessagingEventComponent copy() {
-        CapabilityStatementMessagingEventComponent dst = new CapabilityStatementMessagingEventComponent();
-        copyValues(dst);
-        dst.code = code == null ? null : code.copy();
-        dst.category = category == null ? null : category.copy();
-        dst.mode = mode == null ? null : mode.copy();
-        dst.focus = focus == null ? null : focus.copy();
-        dst.request = request == null ? null : request.copy();
-        dst.response = response == null ? null : response.copy();
-        dst.documentation = documentation == null ? null : documentation.copy();
-        return dst;
-      }
-
-      @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
-          return false;
-        if (!(other instanceof CapabilityStatementMessagingEventComponent))
-          return false;
-        CapabilityStatementMessagingEventComponent o = (CapabilityStatementMessagingEventComponent) other;
-        return compareDeep(code, o.code, true) && compareDeep(category, o.category, true) && compareDeep(mode, o.mode, true)
-           && compareDeep(focus, o.focus, true) && compareDeep(request, o.request, true) && compareDeep(response, o.response, true)
-           && compareDeep(documentation, o.documentation, true);
-      }
-
-      @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
-          return false;
-        if (!(other instanceof CapabilityStatementMessagingEventComponent))
-          return false;
-        CapabilityStatementMessagingEventComponent o = (CapabilityStatementMessagingEventComponent) other;
-        return compareValues(category, o.category, true) && compareValues(mode, o.mode, true) && compareValues(focus, o.focus, true)
-           && compareValues(documentation, o.documentation, true);
-      }
-
-      public boolean isEmpty() {
-        return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(code, category, mode, focus
-          , request, response, documentation);
-      }
-
-  public String fhirType() {
-    return "CapabilityStatement.messaging.event";
-
-  }
-
-  }
-
-    @Block()
     public static class CapabilityStatementDocumentComponent extends BackboneElement implements IBaseBackboneElement {
         /**
          * Mode of this document declaration - whether an application is a producer or consumer.
          */
-        @Child(name = "mode", type = {CodeType.class}, order=1, min=1, max=1, modifier=false, summary=false)
+        @Child(name = "mode", type = {CodeType.class}, order=1, min=1, max=1, modifier=false, summary=true)
         @Description(shortDefinition="producer | consumer", formalDefinition="Mode of this document declaration - whether an application is a producer or consumer." )
         @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/document-mode")
         protected Enumeration<DocumentMode> mode;
@@ -7342,16 +6344,11 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         /**
          * A constraint on a resource used in the document.
          */
-        @Child(name = "profile", type = {StructureDefinition.class}, order=3, min=1, max=1, modifier=false, summary=true)
+        @Child(name = "profile", type = {CanonicalType.class}, order=3, min=1, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Constraint on a resource used in the document", formalDefinition="A constraint on a resource used in the document." )
-        protected Reference profile;
+        protected CanonicalType profile;
 
-        /**
-         * The actual object that is the target of the reference (A constraint on a resource used in the document.)
-         */
-        protected StructureDefinition profileTarget;
-
-        private static final long serialVersionUID = -1059555053L;
+        private static final long serialVersionUID = -47853274L;
 
     /**
      * Constructor
@@ -7363,7 +6360,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * Constructor
      */
-      public CapabilityStatementDocumentComponent(Enumeration<DocumentMode> mode, Reference profile) {
+      public CapabilityStatementDocumentComponent(Enumeration<DocumentMode> mode, CanonicalType profile) {
         super();
         this.mode = mode;
         this.profile = profile;
@@ -7464,15 +6461,19 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
 
         /**
-         * @return {@link #profile} (A constraint on a resource used in the document.)
+         * @return {@link #profile} (A constraint on a resource used in the document.). This is the underlying object with id, value and extensions. The accessor "getProfile" gives direct access to the value
          */
-        public Reference getProfile() { 
+        public CanonicalType getProfileElement() { 
           if (this.profile == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create CapabilityStatementDocumentComponent.profile");
             else if (Configuration.doAutoCreate())
-              this.profile = new Reference(); // cc
+              this.profile = new CanonicalType(); // bb
           return this.profile;
+        }
+
+        public boolean hasProfileElement() { 
+          return this.profile != null && !this.profile.isEmpty();
         }
 
         public boolean hasProfile() { 
@@ -7480,30 +6481,27 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
 
         /**
-         * @param value {@link #profile} (A constraint on a resource used in the document.)
+         * @param value {@link #profile} (A constraint on a resource used in the document.). This is the underlying object with id, value and extensions. The accessor "getProfile" gives direct access to the value
          */
-        public CapabilityStatementDocumentComponent setProfile(Reference value) { 
+        public CapabilityStatementDocumentComponent setProfileElement(CanonicalType value) { 
           this.profile = value;
           return this;
         }
 
         /**
-         * @return {@link #profile} The actual object that is the target of the reference. The reference library doesn't populate this, but you can use it to hold the resource if you resolve it. (A constraint on a resource used in the document.)
+         * @return A constraint on a resource used in the document.
          */
-        public StructureDefinition getProfileTarget() { 
-          if (this.profileTarget == null)
-            if (Configuration.errorOnAutoCreate())
-              throw new Error("Attempt to auto-create CapabilityStatementDocumentComponent.profile");
-            else if (Configuration.doAutoCreate())
-              this.profileTarget = new StructureDefinition(); // aa
-          return this.profileTarget;
+        public String getProfile() { 
+          return this.profile == null ? null : this.profile.getValue();
         }
 
         /**
-         * @param value {@link #profile} The actual object that is the target of the reference. The reference library doesn't use these, but you can use it to hold the resource if you resolve it. (A constraint on a resource used in the document.)
+         * @param value A constraint on a resource used in the document.
          */
-        public CapabilityStatementDocumentComponent setProfileTarget(StructureDefinition value) { 
-          this.profileTarget = value;
+        public CapabilityStatementDocumentComponent setProfile(String value) { 
+            if (this.profile == null)
+              this.profile = new CanonicalType();
+            this.profile.setValue(value);
           return this;
         }
 
@@ -7511,7 +6509,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           super.listChildren(children);
           children.add(new Property("mode", "code", "Mode of this document declaration - whether an application is a producer or consumer.", 0, 1, mode));
           children.add(new Property("documentation", "string", "A description of how the application supports or uses the specified document profile.  For example, when documents are created, what action is taken with consumed documents, etc.", 0, 1, documentation));
-          children.add(new Property("profile", "Reference(StructureDefinition)", "A constraint on a resource used in the document.", 0, 1, profile));
+          children.add(new Property("profile", "canonical(StructureDefinition)", "A constraint on a resource used in the document.", 0, 1, profile));
         }
 
         @Override
@@ -7519,7 +6517,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           switch (_hash) {
           case 3357091: /*mode*/  return new Property("mode", "code", "Mode of this document declaration - whether an application is a producer or consumer.", 0, 1, mode);
           case 1587405498: /*documentation*/  return new Property("documentation", "string", "A description of how the application supports or uses the specified document profile.  For example, when documents are created, what action is taken with consumed documents, etc.", 0, 1, documentation);
-          case -309425751: /*profile*/  return new Property("profile", "Reference(StructureDefinition)", "A constraint on a resource used in the document.", 0, 1, profile);
+          case -309425751: /*profile*/  return new Property("profile", "canonical(StructureDefinition)", "A constraint on a resource used in the document.", 0, 1, profile);
           default: return super.getNamedProperty(_hash, _name, _checkValid);
           }
 
@@ -7530,7 +6528,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         switch (hash) {
         case 3357091: /*mode*/ return this.mode == null ? new Base[0] : new Base[] {this.mode}; // Enumeration<DocumentMode>
         case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // StringType
-        case -309425751: /*profile*/ return this.profile == null ? new Base[0] : new Base[] {this.profile}; // Reference
+        case -309425751: /*profile*/ return this.profile == null ? new Base[0] : new Base[] {this.profile}; // CanonicalType
         default: return super.getProperty(hash, name, checkValid);
         }
 
@@ -7547,7 +6545,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.documentation = castToString(value); // StringType
           return value;
         case -309425751: // profile
-          this.profile = castToReference(value); // Reference
+          this.profile = castToCanonical(value); // CanonicalType
           return value;
         default: return super.setProperty(hash, name, value);
         }
@@ -7562,7 +6560,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         } else if (name.equals("documentation")) {
           this.documentation = castToString(value); // StringType
         } else if (name.equals("profile")) {
-          this.profile = castToReference(value); // Reference
+          this.profile = castToCanonical(value); // CanonicalType
         } else
           return super.setProperty(name, value);
         return value;
@@ -7573,7 +6571,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         switch (hash) {
         case 3357091:  return getModeElement();
         case 1587405498:  return getDocumentationElement();
-        case -309425751:  return getProfile(); 
+        case -309425751:  return getProfileElement();
         default: return super.makeProperty(hash, name);
         }
 
@@ -7584,7 +6582,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         switch (hash) {
         case 3357091: /*mode*/ return new String[] {"code"};
         case 1587405498: /*documentation*/ return new String[] {"string"};
-        case -309425751: /*profile*/ return new String[] {"Reference"};
+        case -309425751: /*profile*/ return new String[] {"canonical"};
         default: return super.getTypesForProperty(hash, name);
         }
 
@@ -7599,8 +6597,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.documentation");
         }
         else if (name.equals("profile")) {
-          this.profile = new Reference();
-          return this.profile;
+          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.profile");
         }
         else
           return super.addChild(name);
@@ -7616,23 +6613,23 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatementDocumentComponent))
+        if (!(other_ instanceof CapabilityStatementDocumentComponent))
           return false;
-        CapabilityStatementDocumentComponent o = (CapabilityStatementDocumentComponent) other;
+        CapabilityStatementDocumentComponent o = (CapabilityStatementDocumentComponent) other_;
         return compareDeep(mode, o.mode, true) && compareDeep(documentation, o.documentation, true) && compareDeep(profile, o.profile, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatementDocumentComponent))
+        if (!(other_ instanceof CapabilityStatementDocumentComponent))
           return false;
-        CapabilityStatementDocumentComponent o = (CapabilityStatementDocumentComponent) other;
+        CapabilityStatementDocumentComponent o = (CapabilityStatementDocumentComponent) other_;
         return compareValues(mode, o.mode, true) && compareValues(documentation, o.documentation, true);
       }
 
@@ -7673,9 +6670,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.
      */
-    @Child(name = "instantiates", type = {UriType.class}, order=3, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "instantiates", type = {CanonicalType.class}, order=3, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Canonical URL of another capability statement this implements", formalDefinition="Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so." )
-    protected List<UriType> instantiates;
+    protected List<CanonicalType> instantiates;
 
     /**
      * Software that is covered by this capability statement.  It is used when the capability statement describes the capabilities of a particular software version, independent of an installation.
@@ -7700,68 +6697,48 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     protected IdType fhirVersion;
 
     /**
-     * A code that indicates whether the application accepts unknown elements or extensions when reading resources.
-     */
-    @Child(name = "acceptUnknown", type = {CodeType.class}, order=7, min=1, max=1, modifier=false, summary=true)
-    @Description(shortDefinition="no | extensions | elements | both", formalDefinition="A code that indicates whether the application accepts unknown elements or extensions when reading resources." )
-    @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/unknown-content-code")
-    protected Enumeration<UnknownContentCode> acceptUnknown;
-
-    /**
      * A list of the formats supported by this implementation using their content types.
      */
-    @Child(name = "format", type = {CodeType.class}, order=8, min=1, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "format", type = {CodeType.class}, order=7, min=1, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="formats supported (xml | json | ttl | mime type)", formalDefinition="A list of the formats supported by this implementation using their content types." )
     protected List<CodeType> format;
 
     /**
      * A list of the patch formats supported by this implementation using their content types.
      */
-    @Child(name = "patchFormat", type = {CodeType.class}, order=9, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "patchFormat", type = {CodeType.class}, order=8, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Patch formats supported", formalDefinition="A list of the patch formats supported by this implementation using their content types." )
     protected List<CodeType> patchFormat;
 
     /**
      * A list of implementation guides that the server does (or should) support in their entirety.
      */
-    @Child(name = "implementationGuide", type = {UriType.class}, order=10, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "implementationGuide", type = {CanonicalType.class}, order=9, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Implementation guides supported", formalDefinition="A list of implementation guides that the server does (or should) support in their entirety." )
-    protected List<UriType> implementationGuide;
-
-    /**
-     * A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).
-     */
-    @Child(name = "profile", type = {StructureDefinition.class}, order=11, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
-    @Description(shortDefinition="Profiles for use cases supported", formalDefinition="A list of profiles that represent different use cases supported by the system. For a server, \"supported by the system\" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses)." )
-    protected List<Reference> profile;
-    /**
-     * The actual objects that are the target of the reference (A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).)
-     */
-    protected List<StructureDefinition> profileTarget;
-
+    protected List<CanonicalType> implementationGuide;
 
     /**
      * A definition of the restful capabilities of the solution, if any.
      */
-    @Child(name = "rest", type = {}, order=12, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "rest", type = {}, order=10, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="If the endpoint is a RESTful one", formalDefinition="A definition of the restful capabilities of the solution, if any." )
     protected List<CapabilityStatementRestComponent> rest;
 
     /**
      * A description of the messaging capabilities of the solution.
      */
-    @Child(name = "messaging", type = {}, order=13, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "messaging", type = {}, order=11, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="If messaging is supported", formalDefinition="A description of the messaging capabilities of the solution." )
     protected List<CapabilityStatementMessagingComponent> messaging;
 
     /**
      * A document definition.
      */
-    @Child(name = "document", type = {}, order=14, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "document", type = {}, order=12, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Document definition", formalDefinition="A document definition." )
     protected List<CapabilityStatementDocumentComponent> document;
 
-    private static final long serialVersionUID = 227177541L;
+    private static final long serialVersionUID = -2010720074L;
 
   /**
    * Constructor
@@ -7773,17 +6750,16 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
   /**
    * Constructor
    */
-    public CapabilityStatement(Enumeration<PublicationStatus> status, DateTimeType date, Enumeration<CapabilityStatementKind> kind, IdType fhirVersion, Enumeration<UnknownContentCode> acceptUnknown) {
+    public CapabilityStatement(Enumeration<PublicationStatus> status, DateTimeType date, Enumeration<CapabilityStatementKind> kind, IdType fhirVersion) {
       super();
       this.status = status;
       this.date = date;
       this.kind = kind;
       this.fhirVersion = fhirVersion;
-      this.acceptUnknown = acceptUnknown;
     }
 
     /**
-     * @return {@link #url} (An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this capability statement is (or will be) published. The URL SHOULD include the major version of the capability statement. For more information see [Technical and Business Versions](resource.html#versions).). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
+     * @return {@link #url} (An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this capability statement is (or will be) published.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
      */
     public UriType getUrlElement() { 
       if (this.url == null)
@@ -7803,7 +6779,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     }
 
     /**
-     * @param value {@link #url} (An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this capability statement is (or will be) published. The URL SHOULD include the major version of the capability statement. For more information see [Technical and Business Versions](resource.html#versions).). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
+     * @param value {@link #url} (An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this capability statement is (or will be) published.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
      */
     public CapabilityStatement setUrlElement(UriType value) { 
       this.url = value;
@@ -7811,14 +6787,14 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     }
 
     /**
-     * @return An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this capability statement is (or will be) published. The URL SHOULD include the major version of the capability statement. For more information see [Technical and Business Versions](resource.html#versions).
+     * @return An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this capability statement is (or will be) published.
      */
     public String getUrl() { 
       return this.url == null ? null : this.url.getValue();
     }
 
     /**
-     * @param value An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this capability statement is (or will be) published. The URL SHOULD include the major version of the capability statement. For more information see [Technical and Business Versions](resource.html#versions).
+     * @param value An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this capability statement is (or will be) published.
      */
     public CapabilityStatement setUrl(String value) { 
       if (Utilities.noString(value))
@@ -8516,16 +7492,16 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * @return {@link #instantiates} (Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.)
      */
-    public List<UriType> getInstantiates() { 
+    public List<CanonicalType> getInstantiates() { 
       if (this.instantiates == null)
-        this.instantiates = new ArrayList<UriType>();
+        this.instantiates = new ArrayList<CanonicalType>();
       return this.instantiates;
     }
 
     /**
      * @return Returns a reference to <code>this</code> for easy method chaining
      */
-    public CapabilityStatement setInstantiates(List<UriType> theInstantiates) { 
+    public CapabilityStatement setInstantiates(List<CanonicalType> theInstantiates) { 
       this.instantiates = theInstantiates;
       return this;
     }
@@ -8533,7 +7509,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     public boolean hasInstantiates() { 
       if (this.instantiates == null)
         return false;
-      for (UriType item : this.instantiates)
+      for (CanonicalType item : this.instantiates)
         if (!item.isEmpty())
           return true;
       return false;
@@ -8542,10 +7518,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * @return {@link #instantiates} (Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.)
      */
-    public UriType addInstantiatesElement() {//2 
-      UriType t = new UriType();
+    public CanonicalType addInstantiatesElement() {//2 
+      CanonicalType t = new CanonicalType();
       if (this.instantiates == null)
-        this.instantiates = new ArrayList<UriType>();
+        this.instantiates = new ArrayList<CanonicalType>();
       this.instantiates.add(t);
       return t;
     }
@@ -8554,10 +7530,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
      * @param value {@link #instantiates} (Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.)
      */
     public CapabilityStatement addInstantiates(String value) { //1
-      UriType t = new UriType();
+      CanonicalType t = new CanonicalType();
       t.setValue(value);
       if (this.instantiates == null)
-        this.instantiates = new ArrayList<UriType>();
+        this.instantiates = new ArrayList<CanonicalType>();
       this.instantiates.add(t);
       return this;
     }
@@ -8568,8 +7544,8 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     public boolean hasInstantiates(String value) { 
       if (this.instantiates == null)
         return false;
-      for (UriType v : this.instantiates)
-        if (v.equals(value)) // uri
+      for (CanonicalType v : this.instantiates)
+        if (v.getValue().equals(value)) // canonical(CapabilityStatement)
           return true;
       return false;
     }
@@ -8668,51 +7644,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     }
 
     /**
-     * @return {@link #acceptUnknown} (A code that indicates whether the application accepts unknown elements or extensions when reading resources.). This is the underlying object with id, value and extensions. The accessor "getAcceptUnknown" gives direct access to the value
-     */
-    public Enumeration<UnknownContentCode> getAcceptUnknownElement() { 
-      if (this.acceptUnknown == null)
-        if (Configuration.errorOnAutoCreate())
-          throw new Error("Attempt to auto-create CapabilityStatement.acceptUnknown");
-        else if (Configuration.doAutoCreate())
-          this.acceptUnknown = new Enumeration<UnknownContentCode>(new UnknownContentCodeEnumFactory()); // bb
-      return this.acceptUnknown;
-    }
-
-    public boolean hasAcceptUnknownElement() { 
-      return this.acceptUnknown != null && !this.acceptUnknown.isEmpty();
-    }
-
-    public boolean hasAcceptUnknown() { 
-      return this.acceptUnknown != null && !this.acceptUnknown.isEmpty();
-    }
-
-    /**
-     * @param value {@link #acceptUnknown} (A code that indicates whether the application accepts unknown elements or extensions when reading resources.). This is the underlying object with id, value and extensions. The accessor "getAcceptUnknown" gives direct access to the value
-     */
-    public CapabilityStatement setAcceptUnknownElement(Enumeration<UnknownContentCode> value) { 
-      this.acceptUnknown = value;
-      return this;
-    }
-
-    /**
-     * @return A code that indicates whether the application accepts unknown elements or extensions when reading resources.
-     */
-    public UnknownContentCode getAcceptUnknown() { 
-      return this.acceptUnknown == null ? null : this.acceptUnknown.getValue();
-    }
-
-    /**
-     * @param value A code that indicates whether the application accepts unknown elements or extensions when reading resources.
-     */
-    public CapabilityStatement setAcceptUnknown(UnknownContentCode value) { 
-        if (this.acceptUnknown == null)
-          this.acceptUnknown = new Enumeration<UnknownContentCode>(new UnknownContentCodeEnumFactory());
-        this.acceptUnknown.setValue(value);
-      return this;
-    }
-
-    /**
      * @return {@link #format} (A list of the formats supported by this implementation using their content types.)
      */
     public List<CodeType> getFormat() { 
@@ -8768,7 +7699,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       if (this.format == null)
         return false;
       for (CodeType v : this.format)
-        if (v.equals(value)) // code
+        if (v.getValue().equals(value)) // code
           return true;
       return false;
     }
@@ -8829,7 +7760,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       if (this.patchFormat == null)
         return false;
       for (CodeType v : this.patchFormat)
-        if (v.equals(value)) // code
+        if (v.getValue().equals(value)) // code
           return true;
       return false;
     }
@@ -8837,16 +7768,16 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * @return {@link #implementationGuide} (A list of implementation guides that the server does (or should) support in their entirety.)
      */
-    public List<UriType> getImplementationGuide() { 
+    public List<CanonicalType> getImplementationGuide() { 
       if (this.implementationGuide == null)
-        this.implementationGuide = new ArrayList<UriType>();
+        this.implementationGuide = new ArrayList<CanonicalType>();
       return this.implementationGuide;
     }
 
     /**
      * @return Returns a reference to <code>this</code> for easy method chaining
      */
-    public CapabilityStatement setImplementationGuide(List<UriType> theImplementationGuide) { 
+    public CapabilityStatement setImplementationGuide(List<CanonicalType> theImplementationGuide) { 
       this.implementationGuide = theImplementationGuide;
       return this;
     }
@@ -8854,7 +7785,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     public boolean hasImplementationGuide() { 
       if (this.implementationGuide == null)
         return false;
-      for (UriType item : this.implementationGuide)
+      for (CanonicalType item : this.implementationGuide)
         if (!item.isEmpty())
           return true;
       return false;
@@ -8863,10 +7794,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     /**
      * @return {@link #implementationGuide} (A list of implementation guides that the server does (or should) support in their entirety.)
      */
-    public UriType addImplementationGuideElement() {//2 
-      UriType t = new UriType();
+    public CanonicalType addImplementationGuideElement() {//2 
+      CanonicalType t = new CanonicalType();
       if (this.implementationGuide == null)
-        this.implementationGuide = new ArrayList<UriType>();
+        this.implementationGuide = new ArrayList<CanonicalType>();
       this.implementationGuide.add(t);
       return t;
     }
@@ -8875,10 +7806,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
      * @param value {@link #implementationGuide} (A list of implementation guides that the server does (or should) support in their entirety.)
      */
     public CapabilityStatement addImplementationGuide(String value) { //1
-      UriType t = new UriType();
+      CanonicalType t = new CanonicalType();
       t.setValue(value);
       if (this.implementationGuide == null)
-        this.implementationGuide = new ArrayList<UriType>();
+        this.implementationGuide = new ArrayList<CanonicalType>();
       this.implementationGuide.add(t);
       return this;
     }
@@ -8889,85 +7820,10 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
     public boolean hasImplementationGuide(String value) { 
       if (this.implementationGuide == null)
         return false;
-      for (UriType v : this.implementationGuide)
-        if (v.equals(value)) // uri
+      for (CanonicalType v : this.implementationGuide)
+        if (v.getValue().equals(value)) // canonical(ImplementationGuide)
           return true;
       return false;
-    }
-
-    /**
-     * @return {@link #profile} (A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).)
-     */
-    public List<Reference> getProfile() { 
-      if (this.profile == null)
-        this.profile = new ArrayList<Reference>();
-      return this.profile;
-    }
-
-    /**
-     * @return Returns a reference to <code>this</code> for easy method chaining
-     */
-    public CapabilityStatement setProfile(List<Reference> theProfile) { 
-      this.profile = theProfile;
-      return this;
-    }
-
-    public boolean hasProfile() { 
-      if (this.profile == null)
-        return false;
-      for (Reference item : this.profile)
-        if (!item.isEmpty())
-          return true;
-      return false;
-    }
-
-    public Reference addProfile() { //3
-      Reference t = new Reference();
-      if (this.profile == null)
-        this.profile = new ArrayList<Reference>();
-      this.profile.add(t);
-      return t;
-    }
-
-    public CapabilityStatement addProfile(Reference t) { //3
-      if (t == null)
-        return this;
-      if (this.profile == null)
-        this.profile = new ArrayList<Reference>();
-      this.profile.add(t);
-      return this;
-    }
-
-    /**
-     * @return The first repetition of repeating field {@link #profile}, creating it if it does not already exist
-     */
-    public Reference getProfileFirstRep() { 
-      if (getProfile().isEmpty()) {
-        addProfile();
-      }
-      return getProfile().get(0);
-    }
-
-    /**
-     * @deprecated Use Reference#setResource(IBaseResource) instead
-     */
-    @Deprecated
-    public List<StructureDefinition> getProfileTarget() { 
-      if (this.profileTarget == null)
-        this.profileTarget = new ArrayList<StructureDefinition>();
-      return this.profileTarget;
-    }
-
-    /**
-     * @deprecated Use Reference#setResource(IBaseResource) instead
-     */
-    @Deprecated
-    public StructureDefinition addProfileTarget() { 
-      StructureDefinition r = new StructureDefinition();
-      if (this.profileTarget == null)
-        this.profileTarget = new ArrayList<StructureDefinition>();
-      this.profileTarget.add(r);
-      return r;
     }
 
     /**
@@ -9131,7 +7987,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
 
       protected void listChildren(List<Property> children) {
         super.listChildren(children);
-        children.add(new Property("url", "uri", "An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this capability statement is (or will be) published. The URL SHOULD include the major version of the capability statement. For more information see [Technical and Business Versions](resource.html#versions).", 0, 1, url));
+        children.add(new Property("url", "uri", "An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this capability statement is (or will be) published.", 0, 1, url));
         children.add(new Property("version", "string", "The identifier that is used to identify this version of the capability statement when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the capability statement author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence.", 0, 1, version));
         children.add(new Property("name", "string", "A natural language name identifying the capability statement. This name should be usable as an identifier for the module by machine processing applications such as code generation.", 0, 1, name));
         children.add(new Property("title", "string", "A short, descriptive, user-friendly title for the capability statement.", 0, 1, title));
@@ -9146,15 +8002,13 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         children.add(new Property("purpose", "markdown", "Explaination of why this capability statement is needed and why it has been designed as it has.", 0, 1, purpose));
         children.add(new Property("copyright", "markdown", "A copyright statement relating to the capability statement and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the capability statement.", 0, 1, copyright));
         children.add(new Property("kind", "code", "The way that this statement is intended to be used, to describe an actual running instance of software, a particular product (kind not instance of software) or a class of implementation (e.g. a desired purchase).", 0, 1, kind));
-        children.add(new Property("instantiates", "uri", "Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.", 0, java.lang.Integer.MAX_VALUE, instantiates));
+        children.add(new Property("instantiates", "canonical(CapabilityStatement)", "Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.", 0, java.lang.Integer.MAX_VALUE, instantiates));
         children.add(new Property("software", "", "Software that is covered by this capability statement.  It is used when the capability statement describes the capabilities of a particular software version, independent of an installation.", 0, 1, software));
         children.add(new Property("implementation", "", "Identifies a specific implementation instance that is described by the capability statement - i.e. a particular installation, rather than the capabilities of a software program.", 0, 1, implementation));
         children.add(new Property("fhirVersion", "id", "The version of the FHIR specification on which this capability statement is based.", 0, 1, fhirVersion));
-        children.add(new Property("acceptUnknown", "code", "A code that indicates whether the application accepts unknown elements or extensions when reading resources.", 0, 1, acceptUnknown));
         children.add(new Property("format", "code", "A list of the formats supported by this implementation using their content types.", 0, java.lang.Integer.MAX_VALUE, format));
         children.add(new Property("patchFormat", "code", "A list of the patch formats supported by this implementation using their content types.", 0, java.lang.Integer.MAX_VALUE, patchFormat));
-        children.add(new Property("implementationGuide", "uri", "A list of implementation guides that the server does (or should) support in their entirety.", 0, java.lang.Integer.MAX_VALUE, implementationGuide));
-        children.add(new Property("profile", "Reference(StructureDefinition)", "A list of profiles that represent different use cases supported by the system. For a server, \"supported by the system\" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, java.lang.Integer.MAX_VALUE, profile));
+        children.add(new Property("implementationGuide", "canonical(ImplementationGuide)", "A list of implementation guides that the server does (or should) support in their entirety.", 0, java.lang.Integer.MAX_VALUE, implementationGuide));
         children.add(new Property("rest", "", "A definition of the restful capabilities of the solution, if any.", 0, java.lang.Integer.MAX_VALUE, rest));
         children.add(new Property("messaging", "", "A description of the messaging capabilities of the solution.", 0, java.lang.Integer.MAX_VALUE, messaging));
         children.add(new Property("document", "", "A document definition.", 0, java.lang.Integer.MAX_VALUE, document));
@@ -9163,7 +8017,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       @Override
       public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
         switch (_hash) {
-        case 116079: /*url*/  return new Property("url", "uri", "An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this capability statement is (or will be) published. The URL SHOULD include the major version of the capability statement. For more information see [Technical and Business Versions](resource.html#versions).", 0, 1, url);
+        case 116079: /*url*/  return new Property("url", "uri", "An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this capability statement is (or will be) published.", 0, 1, url);
         case 351608024: /*version*/  return new Property("version", "string", "The identifier that is used to identify this version of the capability statement when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the capability statement author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence.", 0, 1, version);
         case 3373707: /*name*/  return new Property("name", "string", "A natural language name identifying the capability statement. This name should be usable as an identifier for the module by machine processing applications such as code generation.", 0, 1, name);
         case 110371416: /*title*/  return new Property("title", "string", "A short, descriptive, user-friendly title for the capability statement.", 0, 1, title);
@@ -9178,15 +8032,13 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -220463842: /*purpose*/  return new Property("purpose", "markdown", "Explaination of why this capability statement is needed and why it has been designed as it has.", 0, 1, purpose);
         case 1522889671: /*copyright*/  return new Property("copyright", "markdown", "A copyright statement relating to the capability statement and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the capability statement.", 0, 1, copyright);
         case 3292052: /*kind*/  return new Property("kind", "code", "The way that this statement is intended to be used, to describe an actual running instance of software, a particular product (kind not instance of software) or a class of implementation (e.g. a desired purchase).", 0, 1, kind);
-        case -246883639: /*instantiates*/  return new Property("instantiates", "uri", "Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.", 0, java.lang.Integer.MAX_VALUE, instantiates);
+        case -246883639: /*instantiates*/  return new Property("instantiates", "canonical(CapabilityStatement)", "Reference to a canonical URL of another CapabilityStatement that this software implements or uses. This capability statement is a published API description that corresponds to a business service. The rest of the capability statement does not need to repeat the details of the referenced resource, but can do so.", 0, java.lang.Integer.MAX_VALUE, instantiates);
         case 1319330215: /*software*/  return new Property("software", "", "Software that is covered by this capability statement.  It is used when the capability statement describes the capabilities of a particular software version, independent of an installation.", 0, 1, software);
         case 1683336114: /*implementation*/  return new Property("implementation", "", "Identifies a specific implementation instance that is described by the capability statement - i.e. a particular installation, rather than the capabilities of a software program.", 0, 1, implementation);
         case 461006061: /*fhirVersion*/  return new Property("fhirVersion", "id", "The version of the FHIR specification on which this capability statement is based.", 0, 1, fhirVersion);
-        case -1862642142: /*acceptUnknown*/  return new Property("acceptUnknown", "code", "A code that indicates whether the application accepts unknown elements or extensions when reading resources.", 0, 1, acceptUnknown);
         case -1268779017: /*format*/  return new Property("format", "code", "A list of the formats supported by this implementation using their content types.", 0, java.lang.Integer.MAX_VALUE, format);
         case 172338783: /*patchFormat*/  return new Property("patchFormat", "code", "A list of the patch formats supported by this implementation using their content types.", 0, java.lang.Integer.MAX_VALUE, patchFormat);
-        case 156966506: /*implementationGuide*/  return new Property("implementationGuide", "uri", "A list of implementation guides that the server does (or should) support in their entirety.", 0, java.lang.Integer.MAX_VALUE, implementationGuide);
-        case -309425751: /*profile*/  return new Property("profile", "Reference(StructureDefinition)", "A list of profiles that represent different use cases supported by the system. For a server, \"supported by the system\" means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients that use its services to search using this profile and to find appropriate data. For a client, it means the system will search by this profile and process data according to the guidance implicit in the profile. See further discussion in [Using Profiles](profiling.html#profile-uses).", 0, java.lang.Integer.MAX_VALUE, profile);
+        case 156966506: /*implementationGuide*/  return new Property("implementationGuide", "canonical(ImplementationGuide)", "A list of implementation guides that the server does (or should) support in their entirety.", 0, java.lang.Integer.MAX_VALUE, implementationGuide);
         case 3496916: /*rest*/  return new Property("rest", "", "A definition of the restful capabilities of the solution, if any.", 0, java.lang.Integer.MAX_VALUE, rest);
         case -1440008444: /*messaging*/  return new Property("messaging", "", "A description of the messaging capabilities of the solution.", 0, java.lang.Integer.MAX_VALUE, messaging);
         case 861720859: /*document*/  return new Property("document", "", "A document definition.", 0, java.lang.Integer.MAX_VALUE, document);
@@ -9213,15 +8065,13 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -220463842: /*purpose*/ return this.purpose == null ? new Base[0] : new Base[] {this.purpose}; // MarkdownType
         case 1522889671: /*copyright*/ return this.copyright == null ? new Base[0] : new Base[] {this.copyright}; // MarkdownType
         case 3292052: /*kind*/ return this.kind == null ? new Base[0] : new Base[] {this.kind}; // Enumeration<CapabilityStatementKind>
-        case -246883639: /*instantiates*/ return this.instantiates == null ? new Base[0] : this.instantiates.toArray(new Base[this.instantiates.size()]); // UriType
+        case -246883639: /*instantiates*/ return this.instantiates == null ? new Base[0] : this.instantiates.toArray(new Base[this.instantiates.size()]); // CanonicalType
         case 1319330215: /*software*/ return this.software == null ? new Base[0] : new Base[] {this.software}; // CapabilityStatementSoftwareComponent
         case 1683336114: /*implementation*/ return this.implementation == null ? new Base[0] : new Base[] {this.implementation}; // CapabilityStatementImplementationComponent
         case 461006061: /*fhirVersion*/ return this.fhirVersion == null ? new Base[0] : new Base[] {this.fhirVersion}; // IdType
-        case -1862642142: /*acceptUnknown*/ return this.acceptUnknown == null ? new Base[0] : new Base[] {this.acceptUnknown}; // Enumeration<UnknownContentCode>
         case -1268779017: /*format*/ return this.format == null ? new Base[0] : this.format.toArray(new Base[this.format.size()]); // CodeType
         case 172338783: /*patchFormat*/ return this.patchFormat == null ? new Base[0] : this.patchFormat.toArray(new Base[this.patchFormat.size()]); // CodeType
-        case 156966506: /*implementationGuide*/ return this.implementationGuide == null ? new Base[0] : this.implementationGuide.toArray(new Base[this.implementationGuide.size()]); // UriType
-        case -309425751: /*profile*/ return this.profile == null ? new Base[0] : this.profile.toArray(new Base[this.profile.size()]); // Reference
+        case 156966506: /*implementationGuide*/ return this.implementationGuide == null ? new Base[0] : this.implementationGuide.toArray(new Base[this.implementationGuide.size()]); // CanonicalType
         case 3496916: /*rest*/ return this.rest == null ? new Base[0] : this.rest.toArray(new Base[this.rest.size()]); // CapabilityStatementRestComponent
         case -1440008444: /*messaging*/ return this.messaging == null ? new Base[0] : this.messaging.toArray(new Base[this.messaging.size()]); // CapabilityStatementMessagingComponent
         case 861720859: /*document*/ return this.document == null ? new Base[0] : this.document.toArray(new Base[this.document.size()]); // CapabilityStatementDocumentComponent
@@ -9281,7 +8131,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.kind = (Enumeration) value; // Enumeration<CapabilityStatementKind>
           return value;
         case -246883639: // instantiates
-          this.getInstantiates().add(castToUri(value)); // UriType
+          this.getInstantiates().add(castToCanonical(value)); // CanonicalType
           return value;
         case 1319330215: // software
           this.software = (CapabilityStatementSoftwareComponent) value; // CapabilityStatementSoftwareComponent
@@ -9292,10 +8142,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 461006061: // fhirVersion
           this.fhirVersion = castToId(value); // IdType
           return value;
-        case -1862642142: // acceptUnknown
-          value = new UnknownContentCodeEnumFactory().fromType(castToCode(value));
-          this.acceptUnknown = (Enumeration) value; // Enumeration<UnknownContentCode>
-          return value;
         case -1268779017: // format
           this.getFormat().add(castToCode(value)); // CodeType
           return value;
@@ -9303,10 +8149,7 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           this.getPatchFormat().add(castToCode(value)); // CodeType
           return value;
         case 156966506: // implementationGuide
-          this.getImplementationGuide().add(castToUri(value)); // UriType
-          return value;
-        case -309425751: // profile
-          this.getProfile().add(castToReference(value)); // Reference
+          this.getImplementationGuide().add(castToCanonical(value)); // CanonicalType
           return value;
         case 3496916: // rest
           this.getRest().add((CapabilityStatementRestComponent) value); // CapabilityStatementRestComponent
@@ -9357,24 +8200,19 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
           value = new CapabilityStatementKindEnumFactory().fromType(castToCode(value));
           this.kind = (Enumeration) value; // Enumeration<CapabilityStatementKind>
         } else if (name.equals("instantiates")) {
-          this.getInstantiates().add(castToUri(value));
+          this.getInstantiates().add(castToCanonical(value));
         } else if (name.equals("software")) {
           this.software = (CapabilityStatementSoftwareComponent) value; // CapabilityStatementSoftwareComponent
         } else if (name.equals("implementation")) {
           this.implementation = (CapabilityStatementImplementationComponent) value; // CapabilityStatementImplementationComponent
         } else if (name.equals("fhirVersion")) {
           this.fhirVersion = castToId(value); // IdType
-        } else if (name.equals("acceptUnknown")) {
-          value = new UnknownContentCodeEnumFactory().fromType(castToCode(value));
-          this.acceptUnknown = (Enumeration) value; // Enumeration<UnknownContentCode>
         } else if (name.equals("format")) {
           this.getFormat().add(castToCode(value));
         } else if (name.equals("patchFormat")) {
           this.getPatchFormat().add(castToCode(value));
         } else if (name.equals("implementationGuide")) {
-          this.getImplementationGuide().add(castToUri(value));
-        } else if (name.equals("profile")) {
-          this.getProfile().add(castToReference(value));
+          this.getImplementationGuide().add(castToCanonical(value));
         } else if (name.equals("rest")) {
           this.getRest().add((CapabilityStatementRestComponent) value);
         } else if (name.equals("messaging")) {
@@ -9408,11 +8246,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case 1319330215:  return getSoftware(); 
         case 1683336114:  return getImplementation(); 
         case 461006061:  return getFhirVersionElement();
-        case -1862642142:  return getAcceptUnknownElement();
         case -1268779017:  return addFormatElement();
         case 172338783:  return addPatchFormatElement();
         case 156966506:  return addImplementationGuideElement();
-        case -309425751:  return addProfile(); 
         case 3496916:  return addRest(); 
         case -1440008444:  return addMessaging(); 
         case 861720859:  return addDocument(); 
@@ -9439,15 +8275,13 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         case -220463842: /*purpose*/ return new String[] {"markdown"};
         case 1522889671: /*copyright*/ return new String[] {"markdown"};
         case 3292052: /*kind*/ return new String[] {"code"};
-        case -246883639: /*instantiates*/ return new String[] {"uri"};
+        case -246883639: /*instantiates*/ return new String[] {"canonical"};
         case 1319330215: /*software*/ return new String[] {};
         case 1683336114: /*implementation*/ return new String[] {};
         case 461006061: /*fhirVersion*/ return new String[] {"id"};
-        case -1862642142: /*acceptUnknown*/ return new String[] {"code"};
         case -1268779017: /*format*/ return new String[] {"code"};
         case 172338783: /*patchFormat*/ return new String[] {"code"};
-        case 156966506: /*implementationGuide*/ return new String[] {"uri"};
-        case -309425751: /*profile*/ return new String[] {"Reference"};
+        case 156966506: /*implementationGuide*/ return new String[] {"canonical"};
         case 3496916: /*rest*/ return new String[] {};
         case -1440008444: /*messaging*/ return new String[] {};
         case 861720859: /*document*/ return new String[] {};
@@ -9517,9 +8351,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         else if (name.equals("fhirVersion")) {
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.fhirVersion");
         }
-        else if (name.equals("acceptUnknown")) {
-          throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.acceptUnknown");
-        }
         else if (name.equals("format")) {
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.format");
         }
@@ -9528,9 +8359,6 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         }
         else if (name.equals("implementationGuide")) {
           throw new FHIRException("Cannot call addChild on a primitive type CapabilityStatement.implementationGuide");
-        }
-        else if (name.equals("profile")) {
-          return addProfile();
         }
         else if (name.equals("rest")) {
           return addRest();
@@ -9581,14 +8409,13 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
         dst.copyright = copyright == null ? null : copyright.copy();
         dst.kind = kind == null ? null : kind.copy();
         if (instantiates != null) {
-          dst.instantiates = new ArrayList<UriType>();
-          for (UriType i : instantiates)
+          dst.instantiates = new ArrayList<CanonicalType>();
+          for (CanonicalType i : instantiates)
             dst.instantiates.add(i.copy());
         };
         dst.software = software == null ? null : software.copy();
         dst.implementation = implementation == null ? null : implementation.copy();
         dst.fhirVersion = fhirVersion == null ? null : fhirVersion.copy();
-        dst.acceptUnknown = acceptUnknown == null ? null : acceptUnknown.copy();
         if (format != null) {
           dst.format = new ArrayList<CodeType>();
           for (CodeType i : format)
@@ -9600,14 +8427,9 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
             dst.patchFormat.add(i.copy());
         };
         if (implementationGuide != null) {
-          dst.implementationGuide = new ArrayList<UriType>();
-          for (UriType i : implementationGuide)
+          dst.implementationGuide = new ArrayList<CanonicalType>();
+          for (CanonicalType i : implementationGuide)
             dst.implementationGuide.add(i.copy());
-        };
-        if (profile != null) {
-          dst.profile = new ArrayList<Reference>();
-          for (Reference i : profile)
-            dst.profile.add(i.copy());
         };
         if (rest != null) {
           dst.rest = new ArrayList<CapabilityStatementRestComponent>();
@@ -9632,37 +8454,35 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof CapabilityStatement))
+        if (!(other_ instanceof CapabilityStatement))
           return false;
-        CapabilityStatement o = (CapabilityStatement) other;
+        CapabilityStatement o = (CapabilityStatement) other_;
         return compareDeep(purpose, o.purpose, true) && compareDeep(copyright, o.copyright, true) && compareDeep(kind, o.kind, true)
            && compareDeep(instantiates, o.instantiates, true) && compareDeep(software, o.software, true) && compareDeep(implementation, o.implementation, true)
-           && compareDeep(fhirVersion, o.fhirVersion, true) && compareDeep(acceptUnknown, o.acceptUnknown, true)
-           && compareDeep(format, o.format, true) && compareDeep(patchFormat, o.patchFormat, true) && compareDeep(implementationGuide, o.implementationGuide, true)
-           && compareDeep(profile, o.profile, true) && compareDeep(rest, o.rest, true) && compareDeep(messaging, o.messaging, true)
-           && compareDeep(document, o.document, true);
+           && compareDeep(fhirVersion, o.fhirVersion, true) && compareDeep(format, o.format, true) && compareDeep(patchFormat, o.patchFormat, true)
+           && compareDeep(implementationGuide, o.implementationGuide, true) && compareDeep(rest, o.rest, true)
+           && compareDeep(messaging, o.messaging, true) && compareDeep(document, o.document, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof CapabilityStatement))
+        if (!(other_ instanceof CapabilityStatement))
           return false;
-        CapabilityStatement o = (CapabilityStatement) other;
+        CapabilityStatement o = (CapabilityStatement) other_;
         return compareValues(purpose, o.purpose, true) && compareValues(copyright, o.copyright, true) && compareValues(kind, o.kind, true)
-           && compareValues(instantiates, o.instantiates, true) && compareValues(fhirVersion, o.fhirVersion, true)
-           && compareValues(acceptUnknown, o.acceptUnknown, true) && compareValues(format, o.format, true) && compareValues(patchFormat, o.patchFormat, true)
-           && compareValues(implementationGuide, o.implementationGuide, true);
+           && compareValues(fhirVersion, o.fhirVersion, true) && compareValues(format, o.format, true) && compareValues(patchFormat, o.patchFormat, true)
+          ;
       }
 
       public boolean isEmpty() {
         return super.isEmpty() && ca.uhn.fhir.util.ElementUtil.isEmpty(purpose, copyright, kind
-          , instantiates, software, implementation, fhirVersion, acceptUnknown, format, patchFormat
-          , implementationGuide, profile, rest, messaging, document);
+          , instantiates, software, implementation, fhirVersion, format, patchFormat, implementationGuide
+          , rest, messaging, document);
       }
 
   @Override
@@ -9901,17 +8721,17 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
    * <p>
    * Description: <b>Profiles for use cases supported</b><br>
    * Type: <b>reference</b><br>
-   * Path: <b>CapabilityStatement.profile</b><br>
+   * Path: <b>CapabilityStatement.rest.resource.supportedProfile</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="supported-profile", path="CapabilityStatement.profile", description="Profiles for use cases supported", type="reference", target={StructureDefinition.class } )
+  @SearchParamDefinition(name="supported-profile", path="CapabilityStatement.rest.resource.supportedProfile", description="Profiles for use cases supported", type="reference", target={StructureDefinition.class } )
   public static final String SP_SUPPORTED_PROFILE = "supported-profile";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>supported-profile</b>
    * <p>
    * Description: <b>Profiles for use cases supported</b><br>
    * Type: <b>reference</b><br>
-   * Path: <b>CapabilityStatement.profile</b><br>
+   * Path: <b>CapabilityStatement.rest.resource.supportedProfile</b><br>
    * </p>
    */
   public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam SUPPORTED_PROFILE = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_SUPPORTED_PROFILE);
@@ -10003,44 +8823,30 @@ public class CapabilityStatement extends MetadataResource implements IBaseConfor
   public static final ca.uhn.fhir.rest.gclient.StringClientParam PUBLISHER = new ca.uhn.fhir.rest.gclient.StringClientParam(SP_PUBLISHER);
 
  /**
-   * Search parameter: <b>event</b>
-   * <p>
-   * Description: <b>Event code in a capability statement</b><br>
-   * Type: <b>token</b><br>
-   * Path: <b>CapabilityStatement.messaging.event.code</b><br>
-   * </p>
-   */
-  @SearchParamDefinition(name="event", path="CapabilityStatement.messaging.event.code", description="Event code in a capability statement", type="token" )
-  public static final String SP_EVENT = "event";
- /**
-   * <b>Fluent Client</b> search parameter constant for <b>event</b>
-   * <p>
-   * Description: <b>Event code in a capability statement</b><br>
-   * Type: <b>token</b><br>
-   * Path: <b>CapabilityStatement.messaging.event.code</b><br>
-   * </p>
-   */
-  public static final ca.uhn.fhir.rest.gclient.TokenClientParam EVENT = new ca.uhn.fhir.rest.gclient.TokenClientParam(SP_EVENT);
-
- /**
    * Search parameter: <b>guide</b>
    * <p>
    * Description: <b>Implementation guides supported</b><br>
-   * Type: <b>uri</b><br>
+   * Type: <b>reference</b><br>
    * Path: <b>CapabilityStatement.implementationGuide</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="guide", path="CapabilityStatement.implementationGuide", description="Implementation guides supported", type="uri" )
+  @SearchParamDefinition(name="guide", path="CapabilityStatement.implementationGuide", description="Implementation guides supported", type="reference", target={ImplementationGuide.class } )
   public static final String SP_GUIDE = "guide";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>guide</b>
    * <p>
    * Description: <b>Implementation guides supported</b><br>
-   * Type: <b>uri</b><br>
+   * Type: <b>reference</b><br>
    * Path: <b>CapabilityStatement.implementationGuide</b><br>
    * </p>
    */
-  public static final ca.uhn.fhir.rest.gclient.UriClientParam GUIDE = new ca.uhn.fhir.rest.gclient.UriClientParam(SP_GUIDE);
+  public static final ca.uhn.fhir.rest.gclient.ReferenceClientParam GUIDE = new ca.uhn.fhir.rest.gclient.ReferenceClientParam(SP_GUIDE);
+
+/**
+   * Constant for fluent queries to be used to add include statements. Specifies
+   * the path value of "<b>CapabilityStatement:guide</b>".
+   */
+  public static final ca.uhn.fhir.model.api.Include INCLUDE_GUIDE = new ca.uhn.fhir.model.api.Include("CapabilityStatement:guide").toLocked();
 
  /**
    * Search parameter: <b>status</b>

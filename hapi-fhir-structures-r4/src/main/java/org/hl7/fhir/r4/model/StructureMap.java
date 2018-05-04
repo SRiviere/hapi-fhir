@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -1071,9 +1071,9 @@ public class StructureMap extends MetadataResource {
         /**
          * The canonical URL that identifies the structure.
          */
-        @Child(name = "url", type = {UriType.class}, order=1, min=1, max=1, modifier=false, summary=true)
+        @Child(name = "url", type = {CanonicalType.class}, order=1, min=1, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Canonical URL for structure definition", formalDefinition="The canonical URL that identifies the structure." )
-        protected UriType url;
+        protected CanonicalType url;
 
         /**
          * How the referenced structure is used in this mapping.
@@ -1097,7 +1097,7 @@ public class StructureMap extends MetadataResource {
         @Description(shortDefinition="Documentation on use of structure", formalDefinition="Documentation that describes how the structure is used in the mapping." )
         protected StringType documentation;
 
-        private static final long serialVersionUID = -277986558L;
+        private static final long serialVersionUID = 364750586L;
 
     /**
      * Constructor
@@ -1109,7 +1109,7 @@ public class StructureMap extends MetadataResource {
     /**
      * Constructor
      */
-      public StructureMapStructureComponent(UriType url, Enumeration<StructureMapModelMode> mode) {
+      public StructureMapStructureComponent(CanonicalType url, Enumeration<StructureMapModelMode> mode) {
         super();
         this.url = url;
         this.mode = mode;
@@ -1118,12 +1118,12 @@ public class StructureMap extends MetadataResource {
         /**
          * @return {@link #url} (The canonical URL that identifies the structure.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
          */
-        public UriType getUrlElement() { 
+        public CanonicalType getUrlElement() { 
           if (this.url == null)
             if (Configuration.errorOnAutoCreate())
               throw new Error("Attempt to auto-create StructureMapStructureComponent.url");
             else if (Configuration.doAutoCreate())
-              this.url = new UriType(); // bb
+              this.url = new CanonicalType(); // bb
           return this.url;
         }
 
@@ -1138,7 +1138,7 @@ public class StructureMap extends MetadataResource {
         /**
          * @param value {@link #url} (The canonical URL that identifies the structure.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
          */
-        public StructureMapStructureComponent setUrlElement(UriType value) { 
+        public StructureMapStructureComponent setUrlElement(CanonicalType value) { 
           this.url = value;
           return this;
         }
@@ -1155,7 +1155,7 @@ public class StructureMap extends MetadataResource {
          */
         public StructureMapStructureComponent setUrl(String value) { 
             if (this.url == null)
-              this.url = new UriType();
+              this.url = new CanonicalType();
             this.url.setValue(value);
           return this;
         }
@@ -1305,7 +1305,7 @@ public class StructureMap extends MetadataResource {
 
         protected void listChildren(List<Property> children) {
           super.listChildren(children);
-          children.add(new Property("url", "uri", "The canonical URL that identifies the structure.", 0, 1, url));
+          children.add(new Property("url", "canonical(StructureDefinition)", "The canonical URL that identifies the structure.", 0, 1, url));
           children.add(new Property("mode", "code", "How the referenced structure is used in this mapping.", 0, 1, mode));
           children.add(new Property("alias", "string", "The name used for this type in the map.", 0, 1, alias));
           children.add(new Property("documentation", "string", "Documentation that describes how the structure is used in the mapping.", 0, 1, documentation));
@@ -1314,7 +1314,7 @@ public class StructureMap extends MetadataResource {
         @Override
         public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
           switch (_hash) {
-          case 116079: /*url*/  return new Property("url", "uri", "The canonical URL that identifies the structure.", 0, 1, url);
+          case 116079: /*url*/  return new Property("url", "canonical(StructureDefinition)", "The canonical URL that identifies the structure.", 0, 1, url);
           case 3357091: /*mode*/  return new Property("mode", "code", "How the referenced structure is used in this mapping.", 0, 1, mode);
           case 92902992: /*alias*/  return new Property("alias", "string", "The name used for this type in the map.", 0, 1, alias);
           case 1587405498: /*documentation*/  return new Property("documentation", "string", "Documentation that describes how the structure is used in the mapping.", 0, 1, documentation);
@@ -1326,7 +1326,7 @@ public class StructureMap extends MetadataResource {
       @Override
       public Base[] getProperty(int hash, String name, boolean checkValid) throws FHIRException {
         switch (hash) {
-        case 116079: /*url*/ return this.url == null ? new Base[0] : new Base[] {this.url}; // UriType
+        case 116079: /*url*/ return this.url == null ? new Base[0] : new Base[] {this.url}; // CanonicalType
         case 3357091: /*mode*/ return this.mode == null ? new Base[0] : new Base[] {this.mode}; // Enumeration<StructureMapModelMode>
         case 92902992: /*alias*/ return this.alias == null ? new Base[0] : new Base[] {this.alias}; // StringType
         case 1587405498: /*documentation*/ return this.documentation == null ? new Base[0] : new Base[] {this.documentation}; // StringType
@@ -1339,7 +1339,7 @@ public class StructureMap extends MetadataResource {
       public Base setProperty(int hash, String name, Base value) throws FHIRException {
         switch (hash) {
         case 116079: // url
-          this.url = castToUri(value); // UriType
+          this.url = castToCanonical(value); // CanonicalType
           return value;
         case 3357091: // mode
           value = new StructureMapModelModeEnumFactory().fromType(castToCode(value));
@@ -1359,7 +1359,7 @@ public class StructureMap extends MetadataResource {
       @Override
       public Base setProperty(String name, Base value) throws FHIRException {
         if (name.equals("url")) {
-          this.url = castToUri(value); // UriType
+          this.url = castToCanonical(value); // CanonicalType
         } else if (name.equals("mode")) {
           value = new StructureMapModelModeEnumFactory().fromType(castToCode(value));
           this.mode = (Enumeration) value; // Enumeration<StructureMapModelMode>
@@ -1387,7 +1387,7 @@ public class StructureMap extends MetadataResource {
       @Override
       public String[] getTypesForProperty(int hash, String name) throws FHIRException {
         switch (hash) {
-        case 116079: /*url*/ return new String[] {"uri"};
+        case 116079: /*url*/ return new String[] {"canonical"};
         case 3357091: /*mode*/ return new String[] {"code"};
         case 92902992: /*alias*/ return new String[] {"string"};
         case 1587405498: /*documentation*/ return new String[] {"string"};
@@ -1425,25 +1425,25 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapStructureComponent))
+        if (!(other_ instanceof StructureMapStructureComponent))
           return false;
-        StructureMapStructureComponent o = (StructureMapStructureComponent) other;
+        StructureMapStructureComponent o = (StructureMapStructureComponent) other_;
         return compareDeep(url, o.url, true) && compareDeep(mode, o.mode, true) && compareDeep(alias, o.alias, true)
            && compareDeep(documentation, o.documentation, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapStructureComponent))
+        if (!(other_ instanceof StructureMapStructureComponent))
           return false;
-        StructureMapStructureComponent o = (StructureMapStructureComponent) other;
-        return compareValues(url, o.url, true) && compareValues(mode, o.mode, true) && compareValues(alias, o.alias, true)
-           && compareValues(documentation, o.documentation, true);
+        StructureMapStructureComponent o = (StructureMapStructureComponent) other_;
+        return compareValues(mode, o.mode, true) && compareValues(alias, o.alias, true) && compareValues(documentation, o.documentation, true)
+          ;
       }
 
       public boolean isEmpty() {
@@ -1973,24 +1973,24 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupComponent))
+        if (!(other_ instanceof StructureMapGroupComponent))
           return false;
-        StructureMapGroupComponent o = (StructureMapGroupComponent) other;
+        StructureMapGroupComponent o = (StructureMapGroupComponent) other_;
         return compareDeep(name, o.name, true) && compareDeep(extends_, o.extends_, true) && compareDeep(typeMode, o.typeMode, true)
            && compareDeep(documentation, o.documentation, true) && compareDeep(input, o.input, true) && compareDeep(rule, o.rule, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupComponent))
+        if (!(other_ instanceof StructureMapGroupComponent))
           return false;
-        StructureMapGroupComponent o = (StructureMapGroupComponent) other;
+        StructureMapGroupComponent o = (StructureMapGroupComponent) other_;
         return compareValues(name, o.name, true) && compareValues(extends_, o.extends_, true) && compareValues(typeMode, o.typeMode, true)
            && compareValues(documentation, o.documentation, true);
       }
@@ -2374,23 +2374,23 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupInputComponent))
+        if (!(other_ instanceof StructureMapGroupInputComponent))
           return false;
-        StructureMapGroupInputComponent o = (StructureMapGroupInputComponent) other;
+        StructureMapGroupInputComponent o = (StructureMapGroupInputComponent) other_;
         return compareDeep(name, o.name, true) && compareDeep(type, o.type, true) && compareDeep(mode, o.mode, true)
            && compareDeep(documentation, o.documentation, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupInputComponent))
+        if (!(other_ instanceof StructureMapGroupInputComponent))
           return false;
-        StructureMapGroupInputComponent o = (StructureMapGroupInputComponent) other;
+        StructureMapGroupInputComponent o = (StructureMapGroupInputComponent) other_;
         return compareValues(name, o.name, true) && compareValues(type, o.type, true) && compareValues(mode, o.mode, true)
            && compareValues(documentation, o.documentation, true);
       }
@@ -2938,24 +2938,24 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleComponent))
+        if (!(other_ instanceof StructureMapGroupRuleComponent))
           return false;
-        StructureMapGroupRuleComponent o = (StructureMapGroupRuleComponent) other;
+        StructureMapGroupRuleComponent o = (StructureMapGroupRuleComponent) other_;
         return compareDeep(name, o.name, true) && compareDeep(source, o.source, true) && compareDeep(target, o.target, true)
            && compareDeep(rule, o.rule, true) && compareDeep(dependent, o.dependent, true) && compareDeep(documentation, o.documentation, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleComponent))
+        if (!(other_ instanceof StructureMapGroupRuleComponent))
           return false;
-        StructureMapGroupRuleComponent o = (StructureMapGroupRuleComponent) other;
+        StructureMapGroupRuleComponent o = (StructureMapGroupRuleComponent) other_;
         return compareValues(name, o.name, true) && compareValues(documentation, o.documentation, true);
       }
 
@@ -3544,39 +3544,42 @@ public class StructureMap extends MetadataResource {
           case 3575610: /*type*/  return new Property("type", "string", "Specified type for the element. This works as a condition on the mapping - use for polymorphic elements.", 0, 1, type);
           case 587922128: /*defaultValue[x]*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -659125328: /*defaultValue*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 600437336: /*defaultValueBoolean*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -1801189522: /*defaultValueInteger*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 2077989249: /*defaultValueDecimal*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case 1470297600: /*defaultValueBase64Binary*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -1801671663: /*defaultValueInstant*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -320515103: /*defaultValueString*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 587916188: /*defaultValueUri*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 600437336: /*defaultValueBoolean*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 264593188: /*defaultValueCanonical*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 1044993469: /*defaultValueCode*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case 1045010302: /*defaultValueDate*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case 1220374379: /*defaultValueDateTime*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 1045494429: /*defaultValueTime*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 1044993469: /*defaultValueCode*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 587910138: /*defaultValueOid*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 2077989249: /*defaultValueDecimal*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -2059245333: /*defaultValueId*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 539117290: /*defaultValueUnsignedInt*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -737344154: /*defaultValuePositiveInt*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -1801671663: /*defaultValueInstant*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -1801189522: /*defaultValueInteger*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -325436225: /*defaultValueMarkdown*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 587910138: /*defaultValueOid*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -737344154: /*defaultValuePositiveInt*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -320515103: /*defaultValueString*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 1045494429: /*defaultValueTime*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 539117290: /*defaultValueUnsignedInt*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 587916188: /*defaultValueUri*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 587916191: /*defaultValueUrl*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case 1045535627: /*defaultValueUuid*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -611966428: /*defaultValueAddress*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -1851689217: /*defaultValueAnnotation*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case 2034820339: /*defaultValueAttachment*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -1915078535: /*defaultValueIdentifier*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -410434095: /*defaultValueCodeableConcept*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -783616198: /*defaultValueCoding*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -344740576: /*defaultValueContactPoint*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -975393912: /*defaultValueHumanName*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -1915078535: /*defaultValueIdentifier*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -420255343: /*defaultValuePeriod*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -1857379237: /*defaultValueQuantity*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -1951495315: /*defaultValueRange*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -420255343: /*defaultValuePeriod*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -1951489477: /*defaultValueRatio*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -1488914053: /*defaultValueReference*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -449641228: /*defaultValueSampledData*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case 509825768: /*defaultValueSignature*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -975393912: /*defaultValueHumanName*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -611966428: /*defaultValueAddress*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -344740576: /*defaultValueContactPoint*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -302193638: /*defaultValueTiming*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case -1488914053: /*defaultValueReference*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
-          case 1045282261: /*defaultValueMeta*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
+          case -754548089: /*defaultValueDosage*/  return new Property("defaultValue[x]", "*", "A value to use if there is no existing value in the source object.", 0, 1, defaultValue);
           case -1662836996: /*element*/  return new Property("element", "string", "Optional field for this source.", 0, 1, element);
           case 1345445729: /*listMode*/  return new Property("listMode", "code", "How to handle the list mode for this element.", 0, 1, listMode);
           case -1249586564: /*variable*/  return new Property("variable", "id", "Named context for field, if a field is specified.", 0, 1, variable);
@@ -3723,32 +3726,20 @@ public class StructureMap extends MetadataResource {
         else if (name.equals("type")) {
           throw new FHIRException("Cannot call addChild on a primitive type StructureMap.type");
         }
-        else if (name.equals("defaultValueBoolean")) {
-          this.defaultValue = new BooleanType();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueInteger")) {
-          this.defaultValue = new IntegerType();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueDecimal")) {
-          this.defaultValue = new DecimalType();
-          return this.defaultValue;
-        }
         else if (name.equals("defaultValueBase64Binary")) {
           this.defaultValue = new Base64BinaryType();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueInstant")) {
-          this.defaultValue = new InstantType();
+        else if (name.equals("defaultValueBoolean")) {
+          this.defaultValue = new BooleanType();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueString")) {
-          this.defaultValue = new StringType();
+        else if (name.equals("defaultValueCanonical")) {
+          this.defaultValue = new CanonicalType();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueUri")) {
-          this.defaultValue = new UriType();
+        else if (name.equals("defaultValueCode")) {
+          this.defaultValue = new CodeType();
           return this.defaultValue;
         }
         else if (name.equals("defaultValueDate")) {
@@ -3759,32 +3750,64 @@ public class StructureMap extends MetadataResource {
           this.defaultValue = new DateTimeType();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueTime")) {
-          this.defaultValue = new TimeType();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueCode")) {
-          this.defaultValue = new CodeType();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueOid")) {
-          this.defaultValue = new OidType();
+        else if (name.equals("defaultValueDecimal")) {
+          this.defaultValue = new DecimalType();
           return this.defaultValue;
         }
         else if (name.equals("defaultValueId")) {
           this.defaultValue = new IdType();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueUnsignedInt")) {
-          this.defaultValue = new UnsignedIntType();
+        else if (name.equals("defaultValueInstant")) {
+          this.defaultValue = new InstantType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueInteger")) {
+          this.defaultValue = new IntegerType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueMarkdown")) {
+          this.defaultValue = new MarkdownType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueOid")) {
+          this.defaultValue = new OidType();
           return this.defaultValue;
         }
         else if (name.equals("defaultValuePositiveInt")) {
           this.defaultValue = new PositiveIntType();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueMarkdown")) {
-          this.defaultValue = new MarkdownType();
+        else if (name.equals("defaultValueString")) {
+          this.defaultValue = new StringType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueTime")) {
+          this.defaultValue = new TimeType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueUnsignedInt")) {
+          this.defaultValue = new UnsignedIntType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueUri")) {
+          this.defaultValue = new UriType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueUrl")) {
+          this.defaultValue = new UrlType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueUuid")) {
+          this.defaultValue = new UuidType();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueAddress")) {
+          this.defaultValue = new Address();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueAge")) {
+          this.defaultValue = new Age();
           return this.defaultValue;
         }
         else if (name.equals("defaultValueAnnotation")) {
@@ -3795,16 +3818,44 @@ public class StructureMap extends MetadataResource {
           this.defaultValue = new Attachment();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueIdentifier")) {
-          this.defaultValue = new Identifier();
-          return this.defaultValue;
-        }
         else if (name.equals("defaultValueCodeableConcept")) {
           this.defaultValue = new CodeableConcept();
           return this.defaultValue;
         }
         else if (name.equals("defaultValueCoding")) {
           this.defaultValue = new Coding();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueContactPoint")) {
+          this.defaultValue = new ContactPoint();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueCount")) {
+          this.defaultValue = new Count();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueDistance")) {
+          this.defaultValue = new Distance();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueDuration")) {
+          this.defaultValue = new Duration();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueHumanName")) {
+          this.defaultValue = new HumanName();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueIdentifier")) {
+          this.defaultValue = new Identifier();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueMoney")) {
+          this.defaultValue = new Money();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValuePeriod")) {
+          this.defaultValue = new Period();
           return this.defaultValue;
         }
         else if (name.equals("defaultValueQuantity")) {
@@ -3815,12 +3866,12 @@ public class StructureMap extends MetadataResource {
           this.defaultValue = new Range();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValuePeriod")) {
-          this.defaultValue = new Period();
-          return this.defaultValue;
-        }
         else if (name.equals("defaultValueRatio")) {
           this.defaultValue = new Ratio();
+          return this.defaultValue;
+        }
+        else if (name.equals("defaultValueReference")) {
+          this.defaultValue = new Reference();
           return this.defaultValue;
         }
         else if (name.equals("defaultValueSampledData")) {
@@ -3831,28 +3882,12 @@ public class StructureMap extends MetadataResource {
           this.defaultValue = new Signature();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueHumanName")) {
-          this.defaultValue = new HumanName();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueAddress")) {
-          this.defaultValue = new Address();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueContactPoint")) {
-          this.defaultValue = new ContactPoint();
-          return this.defaultValue;
-        }
         else if (name.equals("defaultValueTiming")) {
           this.defaultValue = new Timing();
           return this.defaultValue;
         }
-        else if (name.equals("defaultValueReference")) {
-          this.defaultValue = new Reference();
-          return this.defaultValue;
-        }
-        else if (name.equals("defaultValueMeta")) {
-          this.defaultValue = new Meta();
+        else if (name.equals("defaultValueDosage")) {
+          this.defaultValue = new Dosage();
           return this.defaultValue;
         }
         else if (name.equals("element")) {
@@ -3891,12 +3926,12 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleSourceComponent))
+        if (!(other_ instanceof StructureMapGroupRuleSourceComponent))
           return false;
-        StructureMapGroupRuleSourceComponent o = (StructureMapGroupRuleSourceComponent) other;
+        StructureMapGroupRuleSourceComponent o = (StructureMapGroupRuleSourceComponent) other_;
         return compareDeep(context, o.context, true) && compareDeep(min, o.min, true) && compareDeep(max, o.max, true)
            && compareDeep(type, o.type, true) && compareDeep(defaultValue, o.defaultValue, true) && compareDeep(element, o.element, true)
            && compareDeep(listMode, o.listMode, true) && compareDeep(variable, o.variable, true) && compareDeep(condition, o.condition, true)
@@ -3904,12 +3939,12 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleSourceComponent))
+        if (!(other_ instanceof StructureMapGroupRuleSourceComponent))
           return false;
-        StructureMapGroupRuleSourceComponent o = (StructureMapGroupRuleSourceComponent) other;
+        StructureMapGroupRuleSourceComponent o = (StructureMapGroupRuleSourceComponent) other_;
         return compareValues(context, o.context, true) && compareValues(min, o.min, true) && compareValues(max, o.max, true)
            && compareValues(type, o.type, true) && compareValues(element, o.element, true) && compareValues(listMode, o.listMode, true)
            && compareValues(variable, o.variable, true) && compareValues(condition, o.condition, true) && compareValues(check, o.check, true)
@@ -4604,24 +4639,24 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleTargetComponent))
+        if (!(other_ instanceof StructureMapGroupRuleTargetComponent))
           return false;
-        StructureMapGroupRuleTargetComponent o = (StructureMapGroupRuleTargetComponent) other;
+        StructureMapGroupRuleTargetComponent o = (StructureMapGroupRuleTargetComponent) other_;
         return compareDeep(context, o.context, true) && compareDeep(contextType, o.contextType, true) && compareDeep(element, o.element, true)
            && compareDeep(variable, o.variable, true) && compareDeep(listMode, o.listMode, true) && compareDeep(listRuleId, o.listRuleId, true)
            && compareDeep(transform, o.transform, true) && compareDeep(parameter, o.parameter, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleTargetComponent))
+        if (!(other_ instanceof StructureMapGroupRuleTargetComponent))
           return false;
-        StructureMapGroupRuleTargetComponent o = (StructureMapGroupRuleTargetComponent) other;
+        StructureMapGroupRuleTargetComponent o = (StructureMapGroupRuleTargetComponent) other_;
         return compareValues(context, o.context, true) && compareValues(contextType, o.contextType, true) && compareValues(element, o.element, true)
            && compareValues(variable, o.variable, true) && compareValues(listMode, o.listMode, true) && compareValues(listRuleId, o.listRuleId, true)
            && compareValues(transform, o.transform, true);
@@ -4859,22 +4894,22 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleTargetParameterComponent))
+        if (!(other_ instanceof StructureMapGroupRuleTargetParameterComponent))
           return false;
-        StructureMapGroupRuleTargetParameterComponent o = (StructureMapGroupRuleTargetParameterComponent) other;
+        StructureMapGroupRuleTargetParameterComponent o = (StructureMapGroupRuleTargetParameterComponent) other_;
         return compareDeep(value, o.value, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleTargetParameterComponent))
+        if (!(other_ instanceof StructureMapGroupRuleTargetParameterComponent))
           return false;
-        StructureMapGroupRuleTargetParameterComponent o = (StructureMapGroupRuleTargetParameterComponent) other;
+        StructureMapGroupRuleTargetParameterComponent o = (StructureMapGroupRuleTargetParameterComponent) other_;
         return true;
       }
 
@@ -5032,7 +5067,7 @@ public class StructureMap extends MetadataResource {
           if (this.variable == null)
             return false;
           for (StringType v : this.variable)
-            if (v.equals(value)) // string
+            if (v.getValue().equals(value)) // string
               return true;
           return false;
         }
@@ -5133,22 +5168,22 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleDependentComponent))
+        if (!(other_ instanceof StructureMapGroupRuleDependentComponent))
           return false;
-        StructureMapGroupRuleDependentComponent o = (StructureMapGroupRuleDependentComponent) other;
+        StructureMapGroupRuleDependentComponent o = (StructureMapGroupRuleDependentComponent) other_;
         return compareDeep(name, o.name, true) && compareDeep(variable, o.variable, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMapGroupRuleDependentComponent))
+        if (!(other_ instanceof StructureMapGroupRuleDependentComponent))
           return false;
-        StructureMapGroupRuleDependentComponent o = (StructureMapGroupRuleDependentComponent) other;
+        StructureMapGroupRuleDependentComponent o = (StructureMapGroupRuleDependentComponent) other_;
         return compareValues(name, o.name, true) && compareValues(variable, o.variable, true);
       }
 
@@ -5194,9 +5229,9 @@ public class StructureMap extends MetadataResource {
     /**
      * Other maps used by this map (canonical URLs).
      */
-    @Child(name = "import", type = {UriType.class}, order=4, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
+    @Child(name = "import", type = {CanonicalType.class}, order=4, min=0, max=Child.MAX_UNLIMITED, modifier=false, summary=true)
     @Description(shortDefinition="Other maps used by this map (canonical URLs)", formalDefinition="Other maps used by this map (canonical URLs)." )
-    protected List<UriType> import_;
+    protected List<CanonicalType> import_;
 
     /**
      * Organizes the mapping into managable chunks for human review/ease of maintenance.
@@ -5205,7 +5240,7 @@ public class StructureMap extends MetadataResource {
     @Description(shortDefinition="Named sections for reader convenience", formalDefinition="Organizes the mapping into managable chunks for human review/ease of maintenance." )
     protected List<StructureMapGroupComponent> group;
 
-    private static final long serialVersionUID = 952506557L;
+    private static final long serialVersionUID = 263060597L;
 
   /**
    * Constructor
@@ -5225,7 +5260,7 @@ public class StructureMap extends MetadataResource {
     }
 
     /**
-     * @return {@link #url} (An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this structure map is (or will be) published. The URL SHOULD include the major version of the structure map. For more information see [Technical and Business Versions](resource.html#versions).). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
+     * @return {@link #url} (An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this structure map is (or will be) published.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
      */
     public UriType getUrlElement() { 
       if (this.url == null)
@@ -5245,7 +5280,7 @@ public class StructureMap extends MetadataResource {
     }
 
     /**
-     * @param value {@link #url} (An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this structure map is (or will be) published. The URL SHOULD include the major version of the structure map. For more information see [Technical and Business Versions](resource.html#versions).). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
+     * @param value {@link #url} (An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this structure map is (or will be) published.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
      */
     public StructureMap setUrlElement(UriType value) { 
       this.url = value;
@@ -5253,14 +5288,14 @@ public class StructureMap extends MetadataResource {
     }
 
     /**
-     * @return An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this structure map is (or will be) published. The URL SHOULD include the major version of the structure map. For more information see [Technical and Business Versions](resource.html#versions).
+     * @return An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this structure map is (or will be) published.
      */
     public String getUrl() { 
       return this.url == null ? null : this.url.getValue();
     }
 
     /**
-     * @param value An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this structure map is (or will be) published. The URL SHOULD include the major version of the structure map. For more information see [Technical and Business Versions](resource.html#versions).
+     * @param value An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this structure map is (or will be) published.
      */
     public StructureMap setUrl(String value) { 
         if (this.url == null)
@@ -6015,16 +6050,16 @@ public class StructureMap extends MetadataResource {
     /**
      * @return {@link #import_} (Other maps used by this map (canonical URLs).)
      */
-    public List<UriType> getImport() { 
+    public List<CanonicalType> getImport() { 
       if (this.import_ == null)
-        this.import_ = new ArrayList<UriType>();
+        this.import_ = new ArrayList<CanonicalType>();
       return this.import_;
     }
 
     /**
      * @return Returns a reference to <code>this</code> for easy method chaining
      */
-    public StructureMap setImport(List<UriType> theImport) { 
+    public StructureMap setImport(List<CanonicalType> theImport) { 
       this.import_ = theImport;
       return this;
     }
@@ -6032,7 +6067,7 @@ public class StructureMap extends MetadataResource {
     public boolean hasImport() { 
       if (this.import_ == null)
         return false;
-      for (UriType item : this.import_)
+      for (CanonicalType item : this.import_)
         if (!item.isEmpty())
           return true;
       return false;
@@ -6041,10 +6076,10 @@ public class StructureMap extends MetadataResource {
     /**
      * @return {@link #import_} (Other maps used by this map (canonical URLs).)
      */
-    public UriType addImportElement() {//2 
-      UriType t = new UriType();
+    public CanonicalType addImportElement() {//2 
+      CanonicalType t = new CanonicalType();
       if (this.import_ == null)
-        this.import_ = new ArrayList<UriType>();
+        this.import_ = new ArrayList<CanonicalType>();
       this.import_.add(t);
       return t;
     }
@@ -6053,10 +6088,10 @@ public class StructureMap extends MetadataResource {
      * @param value {@link #import_} (Other maps used by this map (canonical URLs).)
      */
     public StructureMap addImport(String value) { //1
-      UriType t = new UriType();
+      CanonicalType t = new CanonicalType();
       t.setValue(value);
       if (this.import_ == null)
-        this.import_ = new ArrayList<UriType>();
+        this.import_ = new ArrayList<CanonicalType>();
       this.import_.add(t);
       return this;
     }
@@ -6067,8 +6102,8 @@ public class StructureMap extends MetadataResource {
     public boolean hasImport(String value) { 
       if (this.import_ == null)
         return false;
-      for (UriType v : this.import_)
-        if (v.equals(value)) // uri
+      for (CanonicalType v : this.import_)
+        if (v.getValue().equals(value)) // canonical(StructureMap)
           return true;
       return false;
     }
@@ -6128,7 +6163,7 @@ public class StructureMap extends MetadataResource {
 
       protected void listChildren(List<Property> children) {
         super.listChildren(children);
-        children.add(new Property("url", "uri", "An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this structure map is (or will be) published. The URL SHOULD include the major version of the structure map. For more information see [Technical and Business Versions](resource.html#versions).", 0, 1, url));
+        children.add(new Property("url", "uri", "An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this structure map is (or will be) published.", 0, 1, url));
         children.add(new Property("identifier", "Identifier", "A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced in a specification, model, design or an instance.", 0, java.lang.Integer.MAX_VALUE, identifier));
         children.add(new Property("version", "string", "The identifier that is used to identify this version of the structure map when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the structure map author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence.", 0, 1, version));
         children.add(new Property("name", "string", "A natural language name identifying the structure map. This name should be usable as an identifier for the module by machine processing applications such as code generation.", 0, 1, name));
@@ -6144,14 +6179,14 @@ public class StructureMap extends MetadataResource {
         children.add(new Property("purpose", "markdown", "Explaination of why this structure map is needed and why it has been designed as it has.", 0, 1, purpose));
         children.add(new Property("copyright", "markdown", "A copyright statement relating to the structure map and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the structure map.", 0, 1, copyright));
         children.add(new Property("structure", "", "A structure definition used by this map. The structure definition may describe instances that are converted, or the instances that are produced.", 0, java.lang.Integer.MAX_VALUE, structure));
-        children.add(new Property("import", "uri", "Other maps used by this map (canonical URLs).", 0, java.lang.Integer.MAX_VALUE, import_));
+        children.add(new Property("import", "canonical(StructureMap)", "Other maps used by this map (canonical URLs).", 0, java.lang.Integer.MAX_VALUE, import_));
         children.add(new Property("group", "", "Organizes the mapping into managable chunks for human review/ease of maintenance.", 0, java.lang.Integer.MAX_VALUE, group));
       }
 
       @Override
       public Property getNamedProperty(int _hash, String _name, boolean _checkValid) throws FHIRException {
         switch (_hash) {
-        case 116079: /*url*/  return new Property("url", "uri", "An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this structure map is (or will be) published. The URL SHOULD include the major version of the structure map. For more information see [Technical and Business Versions](resource.html#versions).", 0, 1, url);
+        case 116079: /*url*/  return new Property("url", "uri", "An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance. This SHOULD be globally unique, and SHOULD be a literal address at which this structure map is (or will be) published.", 0, 1, url);
         case -1618432855: /*identifier*/  return new Property("identifier", "Identifier", "A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced in a specification, model, design or an instance.", 0, java.lang.Integer.MAX_VALUE, identifier);
         case 351608024: /*version*/  return new Property("version", "string", "The identifier that is used to identify this version of the structure map when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the structure map author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence.", 0, 1, version);
         case 3373707: /*name*/  return new Property("name", "string", "A natural language name identifying the structure map. This name should be usable as an identifier for the module by machine processing applications such as code generation.", 0, 1, name);
@@ -6167,7 +6202,7 @@ public class StructureMap extends MetadataResource {
         case -220463842: /*purpose*/  return new Property("purpose", "markdown", "Explaination of why this structure map is needed and why it has been designed as it has.", 0, 1, purpose);
         case 1522889671: /*copyright*/  return new Property("copyright", "markdown", "A copyright statement relating to the structure map and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the structure map.", 0, 1, copyright);
         case 144518515: /*structure*/  return new Property("structure", "", "A structure definition used by this map. The structure definition may describe instances that are converted, or the instances that are produced.", 0, java.lang.Integer.MAX_VALUE, structure);
-        case -1184795739: /*import*/  return new Property("import", "uri", "Other maps used by this map (canonical URLs).", 0, java.lang.Integer.MAX_VALUE, import_);
+        case -1184795739: /*import*/  return new Property("import", "canonical(StructureMap)", "Other maps used by this map (canonical URLs).", 0, java.lang.Integer.MAX_VALUE, import_);
         case 98629247: /*group*/  return new Property("group", "", "Organizes the mapping into managable chunks for human review/ease of maintenance.", 0, java.lang.Integer.MAX_VALUE, group);
         default: return super.getNamedProperty(_hash, _name, _checkValid);
         }
@@ -6193,7 +6228,7 @@ public class StructureMap extends MetadataResource {
         case -220463842: /*purpose*/ return this.purpose == null ? new Base[0] : new Base[] {this.purpose}; // MarkdownType
         case 1522889671: /*copyright*/ return this.copyright == null ? new Base[0] : new Base[] {this.copyright}; // MarkdownType
         case 144518515: /*structure*/ return this.structure == null ? new Base[0] : this.structure.toArray(new Base[this.structure.size()]); // StructureMapStructureComponent
-        case -1184795739: /*import*/ return this.import_ == null ? new Base[0] : this.import_.toArray(new Base[this.import_.size()]); // UriType
+        case -1184795739: /*import*/ return this.import_ == null ? new Base[0] : this.import_.toArray(new Base[this.import_.size()]); // CanonicalType
         case 98629247: /*group*/ return this.group == null ? new Base[0] : this.group.toArray(new Base[this.group.size()]); // StructureMapGroupComponent
         default: return super.getProperty(hash, name, checkValid);
         }
@@ -6253,7 +6288,7 @@ public class StructureMap extends MetadataResource {
           this.getStructure().add((StructureMapStructureComponent) value); // StructureMapStructureComponent
           return value;
         case -1184795739: // import
-          this.getImport().add(castToUri(value)); // UriType
+          this.getImport().add(castToCanonical(value)); // CanonicalType
           return value;
         case 98629247: // group
           this.getGroup().add((StructureMapGroupComponent) value); // StructureMapGroupComponent
@@ -6299,7 +6334,7 @@ public class StructureMap extends MetadataResource {
         } else if (name.equals("structure")) {
           this.getStructure().add((StructureMapStructureComponent) value);
         } else if (name.equals("import")) {
-          this.getImport().add(castToUri(value));
+          this.getImport().add(castToCanonical(value));
         } else if (name.equals("group")) {
           this.getGroup().add((StructureMapGroupComponent) value);
         } else
@@ -6352,7 +6387,7 @@ public class StructureMap extends MetadataResource {
         case -220463842: /*purpose*/ return new String[] {"markdown"};
         case 1522889671: /*copyright*/ return new String[] {"markdown"};
         case 144518515: /*structure*/ return new String[] {};
-        case -1184795739: /*import*/ return new String[] {"uri"};
+        case -1184795739: /*import*/ return new String[] {"canonical"};
         case 98629247: /*group*/ return new String[] {};
         default: return super.getTypesForProperty(hash, name);
         }
@@ -6464,8 +6499,8 @@ public class StructureMap extends MetadataResource {
             dst.structure.add(i.copy());
         };
         if (import_ != null) {
-          dst.import_ = new ArrayList<UriType>();
-          for (UriType i : import_)
+          dst.import_ = new ArrayList<CanonicalType>();
+          for (CanonicalType i : import_)
             dst.import_.add(i.copy());
         };
         if (group != null) {
@@ -6481,26 +6516,25 @@ public class StructureMap extends MetadataResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof StructureMap))
+        if (!(other_ instanceof StructureMap))
           return false;
-        StructureMap o = (StructureMap) other;
+        StructureMap o = (StructureMap) other_;
         return compareDeep(identifier, o.identifier, true) && compareDeep(purpose, o.purpose, true) && compareDeep(copyright, o.copyright, true)
            && compareDeep(structure, o.structure, true) && compareDeep(import_, o.import_, true) && compareDeep(group, o.group, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof StructureMap))
+        if (!(other_ instanceof StructureMap))
           return false;
-        StructureMap o = (StructureMap) other;
-        return compareValues(purpose, o.purpose, true) && compareValues(copyright, o.copyright, true) && compareValues(import_, o.import_, true)
-          ;
+        StructureMap o = (StructureMap) other_;
+        return compareValues(purpose, o.purpose, true) && compareValues(copyright, o.copyright, true);
       }
 
       public boolean isEmpty() {

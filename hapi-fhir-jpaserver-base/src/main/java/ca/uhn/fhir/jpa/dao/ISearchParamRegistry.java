@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.dao;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,9 @@ import java.util.Set;
 
 public interface ISearchParamRegistry {
 
+	/**
+	 * Request that the cache be refreshed now, in the current thread
+	 */
 	void forceRefresh();
 
 	/**
@@ -36,11 +39,18 @@ public interface ISearchParamRegistry {
 	 */
 	RuntimeSearchParam getActiveSearchParam(String theResourceName, String theParamName);
 
+	Map<String, Map<String, RuntimeSearchParam>> getActiveSearchParams();
+
 	Map<String, RuntimeSearchParam> getActiveSearchParams(String theResourceName);
 
-	Map<String, Map<String, RuntimeSearchParam>> getActiveSearchParams();
+	List<JpaRuntimeSearchParam> getActiveUniqueSearchParams(String theResourceName, Set<String> theParamNames);
 
 	List<JpaRuntimeSearchParam> getActiveUniqueSearchParams(String theResourceName);
 
-	List<JpaRuntimeSearchParam> getActiveUniqueSearchParams(String theResourceName, Set<String> theParamNames);
+	void refreshCacheIfNecessary();
+
+	/**
+	 * Request that the cache be refreshed at the next convenient time (in a different thread)
+	 */
+	void requestRefresh();
 }

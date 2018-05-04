@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.provider.dstu3;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,8 @@ import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.CoverageIgnore;
 import ca.uhn.fhir.util.ExtensionConstants;
+
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 public class JpaConformanceProviderDstu3 extends org.hl7.fhir.dstu3.hapi.rest.server.ServerCapabilityStatementProvider {
 
@@ -70,10 +72,11 @@ public class JpaConformanceProviderDstu3 extends org.hl7.fhir.dstu3.hapi.rest.se
 	public CapabilityStatement getServerConformance(HttpServletRequest theRequest) {
 		CapabilityStatement retVal = myCachedValue;
 
-		Map<String, Long> counts = Collections.emptyMap();
+		Map<String, Long> counts = null;
 		if (myIncludeResourceCounts) {
-			counts = mySystemDao.getResourceCounts();
+			counts = mySystemDao.getResourceCountsFromCache();
 		}
+		counts = defaultIfNull(counts, Collections.emptyMap());
 
 		retVal = super.getServerConformance(theRequest);
 		for (CapabilityStatementRestComponent nextRest : retVal.getRest()) {

@@ -53,16 +53,16 @@ public abstract class BaseResourceProviderDstu3Test extends BaseJpaDstu3Test {
 	protected static CloseableHttpClient ourHttpClient;
 	protected static int ourPort;
 	protected static RestfulServer ourRestServer;
-	private static Server ourServer;
 	protected static String ourServerBase;
 	protected static GenericWebApplicationContext ourWebApplicationContext;
-	private TerminologyUploaderProviderDstu3 myTerminologyUploaderProvider;
 	protected static SearchParamRegistryDstu3 ourSearchParamRegistry;
 	protected static DatabaseBackedPagingProvider ourPagingProvider;
 	protected static SubscriptionRestHookInterceptor ourRestHookSubscriptionInterceptor;
 	protected static SubscriptionEmailInterceptor ourEmailSubscriptionInterceptor;
 	protected static ISearchDao mySearchEntityDao;
 	protected static ISearchCoordinatorSvc mySearchCoordinatorSvc;
+	private static Server ourServer;
+	private TerminologyUploaderProviderDstu3 myTerminologyUploaderProvider;
 
 	public BaseResourceProviderDstu3Test() {
 		super();
@@ -72,11 +72,13 @@ public abstract class BaseResourceProviderDstu3Test extends BaseJpaDstu3Test {
 	public void after() throws Exception {
 		myFhirCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.ONCE);
 		myDaoConfig.getInterceptors().clear();
+		myResourceCountsCache.clear();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
 	public void before() throws Exception {
+		myResourceCountsCache.clear();
 		myFhirCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
 		myFhirCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
 		myFhirCtx.setParserErrorHandler(new StrictErrorHandler());

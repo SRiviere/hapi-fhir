@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.config;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,12 @@ package ca.uhn.fhir.jpa.config;
  * #L%
  */
 
-import ca.uhn.fhir.jpa.graphql.JpaStorageServices;
 import ca.uhn.fhir.jpa.search.*;
 import ca.uhn.fhir.jpa.sp.ISearchParamPresenceSvc;
 import ca.uhn.fhir.jpa.sp.SearchParamPresenceSvcImpl;
 import ca.uhn.fhir.jpa.subscription.email.SubscriptionEmailInterceptor;
 import ca.uhn.fhir.jpa.subscription.resthook.SubscriptionRestHookInterceptor;
 import ca.uhn.fhir.jpa.subscription.websocket.SubscriptionWebsocketInterceptor;
-import org.hl7.fhir.utilities.graphql.IGraphQLStorageServices;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -51,6 +49,8 @@ import javax.annotation.Resource;
 @EnableJpaRepositories(basePackages = "ca.uhn.fhir.jpa.dao.data")
 public class BaseConfig implements SchedulingConfigurer {
 
+	public static final String TASK_EXECUTOR_NAME = "hapiJpaTaskExecutor";
+
 	@Autowired
 	protected Environment myEnv;
 	@Resource
@@ -65,11 +65,6 @@ public class BaseConfig implements SchedulingConfigurer {
 	public DatabaseBackedPagingProvider databaseBackedPagingProvider() {
 		DatabaseBackedPagingProvider retVal = new DatabaseBackedPagingProvider();
 		return retVal;
-	}
-
-	@Bean
-	public IGraphQLStorageServices jpaStorageServices() {
-		return new JpaStorageServices();
 	}
 
 	@Bean()
@@ -94,18 +89,6 @@ public class BaseConfig implements SchedulingConfigurer {
 		return new StaleSearchDeletingSvcImpl();
 	}
 
-	@Bean
-	@Lazy
-	public SubscriptionRestHookInterceptor subscriptionRestHookInterceptor() {
-		return new SubscriptionRestHookInterceptor();
-	}
-
-	@Bean
-	@Lazy
-	public SubscriptionWebsocketInterceptor subscriptionWebsocketInterceptor() {
-		return new SubscriptionWebsocketInterceptor();
-	}
-
 	/**
 	 * Note: If you're going to use this, you need to provide a bean
 	 * of type {@link ca.uhn.fhir.jpa.subscription.email.IEmailSender}
@@ -118,6 +101,18 @@ public class BaseConfig implements SchedulingConfigurer {
 	}
 
 	@Bean
+	@Lazy
+	public SubscriptionRestHookInterceptor subscriptionRestHookInterceptor() {
+		return new SubscriptionRestHookInterceptor();
+	}
+
+	@Bean
+	@Lazy
+	public SubscriptionWebsocketInterceptor subscriptionWebsocketInterceptor() {
+		return new SubscriptionWebsocketInterceptor();
+	}
+
+	@Bean(name=TASK_EXECUTOR_NAME)
 	public TaskScheduler taskScheduler() {
 		ConcurrentTaskScheduler retVal = new ConcurrentTaskScheduler();
 		retVal.setConcurrentExecutor(scheduledExecutorService().getObject());

@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
  * #%L
  * HAPI FHIR - Core Library
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,8 +149,12 @@ public class FhirContext {
 			myVersion = FhirVersionEnum.DSTU2.getVersionImplementation();
 		} else if (FhirVersionEnum.DSTU2_HL7ORG.isPresentOnClasspath()) {
 			myVersion = FhirVersionEnum.DSTU2_HL7ORG.getVersionImplementation();
+		} else if (FhirVersionEnum.DSTU2_1.isPresentOnClasspath()) {
+			myVersion = FhirVersionEnum.DSTU2_1.getVersionImplementation();
 		} else if (FhirVersionEnum.DSTU3.isPresentOnClasspath()) {
 			myVersion = FhirVersionEnum.DSTU3.getVersionImplementation();
+		} else if (FhirVersionEnum.R4.isPresentOnClasspath()) {
+			myVersion = FhirVersionEnum.R4.getVersionImplementation();
 		} else {
 			throw new IllegalStateException(getLocalizer().getMessage(FhirContext.class, "noStructures"));
 		}

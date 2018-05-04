@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.search;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -248,6 +248,8 @@ public class PersistedJpaBundleProvider implements IBundleProvider {
 	@Override
 	public Integer size() {
 		ensureSearchEntityLoaded();
+		SearchCoordinatorSvcImpl.verifySearchHasntFailedOrThrowInternalErrorException(mySearchEntity);
+
 		Integer size = mySearchEntity.getTotalCount();
 		if (size == null) {
 			return null;

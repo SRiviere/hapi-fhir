@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,9 @@ public class FhirResourceDaoSearchParameterDstu3 extends FhirResourceDaoDstu3<Se
 	private IFhirSystemDao<Bundle, Meta> mySystemDao;
 
 	protected void markAffectedResources(SearchParameter theResource) {
-		markResourcesMatchingExpressionAsNeedingReindexing(theResource != null ? theResource.getExpression() : null);
+		Boolean reindex = theResource != null ? CURRENTLY_REINDEXING.get(theResource) : null;
+		String expression = theResource != null ? theResource.getExpression() : null;
+		markResourcesMatchingExpressionAsNeedingReindexing(reindex, expression);
 	}
 
 	/**

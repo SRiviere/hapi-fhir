@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -464,23 +464,23 @@ public class Basic extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof Basic))
+        if (!(other_ instanceof Basic))
           return false;
-        Basic o = (Basic) other;
+        Basic o = (Basic) other_;
         return compareDeep(identifier, o.identifier, true) && compareDeep(code, o.code, true) && compareDeep(subject, o.subject, true)
            && compareDeep(created, o.created, true) && compareDeep(author, o.author, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof Basic))
+        if (!(other_ instanceof Basic))
           return false;
-        Basic o = (Basic) other;
+        Basic o = (Basic) other_;
         return compareValues(created, o.created, true);
       }
 

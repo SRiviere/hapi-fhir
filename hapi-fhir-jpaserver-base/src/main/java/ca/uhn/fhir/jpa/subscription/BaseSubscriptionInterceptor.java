@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.subscription;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,12 @@ package ca.uhn.fhir.jpa.subscription;
 import ca.uhn.fhir.context.ConfigurationException;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
+import ca.uhn.fhir.jpa.config.BaseConfig;
 import ca.uhn.fhir.jpa.dao.IFhirResourceDao;
 import ca.uhn.fhir.jpa.dao.SearchParameterMap;
 import ca.uhn.fhir.jpa.provider.ServletSubRequestDetails;
 import ca.uhn.fhir.jpa.util.JpaConstants;
-import ca.uhn.fhir.jpa.util.StopWatch;
+import ca.uhn.fhir.util.StopWatch;
 import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
 import ca.uhn.fhir.rest.api.server.IBundleProvider;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
@@ -48,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.ExecutorSubscribableChannel;
@@ -92,8 +94,11 @@ public abstract class BaseSubscriptionInterceptor<S extends IBaseResource> exten
 	@Autowired(required = false)
 	@Qualifier("myEventDefinitionDaoR4")
 	private IFhirResourceDao<org.hl7.fhir.r4.model.EventDefinition> myEventDefinitionDaoR4;
-	@Autowired
+	@Autowired()
 	private PlatformTransactionManager myTxManager;
+	@Autowired
+	@Qualifier(BaseConfig.TASK_EXECUTOR_NAME)
+	private AsyncTaskExecutor myAsyncTaskExecutor;
 
 	/**
 	 * Constructor
@@ -163,6 +168,19 @@ public abstract class BaseSubscriptionInterceptor<S extends IBaseResource> exten
 				retVal.getEmailDetails().setSubjectTemplate(subjectTemplate);
 			}
 
+			if (retVal.getChannelType() == Subscription.SubscriptionChannelType.RESTHOOK) {
+				String stripVersionIds;
+				String deliverLatestVersion;
+				try {
+					stripVersionIds = subscription.getChannel().getExtensionString(JpaConstants.EXT_SUBSCRIPTION_RESTHOOK_STRIP_VERSION_IDS);
+					deliverLatestVersion = subscription.getChannel().getExtensionString(JpaConstants.EXT_SUBSCRIPTION_RESTHOOK_DELIVER_LATEST_VERSION);
+				} catch (FHIRException theE) {
+					throw new ConfigurationException("Failed to extract subscription extension(s): " + theE.getMessage(), theE);
+				}
+				retVal.getRestHookDetails().setStripVersionId(Boolean.parseBoolean(stripVersionIds));
+				retVal.getRestHookDetails().setDeliverLatestVersion(Boolean.parseBoolean(deliverLatestVersion));
+			}
+
 		} catch (FHIRException theE) {
 			throw new InternalErrorException(theE);
 		}
@@ -194,6 +212,19 @@ public abstract class BaseSubscriptionInterceptor<S extends IBaseResource> exten
 			}
 			retVal.getEmailDetails().setFrom(from);
 			retVal.getEmailDetails().setSubjectTemplate(subjectTemplate);
+		}
+
+		if (retVal.getChannelType() == Subscription.SubscriptionChannelType.RESTHOOK) {
+			String stripVersionIds;
+			String deliverLatestVersion;
+			try {
+				stripVersionIds = subscription.getChannel().getExtensionString(JpaConstants.EXT_SUBSCRIPTION_RESTHOOK_STRIP_VERSION_IDS);
+				deliverLatestVersion = subscription.getChannel().getExtensionString(JpaConstants.EXT_SUBSCRIPTION_RESTHOOK_DELIVER_LATEST_VERSION);
+			} catch (FHIRException theE) {
+				throw new ConfigurationException("Failed to extract subscription extension(s): " + theE.getMessage(), theE);
+			}
+			retVal.getRestHookDetails().setStripVersionId(Boolean.parseBoolean(stripVersionIds));
+			retVal.getRestHookDetails().setDeliverLatestVersion(Boolean.parseBoolean(deliverLatestVersion));
 		}
 
 		List<org.hl7.fhir.r4.model.Extension> topicExts = subscription.getExtensionsByUrl("http://hl7.org/fhir/subscription/topics");
@@ -364,6 +395,11 @@ public abstract class BaseSubscriptionInterceptor<S extends IBaseResource> exten
 		});
 	}
 
+	@VisibleForTesting
+	public void setAsyncTaskExecutorForUnitTest(AsyncTaskExecutor theAsyncTaskExecutor) {
+		myAsyncTaskExecutor = theAsyncTaskExecutor;
+	}
+
 	public void setFhirContext(FhirContext theCtx) {
 		myCtx = theCtx;
 	}
@@ -455,7 +491,7 @@ public abstract class BaseSubscriptionInterceptor<S extends IBaseResource> exten
 		}
 
 		if (mySubscriptionActivatingSubscriber == null) {
-			mySubscriptionActivatingSubscriber = new SubscriptionActivatingSubscriber(getSubscriptionDao(), getChannelType(), this, myTxManager);
+			mySubscriptionActivatingSubscriber = new SubscriptionActivatingSubscriber(getSubscriptionDao(), getChannelType(), this, myTxManager, myAsyncTaskExecutor);
 		}
 
 		registerSubscriptionCheckingSubscriber();

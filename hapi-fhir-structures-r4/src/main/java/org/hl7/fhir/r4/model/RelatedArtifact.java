@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -260,9 +260,9 @@ public class RelatedArtifact extends Type implements ICompositeType {
     /**
      * A url for the artifact that can be followed to access the actual content.
      */
-    @Child(name = "url", type = {UriType.class}, order=3, min=0, max=1, modifier=false, summary=true)
+    @Child(name = "url", type = {UrlType.class}, order=3, min=0, max=1, modifier=false, summary=true)
     @Description(shortDefinition="Where the artifact can be accessed", formalDefinition="A url for the artifact that can be followed to access the actual content." )
-    protected UriType url;
+    protected UrlType url;
 
     /**
      * The document being referenced, represented as an attachment. This is exclusive with the resource element.
@@ -283,7 +283,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
      */
     protected Resource resourceTarget;
 
-    private static final long serialVersionUID = -660871462L;
+    private static final long serialVersionUID = 631878941L;
 
   /**
    * Constructor
@@ -446,12 +446,12 @@ public class RelatedArtifact extends Type implements ICompositeType {
     /**
      * @return {@link #url} (A url for the artifact that can be followed to access the actual content.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
      */
-    public UriType getUrlElement() { 
+    public UrlType getUrlElement() { 
       if (this.url == null)
         if (Configuration.errorOnAutoCreate())
           throw new Error("Attempt to auto-create RelatedArtifact.url");
         else if (Configuration.doAutoCreate())
-          this.url = new UriType(); // bb
+          this.url = new UrlType(); // bb
       return this.url;
     }
 
@@ -466,7 +466,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
     /**
      * @param value {@link #url} (A url for the artifact that can be followed to access the actual content.). This is the underlying object with id, value and extensions. The accessor "getUrl" gives direct access to the value
      */
-    public RelatedArtifact setUrlElement(UriType value) { 
+    public RelatedArtifact setUrlElement(UrlType value) { 
       this.url = value;
       return this;
     }
@@ -486,7 +486,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
         this.url = null;
       else {
         if (this.url == null)
-          this.url = new UriType();
+          this.url = new UrlType();
         this.url.setValue(value);
       }
       return this;
@@ -560,7 +560,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
         children.add(new Property("type", "code", "The type of relationship to the related artifact.", 0, 1, type));
         children.add(new Property("display", "string", "A brief description of the document or knowledge resource being referenced, suitable for display to a consumer.", 0, 1, display));
         children.add(new Property("citation", "string", "A bibliographic citation for the related artifact. This text SHOULD be formatted according to an accepted citation format.", 0, 1, citation));
-        children.add(new Property("url", "uri", "A url for the artifact that can be followed to access the actual content.", 0, 1, url));
+        children.add(new Property("url", "url", "A url for the artifact that can be followed to access the actual content.", 0, 1, url));
         children.add(new Property("document", "Attachment", "The document being referenced, represented as an attachment. This is exclusive with the resource element.", 0, 1, document));
         children.add(new Property("resource", "Reference(Any)", "The related resource, such as a library, value set, profile, or other knowledge resource.", 0, 1, resource));
       }
@@ -571,7 +571,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
         case 3575610: /*type*/  return new Property("type", "code", "The type of relationship to the related artifact.", 0, 1, type);
         case 1671764162: /*display*/  return new Property("display", "string", "A brief description of the document or knowledge resource being referenced, suitable for display to a consumer.", 0, 1, display);
         case -1442706713: /*citation*/  return new Property("citation", "string", "A bibliographic citation for the related artifact. This text SHOULD be formatted according to an accepted citation format.", 0, 1, citation);
-        case 116079: /*url*/  return new Property("url", "uri", "A url for the artifact that can be followed to access the actual content.", 0, 1, url);
+        case 116079: /*url*/  return new Property("url", "url", "A url for the artifact that can be followed to access the actual content.", 0, 1, url);
         case 861720859: /*document*/  return new Property("document", "Attachment", "The document being referenced, represented as an attachment. This is exclusive with the resource element.", 0, 1, document);
         case -341064690: /*resource*/  return new Property("resource", "Reference(Any)", "The related resource, such as a library, value set, profile, or other knowledge resource.", 0, 1, resource);
         default: return super.getNamedProperty(_hash, _name, _checkValid);
@@ -585,7 +585,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
         case 3575610: /*type*/ return this.type == null ? new Base[0] : new Base[] {this.type}; // Enumeration<RelatedArtifactType>
         case 1671764162: /*display*/ return this.display == null ? new Base[0] : new Base[] {this.display}; // StringType
         case -1442706713: /*citation*/ return this.citation == null ? new Base[0] : new Base[] {this.citation}; // StringType
-        case 116079: /*url*/ return this.url == null ? new Base[0] : new Base[] {this.url}; // UriType
+        case 116079: /*url*/ return this.url == null ? new Base[0] : new Base[] {this.url}; // UrlType
         case 861720859: /*document*/ return this.document == null ? new Base[0] : new Base[] {this.document}; // Attachment
         case -341064690: /*resource*/ return this.resource == null ? new Base[0] : new Base[] {this.resource}; // Reference
         default: return super.getProperty(hash, name, checkValid);
@@ -607,7 +607,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
           this.citation = castToString(value); // StringType
           return value;
         case 116079: // url
-          this.url = castToUri(value); // UriType
+          this.url = castToUrl(value); // UrlType
           return value;
         case 861720859: // document
           this.document = castToAttachment(value); // Attachment
@@ -630,7 +630,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
         } else if (name.equals("citation")) {
           this.citation = castToString(value); // StringType
         } else if (name.equals("url")) {
-          this.url = castToUri(value); // UriType
+          this.url = castToUrl(value); // UrlType
         } else if (name.equals("document")) {
           this.document = castToAttachment(value); // Attachment
         } else if (name.equals("resource")) {
@@ -660,7 +660,7 @@ public class RelatedArtifact extends Type implements ICompositeType {
         case 3575610: /*type*/ return new String[] {"code"};
         case 1671764162: /*display*/ return new String[] {"string"};
         case -1442706713: /*citation*/ return new String[] {"string"};
-        case 116079: /*url*/ return new String[] {"uri"};
+        case 116079: /*url*/ return new String[] {"url"};
         case 861720859: /*document*/ return new String[] {"Attachment"};
         case -341064690: /*resource*/ return new String[] {"Reference"};
         default: return super.getTypesForProperty(hash, name);
@@ -716,24 +716,24 @@ public class RelatedArtifact extends Type implements ICompositeType {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof RelatedArtifact))
+        if (!(other_ instanceof RelatedArtifact))
           return false;
-        RelatedArtifact o = (RelatedArtifact) other;
+        RelatedArtifact o = (RelatedArtifact) other_;
         return compareDeep(type, o.type, true) && compareDeep(display, o.display, true) && compareDeep(citation, o.citation, true)
            && compareDeep(url, o.url, true) && compareDeep(document, o.document, true) && compareDeep(resource, o.resource, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof RelatedArtifact))
+        if (!(other_ instanceof RelatedArtifact))
           return false;
-        RelatedArtifact o = (RelatedArtifact) other;
+        RelatedArtifact o = (RelatedArtifact) other_;
         return compareValues(type, o.type, true) && compareValues(display, o.display, true) && compareValues(citation, o.citation, true)
            && compareValues(url, o.url, true);
       }

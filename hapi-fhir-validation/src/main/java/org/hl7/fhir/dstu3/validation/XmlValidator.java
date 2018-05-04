@@ -18,8 +18,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.hl7.fhir.exceptions.FHIRException;
-import org.hl7.fhir.utilities.*;
+import org.hl7.fhir.utilities.CSFile;
+import org.hl7.fhir.utilities.CSFileInputStream;
+import org.hl7.fhir.utilities.Logger;
 import org.hl7.fhir.utilities.Logger.LogMessageType;
+import org.hl7.fhir.utilities.SchemaInputSource;
+import org.hl7.fhir.utilities.TextFile;
+import org.hl7.fhir.utilities.Utilities;
 import org.hl7.fhir.utilities.validation.ValidationMessage;
 import org.hl7.fhir.utilities.validation.ValidationMessage.IssueSeverity;
 import org.hl7.fhir.utilities.validation.ValidationMessage.IssueType;
@@ -173,36 +178,5 @@ public class XmlValidator {
     return doc.getDocumentElement();
   }
 
-  public void checkBySchematron(String filename, String sch, boolean wantThrow) throws IOException, ParserConfigurationException, SAXException, FileNotFoundException, FHIRException {
-    DocumentBuilderFactory factory;
-    DocumentBuilder builder;
-    Document doc;
-    byte[] out = null;
-    try {
-      out = SaxonUtilities.saxonTransform(transforms, schemas.get(sch), transforms.get("iso_svrl_for_xslt2.xsl"));
-      out = SaxonUtilities.saxonTransform(transforms, TextFile.fileToBytes(filename), out);
-    } catch (Throwable e) {
-      errors.add(new ValidationMessage(Source.InstanceValidator, IssueType.STRUCTURE, -1, -1, filename+":"+sch, e.getMessage(), IssueSeverity.ERROR));
-      if (wantThrow)
-        throw new FHIRException("Error validating " + filename + " with schematrons", e);
-    }
 
-    factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(true);
-    builder = factory.newDocumentBuilder();
-    doc = builder.parse(new ByteArrayInputStream(out));
-    NodeList nl = doc.getDocumentElement().getElementsByTagNameNS("http://purl.oclc.org/dsdl/svrl", "failed-assert");
-    if (nl.getLength() > 0) {
-      logger.log("Schematron Validation Failed for " + filename, LogMessageType.Error);
-      for (int i = 0; i < nl.getLength(); i++) {
-        Element e = (Element) nl.item(i);
-        logger.log("  @" + e.getAttribute("location") + ": " + e.getTextContent(), LogMessageType.Error);
-        errors.add(new ValidationMessage(Source.InstanceValidator, IssueType.STRUCTURE, -1, -1, filename+":"+e.getAttribute("location"), e.getTextContent(), IssueSeverity.ERROR));
-      }
-      if (wantThrow)
-        throw new FHIRException("Schematron Validation Failed for " + filename);
-    }
-  }
-
-  
 }

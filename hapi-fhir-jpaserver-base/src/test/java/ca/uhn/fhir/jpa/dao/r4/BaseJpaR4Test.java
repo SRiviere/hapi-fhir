@@ -13,6 +13,8 @@ import ca.uhn.fhir.jpa.search.ISearchCoordinatorSvc;
 import ca.uhn.fhir.jpa.search.IStaleSearchDeletingSvc;
 import ca.uhn.fhir.jpa.sp.ISearchParamPresenceSvc;
 import ca.uhn.fhir.jpa.term.IHapiTerminologySvc;
+import ca.uhn.fhir.jpa.util.ResourceCountCache;
+import ca.uhn.fhir.jpa.util.SingleItemLoadingCache;
 import ca.uhn.fhir.jpa.validation.JpaValidationSupportChainR4;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.parser.StrictErrorHandler;
@@ -56,6 +58,11 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 	private static JpaValidationSupportChainR4 ourJpaValidationSupportChainR4;
 	private static IFhirResourceDaoValueSet<ValueSet, Coding, CodeableConcept> ourValueSetDao;
 
+	@Autowired
+	@Qualifier("myResourceCountsCache")
+	protected ResourceCountCache myResourceCountsCache;
+	@Autowired
+	protected IResourceLinkDao myResourceLinkDao;
 	@Autowired
 	protected ISearchParamDao mySearchParamDao;
 	@Autowired
@@ -155,6 +162,9 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 	@Autowired
 	protected DatabaseBackedPagingProvider myPagingProvider;
 	@Autowired
+	@Qualifier("myBinaryDaoR4")
+	protected IFhirResourceDao<Binary> myBinaryDao;
+	@Autowired
 	@Qualifier("myPatientDaoR4")
 	protected IFhirResourceDaoPatient<Patient> myPatientDao;
 	@Autowired
@@ -164,8 +174,8 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 	@Qualifier("myPractitionerDaoR4")
 	protected IFhirResourceDao<Practitioner> myPractitionerDao;
 	@Autowired
-	@Qualifier("myProcedureRequestDaoR4")
-	protected IFhirResourceDao<ProcedureRequest> myProcedureRequestDao;
+	@Qualifier("myServiceRequestDaoR4")
+	protected IFhirResourceDao<ServiceRequest> myServiceRequestDao;
 	@Autowired
 	@Qualifier("myQuestionnaireDaoR4")
 	protected IFhirResourceDao<Questionnaire> myQuestionnaireDao;
@@ -177,6 +187,8 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 	protected Object myResourceProviders;
 	@Autowired
 	protected IResourceTableDao myResourceTableDao;
+	@Autowired
+	protected IResourceHistoryTableDao myResourceHistoryTableDao;
 	@Autowired
 	protected IResourceTagDao myResourceTagDao;
 	@Autowired
@@ -232,6 +244,7 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 	@After()
 	public void afterCleanupDao() {
 		myDaoConfig.setExpireSearchResults(new DaoConfig().isExpireSearchResults());
+		myDaoConfig.setEnforceReferentialIntegrityOnDelete(new DaoConfig().isEnforceReferentialIntegrityOnDelete());
 		myDaoConfig.setExpireSearchResultsAfterMillis(new DaoConfig().getExpireSearchResultsAfterMillis());
 		myDaoConfig.setReuseCachedSearchResultsForMillis(new DaoConfig().getReuseCachedSearchResultsForMillis());
 		myDaoConfig.setSuppressUpdatesWithNoChange(new DaoConfig().isSuppressUpdatesWithNoChange());
@@ -265,7 +278,7 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 	@Transactional()
 	public void beforePurgeDatabase() {
 		final EntityManager entityManager = this.myEntityManager;
-		purgeDatabase(entityManager, myTxManager, mySearchParamPresenceSvc, mySearchCoordinatorSvc, mySearchParamRegsitry);
+		purgeDatabase(myDaoConfig, mySystemDao, mySearchParamPresenceSvc, mySearchCoordinatorSvc, mySearchParamRegsitry);
 	}
 
 	@Before
@@ -310,7 +323,7 @@ public abstract class BaseJpaR4Test extends BaseJpaTest {
 		linkNext = linkNext.substring(linkNext.indexOf('?'));
 		Map<String, String[]> params = UrlUtil.parseQueryString(linkNext);
 		String[] uuidParams = params.get(Constants.PARAM_PAGINGACTION);
-		String uuid = uuidParams[0];
+		String uuid = uuidParams[ 0 ];
 		return uuid;
 	}
 

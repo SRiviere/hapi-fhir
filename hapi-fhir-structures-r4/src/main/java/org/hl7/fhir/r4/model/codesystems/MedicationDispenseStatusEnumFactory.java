@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model.codesystems;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Sat, Mar 3, 2018 18:00-0500 for FHIR v3.2.0
 
 
 import org.hl7.fhir.r4.model.EnumFactory;
@@ -43,6 +43,8 @@ public class MedicationDispenseStatusEnumFactory implements EnumFactory<Medicati
       return MedicationDispenseStatus.PREPARATION;
     if ("in-progress".equals(codeString))
       return MedicationDispenseStatus.INPROGRESS;
+    if ("cancelled".equals(codeString))
+      return MedicationDispenseStatus.CANCELLED;
     if ("on-hold".equals(codeString))
       return MedicationDispenseStatus.ONHOLD;
     if ("completed".equals(codeString))
@@ -51,6 +53,8 @@ public class MedicationDispenseStatusEnumFactory implements EnumFactory<Medicati
       return MedicationDispenseStatus.ENTEREDINERROR;
     if ("stopped".equals(codeString))
       return MedicationDispenseStatus.STOPPED;
+    if ("unknown".equals(codeString))
+      return MedicationDispenseStatus.UNKNOWN;
     throw new IllegalArgumentException("Unknown MedicationDispenseStatus code '"+codeString+"'");
   }
 
@@ -59,6 +63,8 @@ public class MedicationDispenseStatusEnumFactory implements EnumFactory<Medicati
       return "preparation";
     if (code == MedicationDispenseStatus.INPROGRESS)
       return "in-progress";
+    if (code == MedicationDispenseStatus.CANCELLED)
+      return "cancelled";
     if (code == MedicationDispenseStatus.ONHOLD)
       return "on-hold";
     if (code == MedicationDispenseStatus.COMPLETED)
@@ -67,6 +73,8 @@ public class MedicationDispenseStatusEnumFactory implements EnumFactory<Medicati
       return "entered-in-error";
     if (code == MedicationDispenseStatus.STOPPED)
       return "stopped";
+    if (code == MedicationDispenseStatus.UNKNOWN)
+      return "unknown";
     return "?";
   }
 

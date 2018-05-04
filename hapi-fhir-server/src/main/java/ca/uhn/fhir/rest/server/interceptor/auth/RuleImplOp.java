@@ -6,7 +6,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * #%L
  * HAPI FHIR - Server Framework
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 	private RuleOpEnum myOp;
 	private TransactionAppliesToEnum myTransactionAppliesToOp;
 	private List<IIdType> myAppliesToInstances;
+	private RuleBuilder.ITenantApplicabilityChecker myTenantApplicabilityChecker;
 
 	public RuleImplOp(String theRuleName) {
 		super(theRuleName);
@@ -60,6 +61,13 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 	@Override
 	public Verdict applyRule(RestOperationTypeEnum theOperation, RequestDetails theRequestDetails, IBaseResource theInputResource, IIdType theInputResourceId, IBaseResource theOutputResource,
 			IRuleApplier theRuleApplier) {
+
+		if (myTenantApplicabilityChecker != null) {
+			if (!myTenantApplicabilityChecker.applies(theRequestDetails)) {
+				return null;
+			}
+		}
+
 		FhirContext ctx = theRequestDetails.getServer().getFhirContext();
 
 		IBaseResource appliesToResource;
@@ -79,6 +87,9 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 				case HISTORY_INSTANCE:
 				case HISTORY_SYSTEM:
 				case HISTORY_TYPE:
+					if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+						return null;
+					}
 					return new Verdict(PolicyEnum.ALLOW, this);
 				default:
 					return null;
@@ -187,11 +198,20 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 				return null;
 			}
 		case ALLOW_ALL:
+			if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+				return null;
+			}
 			return new Verdict(PolicyEnum.ALLOW, this);
 		case DENY_ALL:
+			if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+				return null;
+			}
 			return new Verdict(PolicyEnum.DENY, this);
 		case METADATA:
 			if (theOperation == RestOperationTypeEnum.METADATA) {
+				if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+					return null;
+				}
 				return newVerdict();
 			}
 			return null;
@@ -212,12 +232,18 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 					if (!next.getIdPart().equals(appliesToResourceId.getIdPart())) {
 						continue;
 					}
+					if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+						return null;
+					}
 					return newVerdict();
 				}
 			}
 			return null;
 		case ALL_RESOURCES:
 			if (appliesToResourceType != null) {
+				if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+					return null;
+				}
 				return new Verdict(PolicyEnum.ALLOW, this);
 			}
 			break;
@@ -236,6 +262,9 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 			if (appliesToResourceType != null) {
 				Class<? extends IBaseResource> type = theRequestDetails.getServer().getFhirContext().getResourceDefinition(appliesToResourceType).getImplementingClass();
 				if (myAppliesToTypes.contains(type)) {
+					if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+						return null;
+					}
 					return new Verdict(PolicyEnum.ALLOW, this);
 				}
 			}
@@ -272,7 +301,15 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 			throw new IllegalStateException("Unable to apply security to event of applies to type " + myAppliesTo);
 		}
 
+		if (!applyTesters(theOperation, theRequestDetails, theInputResourceId, theInputResource, theOutputResource)) {
+			return null;
+		}
+
 		return newVerdict();
+	}
+
+	public void setTenantApplicabilityChecker(RuleBuilder.ITenantApplicabilityChecker theTenantApplicabilityChecker) {
+		myTenantApplicabilityChecker = theTenantApplicabilityChecker;
 	}
 
 	@Override
@@ -282,6 +319,7 @@ class RuleImplOp extends BaseRule /* implements IAuthRule */ {
 		builder.append("transactionAppliesToOp", myTransactionAppliesToOp);
 		builder.append("appliesTo", myAppliesTo);
 		builder.append("appliesToTypes", myAppliesToTypes);
+		builder.append("appliesToTenant", myTenantApplicabilityChecker);
 		builder.append("classifierCompartmentName", myClassifierCompartmentName);
 		builder.append("classifierCompartmentOwners", myClassifierCompartmentOwners);
 		builder.append("classifierType", myClassifierType);

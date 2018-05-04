@@ -4,7 +4,7 @@ package ca.uhn.fhir.jpa.dao;
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,9 @@ public class FhirResourceDaoSearchParameterDstu2 extends FhirResourceDaoDstu2<Se
 	private IFhirSystemDao<Bundle, MetaDt> mySystemDao;
 
 	protected void markAffectedResources(SearchParameter theResource) {
-		markResourcesMatchingExpressionAsNeedingReindexing(theResource != null ? theResource.getXpath() : null);
+		Boolean reindex = theResource != null ? CURRENTLY_REINDEXING.get(theResource) : null;
+		String expression = theResource != null ? theResource.getXpath() : null;
+		markResourcesMatchingExpressionAsNeedingReindexing(reindex, expression);
 	}
 
 	/**

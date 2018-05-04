@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -204,7 +204,7 @@ public class EnrollmentResponse extends DomainResource {
      * Processing status: error, complete.
      */
     @Child(name = "outcome", type = {CodeType.class}, order=3, min=0, max=1, modifier=false, summary=false)
-    @Description(shortDefinition="complete | error | partial", formalDefinition="Processing status: error, complete." )
+    @Description(shortDefinition="received | complete | error | partial", formalDefinition="Processing status: error, complete." )
     @ca.uhn.fhir.model.api.annotation.Binding(valueSet="http://hl7.org/fhir/ValueSet/remittance-outcome")
     protected Enumeration<RemittanceOutcome> outcome;
 
@@ -903,12 +903,12 @@ public class EnrollmentResponse extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof EnrollmentResponse))
+        if (!(other_ instanceof EnrollmentResponse))
           return false;
-        EnrollmentResponse o = (EnrollmentResponse) other;
+        EnrollmentResponse o = (EnrollmentResponse) other_;
         return compareDeep(identifier, o.identifier, true) && compareDeep(status, o.status, true) && compareDeep(request, o.request, true)
            && compareDeep(outcome, o.outcome, true) && compareDeep(disposition, o.disposition, true) && compareDeep(created, o.created, true)
            && compareDeep(organization, o.organization, true) && compareDeep(requestProvider, o.requestProvider, true)
@@ -916,12 +916,12 @@ public class EnrollmentResponse extends DomainResource {
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof EnrollmentResponse))
+        if (!(other_ instanceof EnrollmentResponse))
           return false;
-        EnrollmentResponse o = (EnrollmentResponse) other;
+        EnrollmentResponse o = (EnrollmentResponse) other_;
         return compareValues(status, o.status, true) && compareValues(outcome, o.outcome, true) && compareValues(disposition, o.disposition, true)
            && compareValues(created, o.created, true);
       }

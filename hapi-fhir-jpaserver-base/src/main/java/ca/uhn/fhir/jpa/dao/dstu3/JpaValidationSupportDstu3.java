@@ -19,11 +19,13 @@ import javax.transaction.Transactional.TxType;
 import java.util.Collections;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /*
  * #%L
  * HAPI FHIR JPA Server
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,6 +89,9 @@ public class JpaValidationSupportDstu3 implements IJpaValidationSupportDstu3 {
 
 	@Override
 	public CodeSystem fetchCodeSystem(FhirContext theCtx, String theSystem) {
+		if (isBlank(theSystem)) {
+			return null;
+		}
 		return fetchResource(theCtx, CodeSystem.class, theSystem);
 	}
 

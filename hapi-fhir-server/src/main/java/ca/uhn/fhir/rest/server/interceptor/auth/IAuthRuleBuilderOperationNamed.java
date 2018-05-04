@@ -4,7 +4,7 @@ package ca.uhn.fhir.rest.server.interceptor.auth;
  * #%L
  * HAPI FHIR - Server Framework
  * %%
- * Copyright (C) 2014 - 2017 University Health Network
+ * Copyright (C) 2014 - 2018 University Health Network
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public interface IAuthRuleBuilderOperationNamed {
 	/**
 	 * Rule applies to invocations of this operation at the <code>type</code> level on any type
 	 */
-	IAuthRuleFinished onAnyType();
+	IAuthRuleBuilderRuleOpClassifierFinished onAnyType();
 
 	/**
 	 * Rule applies to invocations of this operation at the <code>instance</code> level
@@ -53,6 +53,11 @@ public interface IAuthRuleBuilderOperationNamed {
 	/**
 	 * Rule applies to invocations of this operation at the <code>instance</code> level on any instance
 	 */
-	IAuthRuleFinished onAnyInstance();
+	IAuthRuleBuilderRuleOpClassifierFinished onAnyInstance();
+
+	/**
+	 * Rule applies to invocations of this operation at any level (server, type or instance)
+	 */
+	IAuthRuleBuilderRuleOpClassifierFinished atAnyLevel();
 
 }

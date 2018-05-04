@@ -29,7 +29,7 @@ package org.hl7.fhir.r4.model;
   
 */
 
-// Generated on Sat, Sep 23, 2017 17:56-0400 for FHIR v3.1.0
+// Generated on Thu, Mar 1, 2018 20:26+1100 for FHIR v3.2.0
 
 import java.util.*;
 
@@ -507,7 +507,7 @@ public class AuditEvent extends DomainResource {
         /**
          * Indicator that the user is or is not the requestor, or initiator, for the event being audited.
          */
-        @Child(name = "requestor", type = {BooleanType.class}, order=7, min=1, max=1, modifier=false, summary=false)
+        @Child(name = "requestor", type = {BooleanType.class}, order=7, min=1, max=1, modifier=false, summary=true)
         @Description(shortDefinition="Whether user is initiator", formalDefinition="Indicator that the user is or is not the requestor, or initiator, for the event being audited." )
         protected BooleanType requestor;
 
@@ -953,7 +953,7 @@ public class AuditEvent extends DomainResource {
           if (this.policy == null)
             return false;
           for (UriType v : this.policy)
-            if (v.equals(value)) // uri
+            if (v.getValue().equals(value)) // uri
               return true;
           return false;
         }
@@ -1309,12 +1309,12 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof AuditEventAgentComponent))
+        if (!(other_ instanceof AuditEventAgentComponent))
           return false;
-        AuditEventAgentComponent o = (AuditEventAgentComponent) other;
+        AuditEventAgentComponent o = (AuditEventAgentComponent) other_;
         return compareDeep(type, o.type, true) && compareDeep(role, o.role, true) && compareDeep(reference, o.reference, true)
            && compareDeep(userId, o.userId, true) && compareDeep(altId, o.altId, true) && compareDeep(name, o.name, true)
            && compareDeep(requestor, o.requestor, true) && compareDeep(location, o.location, true) && compareDeep(policy, o.policy, true)
@@ -1323,12 +1323,12 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof AuditEventAgentComponent))
+        if (!(other_ instanceof AuditEventAgentComponent))
           return false;
-        AuditEventAgentComponent o = (AuditEventAgentComponent) other;
+        AuditEventAgentComponent o = (AuditEventAgentComponent) other_;
         return compareValues(altId, o.altId, true) && compareValues(name, o.name, true) && compareValues(requestor, o.requestor, true)
            && compareValues(policy, o.policy, true);
       }
@@ -1563,22 +1563,22 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof AuditEventAgentNetworkComponent))
+        if (!(other_ instanceof AuditEventAgentNetworkComponent))
           return false;
-        AuditEventAgentNetworkComponent o = (AuditEventAgentNetworkComponent) other;
+        AuditEventAgentNetworkComponent o = (AuditEventAgentNetworkComponent) other_;
         return compareDeep(address, o.address, true) && compareDeep(type, o.type, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof AuditEventAgentNetworkComponent))
+        if (!(other_ instanceof AuditEventAgentNetworkComponent))
           return false;
-        AuditEventAgentNetworkComponent o = (AuditEventAgentNetworkComponent) other;
+        AuditEventAgentNetworkComponent o = (AuditEventAgentNetworkComponent) other_;
         return compareValues(address, o.address, true) && compareValues(type, o.type, true);
       }
 
@@ -1871,23 +1871,23 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof AuditEventSourceComponent))
+        if (!(other_ instanceof AuditEventSourceComponent))
           return false;
-        AuditEventSourceComponent o = (AuditEventSourceComponent) other;
+        AuditEventSourceComponent o = (AuditEventSourceComponent) other_;
         return compareDeep(site, o.site, true) && compareDeep(identifier, o.identifier, true) && compareDeep(type, o.type, true)
           ;
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof AuditEventSourceComponent))
+        if (!(other_ instanceof AuditEventSourceComponent))
           return false;
-        AuditEventSourceComponent o = (AuditEventSourceComponent) other;
+        AuditEventSourceComponent o = (AuditEventSourceComponent) other_;
         return compareValues(site, o.site, true);
       }
 
@@ -2597,12 +2597,12 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof AuditEventEntityComponent))
+        if (!(other_ instanceof AuditEventEntityComponent))
           return false;
-        AuditEventEntityComponent o = (AuditEventEntityComponent) other;
+        AuditEventEntityComponent o = (AuditEventEntityComponent) other_;
         return compareDeep(identifier, o.identifier, true) && compareDeep(reference, o.reference, true)
            && compareDeep(type, o.type, true) && compareDeep(role, o.role, true) && compareDeep(lifecycle, o.lifecycle, true)
            && compareDeep(securityLabel, o.securityLabel, true) && compareDeep(name, o.name, true) && compareDeep(description, o.description, true)
@@ -2610,12 +2610,12 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof AuditEventEntityComponent))
+        if (!(other_ instanceof AuditEventEntityComponent))
           return false;
-        AuditEventEntityComponent o = (AuditEventEntityComponent) other;
+        AuditEventEntityComponent o = (AuditEventEntityComponent) other_;
         return compareValues(name, o.name, true) && compareValues(description, o.description, true) && compareValues(query, o.query, true)
           ;
       }
@@ -2857,22 +2857,22 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof AuditEventEntityDetailComponent))
+        if (!(other_ instanceof AuditEventEntityDetailComponent))
           return false;
-        AuditEventEntityDetailComponent o = (AuditEventEntityDetailComponent) other;
+        AuditEventEntityDetailComponent o = (AuditEventEntityDetailComponent) other_;
         return compareDeep(type, o.type, true) && compareDeep(value, o.value, true);
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof AuditEventEntityDetailComponent))
+        if (!(other_ instanceof AuditEventEntityDetailComponent))
           return false;
-        AuditEventEntityDetailComponent o = (AuditEventEntityDetailComponent) other;
+        AuditEventEntityDetailComponent o = (AuditEventEntityDetailComponent) other_;
         return compareValues(type, o.type, true);
       }
 
@@ -2919,10 +2919,10 @@ public class AuditEvent extends DomainResource {
     protected Period period;
 
     /**
-     * The time when the event occurred on the source.
+     * The time when the event was recorded.
      */
     @Child(name = "recorded", type = {InstantType.class}, order=4, min=1, max=1, modifier=false, summary=true)
-    @Description(shortDefinition="Time when the event occurred on source", formalDefinition="The time when the event occurred on the source." )
+    @Description(shortDefinition="Time when the event was recorded", formalDefinition="The time when the event was recorded." )
     protected InstantType recorded;
 
     /**
@@ -3139,7 +3139,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * @return {@link #recorded} (The time when the event occurred on the source.). This is the underlying object with id, value and extensions. The accessor "getRecorded" gives direct access to the value
+     * @return {@link #recorded} (The time when the event was recorded.). This is the underlying object with id, value and extensions. The accessor "getRecorded" gives direct access to the value
      */
     public InstantType getRecordedElement() { 
       if (this.recorded == null)
@@ -3159,7 +3159,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * @param value {@link #recorded} (The time when the event occurred on the source.). This is the underlying object with id, value and extensions. The accessor "getRecorded" gives direct access to the value
+     * @param value {@link #recorded} (The time when the event was recorded.). This is the underlying object with id, value and extensions. The accessor "getRecorded" gives direct access to the value
      */
     public AuditEvent setRecordedElement(InstantType value) { 
       this.recorded = value;
@@ -3167,14 +3167,14 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * @return The time when the event occurred on the source.
+     * @return The time when the event was recorded.
      */
     public Date getRecorded() { 
       return this.recorded == null ? null : this.recorded.getValue();
     }
 
     /**
-     * @param value The time when the event occurred on the source.
+     * @param value The time when the event was recorded.
      */
     public AuditEvent setRecorded(Date value) { 
         if (this.recorded == null)
@@ -3470,7 +3470,7 @@ public class AuditEvent extends DomainResource {
         children.add(new Property("subtype", "Coding", "Identifier for the category of event.", 0, java.lang.Integer.MAX_VALUE, subtype));
         children.add(new Property("action", "code", "Indicator for type of action performed during the event that generated the audit.", 0, 1, action));
         children.add(new Property("period", "Period", "The period during which the activity occurred.", 0, 1, period));
-        children.add(new Property("recorded", "instant", "The time when the event occurred on the source.", 0, 1, recorded));
+        children.add(new Property("recorded", "instant", "The time when the event was recorded.", 0, 1, recorded));
         children.add(new Property("outcome", "code", "Indicates whether the event succeeded or failed.", 0, 1, outcome));
         children.add(new Property("outcomeDesc", "string", "A free text description of the outcome of the event.", 0, 1, outcomeDesc));
         children.add(new Property("purposeOfEvent", "CodeableConcept", "The purposeOfUse (reason) that was used during the event being recorded.", 0, java.lang.Integer.MAX_VALUE, purposeOfEvent));
@@ -3486,7 +3486,7 @@ public class AuditEvent extends DomainResource {
         case -1867567750: /*subtype*/  return new Property("subtype", "Coding", "Identifier for the category of event.", 0, java.lang.Integer.MAX_VALUE, subtype);
         case -1422950858: /*action*/  return new Property("action", "code", "Indicator for type of action performed during the event that generated the audit.", 0, 1, action);
         case -991726143: /*period*/  return new Property("period", "Period", "The period during which the activity occurred.", 0, 1, period);
-        case -799233872: /*recorded*/  return new Property("recorded", "instant", "The time when the event occurred on the source.", 0, 1, recorded);
+        case -799233872: /*recorded*/  return new Property("recorded", "instant", "The time when the event was recorded.", 0, 1, recorded);
         case -1106507950: /*outcome*/  return new Property("outcome", "code", "Indicates whether the event succeeded or failed.", 0, 1, outcome);
         case 1062502659: /*outcomeDesc*/  return new Property("outcomeDesc", "string", "A free text description of the outcome of the event.", 0, 1, outcomeDesc);
         case -341917691: /*purposeOfEvent*/  return new Property("purposeOfEvent", "CodeableConcept", "The purposeOfUse (reason) that was used during the event being recorded.", 0, java.lang.Integer.MAX_VALUE, purposeOfEvent);
@@ -3714,12 +3714,12 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsDeep(Base other) {
-        if (!super.equalsDeep(other))
+      public boolean equalsDeep(Base other_) {
+        if (!super.equalsDeep(other_))
           return false;
-        if (!(other instanceof AuditEvent))
+        if (!(other_ instanceof AuditEvent))
           return false;
-        AuditEvent o = (AuditEvent) other;
+        AuditEvent o = (AuditEvent) other_;
         return compareDeep(type, o.type, true) && compareDeep(subtype, o.subtype, true) && compareDeep(action, o.action, true)
            && compareDeep(period, o.period, true) && compareDeep(recorded, o.recorded, true) && compareDeep(outcome, o.outcome, true)
            && compareDeep(outcomeDesc, o.outcomeDesc, true) && compareDeep(purposeOfEvent, o.purposeOfEvent, true)
@@ -3728,12 +3728,12 @@ public class AuditEvent extends DomainResource {
       }
 
       @Override
-      public boolean equalsShallow(Base other) {
-        if (!super.equalsShallow(other))
+      public boolean equalsShallow(Base other_) {
+        if (!super.equalsShallow(other_))
           return false;
-        if (!(other instanceof AuditEvent))
+        if (!(other_ instanceof AuditEvent))
           return false;
-        AuditEvent o = (AuditEvent) other;
+        AuditEvent o = (AuditEvent) other_;
         return compareValues(action, o.action, true) && compareValues(recorded, o.recorded, true) && compareValues(outcome, o.outcome, true)
            && compareValues(outcomeDesc, o.outcomeDesc, true);
       }
@@ -3751,17 +3751,17 @@ public class AuditEvent extends DomainResource {
  /**
    * Search parameter: <b>date</b>
    * <p>
-   * Description: <b>Time when the event occurred on source</b><br>
+   * Description: <b>Time when the event was recorded</b><br>
    * Type: <b>date</b><br>
    * Path: <b>AuditEvent.recorded</b><br>
    * </p>
    */
-  @SearchParamDefinition(name="date", path="AuditEvent.recorded", description="Time when the event occurred on source", type="date" )
+  @SearchParamDefinition(name="date", path="AuditEvent.recorded", description="Time when the event was recorded", type="date" )
   public static final String SP_DATE = "date";
  /**
    * <b>Fluent Client</b> search parameter constant for <b>date</b>
    * <p>
-   * Description: <b>Time when the event occurred on source</b><br>
+   * Description: <b>Time when the event was recorded</b><br>
    * Type: <b>date</b><br>
    * Path: <b>AuditEvent.recorded</b><br>
    * </p>
